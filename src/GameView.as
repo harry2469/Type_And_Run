@@ -8,13 +8,13 @@ package
 	 */
 	public class GameView 
 	{
-		private var _wordHandler:WordHandler;
-		/** initialise the view of the game */
-		public function GameView(stage:Stage, wordsToType:Array) 
+		private var _wordHandler:WordHandlerView;
+		/** initialise the view of the game. */
+		public function GameView(stage:Stage, wordsToSpell:Vector.<String>, handlerModel:WordHandlerModel) 
 		{
-			_wordHandler = new WordHandler(stage, wordsToType);
+			_wordHandler = new WordHandlerView(stage, handlerModel);
 		}
-		
-		public function get wordHandler():WordHandler { return _wordHandler; }
+		/** Return the word handler. */
+		public function get wordHandler():WordHandlerView { return _wordHandler; }
 	}
 }
