@@ -9,7 +9,7 @@ package
 	import mvc.model.WordHandlerModel;
 	import mvc.view.GameView;
 	
-	// BUG words starting with the same letter retain progress on continuation.
+	// BUG you can change the word you're typing mid-way through a different word.
 	
 	/**
 	 * Avoider/Typing Game Crossover.

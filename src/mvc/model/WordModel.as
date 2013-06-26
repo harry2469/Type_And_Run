@@ -1,8 +1,12 @@
 package mvc.model
 {
-	import events.WordEvent;
+	// Flash Imports
 	import flash.display.Stage;
 	import flash.events.EventDispatcher;
+	
+	// My Imports
+	import events.WordEvent;
+	
 	/**
 	 * Manage the display and word progression of a word form the list.
 	 * @author 
@@ -17,6 +21,7 @@ package mvc.model
 			return _wordToSpell;
 		}
 		
+		/** Changes the value and dispatched an event to tell listeners that it has been updated. */
 		public function set wordToSpell(input:String):void
 		{
 			_wordToSpell = input;
@@ -42,7 +47,7 @@ package mvc.model
 		/** Returns whether the word hase been fully spelled. */
 		private function isFinished():Boolean
 		{
-			if (_pos >= _wordToSpell.length-1) {
+			if (_pos >= _wordToSpell.length - 1) {
 				dispatchEvent(new WordEvent(WordEvent.FINISH, NaN, this));
 				return true;
 			}
@@ -65,6 +70,7 @@ package mvc.model
 		/** removes all progress in the spelling. */
 		public function resetWord():void 
 		{
+			dispatchEvent(new WordEvent(WordEvent.CHANGE, NaN, this));
 			_pos = 0;
 		}
 		

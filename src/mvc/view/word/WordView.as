@@ -31,7 +31,6 @@ package mvc.view.word
 		}
 		
 		// START EVENT HANDLERS
-		
 		/// Exchange letters between text boxes in correct curcumstances then adjust the current position.
 		public function handleAdvance(e:WordEvent):void
 		{
@@ -39,13 +38,12 @@ package mvc.view.word
 			_lettersToSpell.advanceWord();
 		}
 		
-		/// Changes the viewavle word to the new word in model.
+		/// Changes the viewable word to the new word in model.
 		public function handleChange(e:WordEvent = null):void
 		{
 			_lettersToSpell.changeWord(_model.wordToSpell);
 			_lettersSpelt.reset();
 		}
-		
 		// END EVENT HANDLERS
 		
 		/** Returns a string representation of the object

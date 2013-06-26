@@ -29,8 +29,8 @@ package mvc.model
 			for (var i:int = 0; i < NUM_SLOTS; i++) {
 				_wordObjects[i] = new WordModel();
 				_wordObjects[i].wordToSpell = extractRandomWordString();
-				dispatchEvent(new WordHandlerEvent(WordHandlerEvent.CREATE, _wordObjects[i], new Point(100, i * 30 + 100)));
 				_wordObjects[i].addEventListener(WordEvent.FINISH, refreshWord);
+				dispatchEvent(new WordHandlerEvent(WordHandlerEvent.CREATE, _wordObjects[i], new Point(100, i * 30 + 100)));
 			}
 		}
 		
