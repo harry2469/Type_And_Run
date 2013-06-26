@@ -1,4 +1,4 @@
-package  
+package mvc.model
 {
 	import events.WordEvent;
 	import events.WordHandlerEvent;

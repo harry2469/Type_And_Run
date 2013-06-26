@@ -1,6 +1,10 @@
-package
+package mvc.view
 {
+	// Flash Imports
 	import flash.display.Stage;
+	
+	// My Imports
+	import mvc.model.WordHandlerModel;
 	
 	/**
 	 * Currently just a wrapper for the word handler but i will add more after initial input is prototyped.

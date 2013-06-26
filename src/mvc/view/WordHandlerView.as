@@ -1,8 +1,14 @@
-package  
+package mvc.view
 {
-	import events.WordHandlerEvent;
+	// Flash Imports
 	import flash.display.Stage;
 	import flash.events.Event;
+	
+	// My Imports
+	import events.WordHandlerEvent;
+	import mvc.model.WordHandlerModel;
+	import mvc.view.word.WordView;
+	
 	/**
 	 * Handle the display of spellable words.
 	 * @author 

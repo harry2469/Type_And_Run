@@ -1,7 +1,11 @@
 package events 
 {
+	// Flash Imports
 	import flash.events.Event;
 	import flash.geom.Point;
+	
+	// My Imports
+	import mvc.model.WordModel;
 	
 	/**
 	 * ...

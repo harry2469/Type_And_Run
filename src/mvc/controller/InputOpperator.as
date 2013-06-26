@@ -1,7 +1,8 @@
-package
+package mvc.controller
 {
 	import flash.display.Stage;
 	import flash.events.KeyboardEvent;
+	import mvc.model.WordHandlerModel;
 	
 	/**
 	 * Manage Input From The User And Advance Word Progress.

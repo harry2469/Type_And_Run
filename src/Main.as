@@ -1,20 +1,23 @@
 package 
 {
+	// Flash Imports
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.events.TextEvent;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
+	
+	// My Imports
+	import mvc.controller.InputOpperator;
+	import mvc.model.WordHandlerModel;
+	import mvc.view.GameView;
 	
 	// BUG words starting with the same letter retain progress on continuation.
+	
 	/**
 	 * Avoider/Typing Game Crossover.
 	 * @author Kristian Welsh
 	 */
 	public class Main extends Sprite 
 	{
-		private var _wordsToSpell:Vector.<String> = Vector.<String>(["Zabc", "Zdef", "Zghi", "Zjkl", "Zmno", "Zpqr"]);
+		private var _wordsToSpell:Vector.<String> = Vector.<String>(["abbb", "accc", "addd", "aeee", "afff", "aggg"]);
 		private var _inputOperator:InputOpperator;
 		private var _gameView:GameView;
 		

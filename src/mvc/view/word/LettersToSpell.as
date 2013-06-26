@@ -1,4 +1,4 @@
-package  
+package mvc.view.word
 {
 	import flash.display.Stage;
 	import flash.geom.Point;

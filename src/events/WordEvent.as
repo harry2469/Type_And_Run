@@ -1,6 +1,10 @@
 package events 
 {
+	// Flash Imports
 	import flash.events.Event;
+	
+	// My Imports
+	import mvc.model.WordModel;
 	
 	/**
 	 * ...

@@ -1,9 +1,14 @@
-package  
+package mvc.view.word
 {
-	import events.WordEvent;
-	import events.WordHandlerEvent;
+	// Flash Imports
 	import flash.display.Stage;
 	import flash.geom.Point;
+	
+	// My Imports
+	import events.WordEvent;
+	import events.WordHandlerEvent;
+	import mvc.model.WordModel;
+	
 	/**
 	 * Manage the display and word progression of a word form the list.
 	 * @author 
