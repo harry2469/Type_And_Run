@@ -17,7 +17,7 @@ package
 			return _wordToSpell;
 		}
 		
-		public function set wordToSpell(input:String)
+		public function set wordToSpell(input:String):void
 		{
 			_wordToSpell = input;
 			dispatchEvent(new WordEvent(WordEvent.CHANGE));

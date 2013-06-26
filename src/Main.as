@@ -7,7 +7,6 @@ package
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
-	// TODO rename all instances of "Typing" something to "Spelling" something.
 	// BUG words starting with the same letter retain progress on continuation.
 	/**
 	 * Avoider/Typing Game Crossover.

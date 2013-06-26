@@ -9,13 +9,13 @@ package
 	 * ...
 	 * @author 
 	 */
-	public class LettersTyped extends TextField 
+	public class LettersSpelt extends TextField 
 	{
 		static private const FONTSIZE:Number = 20;
 		static private const COLOUR:uint = 0X33FF33;
 		private var _format:TextFormat = new TextFormat();
 		/** Initialise the object. */
-		public function LettersTyped(stage:Stage, position:Point) 
+		public function LettersSpelt(stage:Stage, position:Point) 
 		{
 			super();
 			this.x = position.x;
@@ -24,9 +24,9 @@ package
 			stage.addChild(this);
 		}
 		/** Add the first letter from the letters left to type and append it to the end of this object. */
-		public function advanceWord(lettersToType:LettersToType):void 
+		public function advanceWord(lettersToSpell:LettersToSpell):void 
 		{
-			appendText(lettersToType.firstLetter);
+			appendText(lettersToSpell.firstLetter);
 			setTextFormat(_format);
 		}
 		/** Reset the TextField's settings to initial settings. */

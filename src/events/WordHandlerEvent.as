@@ -19,7 +19,7 @@ package events
 			super(type, bubbles, cancelable);
 			_newWord = newWord;
 			_position = position
-		} 
+		}
 		
 		public override function clone():Event 
 		{ 

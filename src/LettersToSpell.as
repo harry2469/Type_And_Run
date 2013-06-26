@@ -10,13 +10,13 @@ package
 	 * to type and handle the removal of letters from the display.
 	 * @author 
 	 */
-	public class LettersToType extends TextField 
+	public class LettersToSpell extends TextField 
 	{
 		static private const FONTSIZE:Number = 20;
 		private var _format:TextFormat = new TextFormat();
 		
 		/** Initialise the object. */
-		public function LettersToType(stage:Stage, position:Point, startingWord:String):void
+		public function LettersToSpell(stage:Stage, position:Point, startingWord:String):void
 		{
 			super();
 			this.x = position.x;
@@ -26,7 +26,7 @@ package
 			adjustParameters(startingWord); // Ten spaces
 		}
 		
-		public function set wordToSpell(input:String)
+		public function set wordToSpell(input:String):void
 		{
 			adjustParameters(input);
 		}

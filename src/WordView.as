@@ -11,15 +11,15 @@ package
 	public class WordView
 	{
 		private var _model:WordModel;
-		private var _lettersToType:LettersToType;
-		private var _lettersTyped:LettersTyped;
+		private var _lettersToSpell:LettersToSpell;
+		private var _lettersSpelt:LettersSpelt;
 		
 		/** Initialise both text boxes. */
 		public function WordView(stage:Stage, position:Point, model:WordModel) 
 		{
 			_model = model
-			_lettersToType = new LettersToType(stage, position, model.wordToSpell);
-			_lettersTyped = new LettersTyped(stage, position);
+			_lettersToSpell = new LettersToSpell(stage, position, model.wordToSpell);
+			_lettersSpelt = new LettersSpelt(stage, position);
 			
 			_model.addEventListener(WordEvent.ADVANCE, handleAdvance);
 			_model.addEventListener(WordEvent.CHANGE, handleChange);
@@ -30,15 +30,15 @@ package
 		/// Exchange letters between text boxes in correct curcumstances then adjust the current position.
 		public function handleAdvance(e:WordEvent):void
 		{
-			_lettersTyped.advanceWord(_lettersToType);
-			_lettersToType.advanceWord();
+			_lettersSpelt.advanceWord(_lettersToSpell);
+			_lettersToSpell.advanceWord();
 		}
 		
 		/// Changes the viewavle word to the new word in model.
 		public function handleChange(e:WordEvent = null):void
 		{
-			_lettersToType.changeWord(_model.wordToSpell);
-			_lettersTyped.reset();
+			_lettersToSpell.changeWord(_model.wordToSpell);
+			_lettersSpelt.reset();
 		}
 		
 		// END EVENT HANDLERS
