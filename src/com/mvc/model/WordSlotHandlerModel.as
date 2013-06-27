@@ -4,7 +4,6 @@ package com.mvc.model
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.events.WordSlotEvent;
@@ -87,7 +86,6 @@ package com.mvc.model
 		private function assignSpelling(wordSlot:WordSlotModel):void
 		{
 			wordSlot.wordToSpell = extractRandomWordString();
-			FlashConnect.trace(wordSlot.wordToSpell);
 		}
 		
 		/**
