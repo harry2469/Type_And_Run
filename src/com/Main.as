@@ -6,6 +6,7 @@ package com
 	import flash.net.URLRequest;
 	import flash.events.IOErrorEvent;
 	import flash.events.Event;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.mvc.controller.InputOpperator;
@@ -23,7 +24,7 @@ package com
 	public class Main extends Sprite 
 	{
 		/** Location of the list of english word i am using */
-		static public const DICTIONARY_URL:String = "lib/brit-a-z.txt";
+		static public const DICTIONARY_URL:String = "../lib/brit-a-z.txt"; // lib/brit-a-z.txt // Change to this if publishing from flash
 		
 		/** List of words to spell. */
 		private var _wordsToSpell:Vector.<String> = new Vector.<String>();
@@ -45,8 +46,7 @@ package com
 			myTextLoader.addEventListener(Event.COMPLETE, onLoaded);
 			myTextLoader.addEventListener(IOErrorEvent.IO_ERROR, loaderIOErrorHandler);
 			
-			myTextLoader.load(new URLRequest(DICTIONARY_URL));
-			// TODO put in trycatch
+			myTextLoader.load(new URLRequest(DICTIONARY_URL));//DICTIONARY_URL
 		}
 		
 		/**
@@ -54,13 +54,13 @@ package com
 		 * @param	e:Event
 		 */
 		private function onLoaded(e:Event):void {
-			
+			FlashConnect.trace("YES");
 			_wordsToSpell = retrieveWordVector(e.target.data);
-			
+			/*
 			_handlerModel = new WordSlotHandlerModel(_wordsToSpell);
 			
 			if (stage) init();
-			else addEventListener(Event.ADDED_TO_STAGE, init);
+			else addEventListener(Event.ADDED_TO_STAGE, init);*/
 		}
 		
 		/**
@@ -69,6 +69,7 @@ package com
 		 */
 		private function loaderIOErrorHandler(e:IOErrorEvent):void 
 		{
+			FlashConnect.trace("NO");
 			throw new Error("Dictionary file cannot be found", 2);
 		}
 		
