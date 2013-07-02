@@ -6,6 +6,7 @@ package com
 	import flash.net.URLRequest;
 	import flash.events.IOErrorEvent;
 	import flash.events.Event;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.mvc.controller.InputOpperator;
@@ -22,11 +23,8 @@ package com
 	 */
 	public class Main extends Sprite 
 	{
-		/** Location of the list of english word i am using */
-		static public const DICTIONARY_URL:String = "lib/brit-a-z.txt";
-		
 		/** List of words to spell. */
-		private var _wordsToSpell:Vector.<String> = new Vector.<String>();
+		private var _wordsToSpell:Vector.<String> = Vector.<String>(["foo", "cat", "dog", "watch", "wallet", "phone", "mane", "main"]);
 		
 		/** Handles player input */
 		private var _inputOperator:InputOpperator;
@@ -40,51 +38,10 @@ package com
 		/** Initialises the aplication. */
 		public function Main():void 
 		{
-			var myTextLoader:URLLoader = new URLLoader();
-			
-			myTextLoader.addEventListener(Event.COMPLETE, onLoaded);
-			myTextLoader.addEventListener(IOErrorEvent.IO_ERROR, loaderIOErrorHandler);
-			
-			myTextLoader.load(new URLRequest(DICTIONARY_URL));
-			// TODO put in trycatch
-		}
-		
-		/**
-		 * Delay program start until dictonary file is loaded.
-		 * @param	e:Event
-		 */
-		private function onLoaded(e:Event):void {
-			
-			_wordsToSpell = retrieveWordVector(e.target.data);
-			
 			_handlerModel = new WordSlotHandlerModel(_wordsToSpell);
 			
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
-		}
-		
-		/**
-		 * Handle what happens if an IOError occurs while loading the dictionary.
-		 * @param	e:IOErrorEvent
-		 */
-		private function loaderIOErrorHandler(e:IOErrorEvent):void 
-		{
-			throw new Error("Dictionary file cannot be found", 2);
-		}
-		
-		/**
-		 * Returns a vector of strings each containing a word from the dictionary file.
-		 * @param	wordRaw
-		 * @return	Vector of all words.
-		 */
-		private function retrieveWordVector(wordRaw:String):Vector.<String>
-		{
-			var returnedWords:Vector.<String> = Vector.<String>(wordRaw.split(/\n/));
-			for (var i:int = 0; i < returnedWords.length; i++) 
-			{
-				returnedWords[i] = returnedWords[i].slice( 0, -1 );
-			}
-			return returnedWords;
 		}
 		
 		/**
