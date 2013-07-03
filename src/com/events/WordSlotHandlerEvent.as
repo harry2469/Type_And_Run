@@ -41,10 +41,10 @@ package com.events
 		 * Returns a carbon copy of the object.
 		 * @return	Clone of the object
 		 */
-		public override function clone():Event 
+		public override function clone():Event
 		{ 
 			return new WordSlotHandlerEvent(type, newWord, position, bubbles, cancelable);
-		} 
+		}
 		
 		/**
 		 * Returns a string representation of the object.

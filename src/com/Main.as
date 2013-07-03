@@ -1,17 +1,20 @@
 package com
 {
+	// FlashDevelop imports
+	import org.flashdevelop.utils.FlashConnect;
+	
 	// Flash Imports
 	import flash.display.Sprite;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.events.IOErrorEvent;
 	import flash.events.Event;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.mvc.controller.InputOpperator;
 	import com.mvc.model.WordSlotHandlerModel;
 	import com.mvc.view.GameView;
+	import tests.MyTestRunner;
 	
 	// BUG after you complete a spelling only that wordslot will start spelling again untill a fail, which resets it.
 	
@@ -23,6 +26,9 @@ package com
 	 */
 	public class Main extends Sprite 
 	{
+		/** Is this run intended to run the unit tests? */
+		static public const TEST_PASS:Boolean = false;
+		
 		/** List of words to spell. */
 		private var _wordsToSpell:Vector.<String> = Vector.<String>(["foo", "cat", "dog", "watch", "wallet", "phone", "mane", "main"]);
 		
@@ -34,10 +40,17 @@ package com
 		
 		/** Handles all model responsibilities related to handling the word slots. */
 		private var _handlerModel:WordSlotHandlerModel;
+		private var runner:MyTestRunner;
 		
 		/** Initialises the aplication. */
 		public function Main():void 
 		{
+			// If this is a unit test run then only run the unit tests.
+			if (TEST_PASS) {
+				runner = new MyTestRunner(stage)
+				return;
+			}
+			
 			_handlerModel = new WordSlotHandlerModel(_wordsToSpell);
 			
 			if (stage) init();

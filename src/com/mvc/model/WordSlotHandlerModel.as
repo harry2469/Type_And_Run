@@ -34,7 +34,7 @@ package com.mvc.model
 		 * Save the input vector of strings as the list of word strings to draw from
 		 * @param	wordList
 		 */
-		public function WordSlotHandlerModel(wordList:Vector.<String>)
+		public function WordSlotHandlerModel(wordList:Vector.<String>):void
 		{
 			_wordStrings = wordList;
 		}
