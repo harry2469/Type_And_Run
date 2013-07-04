@@ -1,7 +1,6 @@
 package com
 {
 	// FlashDevelop imports
-	import org.flashdevelop.utils.FlashConnect;
 	
 	// Flash Imports
 	import flash.display.Sprite;
@@ -13,6 +12,7 @@ package com
 	// My Imports
 	import com.mvc.controller.InputOpperator;
 	import com.mvc.model.WordSlotHandlerModel;
+	import com.mvc.model.WordSlotModel;
 	import com.mvc.view.GameView;
 	import tests.MyTestRunner;
 	
@@ -24,13 +24,13 @@ package com
 	 * Avoider/Typing Game Crossover.
 	 * @author Kristian Welsh
 	 */
-	public class Main extends Sprite 
+	public class Main extends Sprite
 	{
 		/** Is this run intended to run the unit tests? */
 		static public const TEST_PASS:Boolean = false;
 		
 		/** List of words to spell. */
-		private var _wordsToSpell:Vector.<String> = Vector.<String>(["foo", "cat", "dog", "watch", "wallet", "phone", "mane", "main"]);
+		private var _wordsToSpell:Vector.<String> = Vector.<String>(["rat", "cat", "dog"]);
 		
 		/** Handles player input */
 		private var _inputOperator:InputOpperator;
@@ -43,7 +43,7 @@ package com
 		private var runner:MyTestRunner;
 		
 		/** Initialises the aplication. */
-		public function Main():void 
+		public function Main():void
 		{
 			// If this is a unit test run then only run the unit tests.
 			if (TEST_PASS) {
@@ -61,14 +61,14 @@ package com
 		 * This function is called when added to the stage to ensure there is a stage to add objects to.
 		 * @param	e
 		 */
-		private function init(e:Event = null):void 
+		private function init(e:Event = null):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			_gameView = new GameView(stage, _wordsToSpell, _handlerModel);
 			_inputOperator = new InputOpperator(stage, _handlerModel);
 			
-			_handlerModel.initWordSlots();
+			_handlerModel.initWordSlots(new WordSlotModel());
 		}
 	}
 	

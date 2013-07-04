@@ -11,7 +11,7 @@ package com.mvc.view.word
 	 * to type and handle the removal of letters from the display.
 	 * @author Kristian Welsh
 	 */
-	public class LettersToSpell extends TextField 
+	public class LettersToSpell extends TextField
 	{
 		/** Size of the font to display the word in. */
 		static private const FONTSIZE:Number = 20;
@@ -55,7 +55,7 @@ package com.mvc.view.word
 		}
 		
 		/** Remove the first letter from this TextField. */
-		public function advanceWord():void 
+		public function advanceWord():void
 		{
 			setText(text.substr(1));
 		}
@@ -65,7 +65,7 @@ package com.mvc.view.word
 		 * @param	wordToSpell
 		 * @see		adjustParameters()
 		 */
-		public function changeWord(wordToSpell:String):void 
+		public function changeWord(wordToSpell:String):void
 		{
 			adjustParameters(wordToSpell);
 		}
@@ -77,7 +77,7 @@ package com.mvc.view.word
 		 * @param	stage
 		 * @param	position
 		 */
-		private function initPositionals(stage:Stage, position:Point):void 
+		private function initPositionals(stage:Stage, position:Point):void
 		{
 			this.x = position.x;
 			this.y = position.y;
@@ -88,7 +88,7 @@ package com.mvc.view.word
 		 * Reset the TextField's display settings to object defaults.
 		 * @param	startingWord
 		 */
-		private function adjustParameters(newSpelling:String):void 
+		private function adjustParameters(newSpelling:String):void
 		{
 			text = newSpelling;
 			// TODO decide on a standard text field size so i dont have to pass the starting word to this.
@@ -99,7 +99,7 @@ package com.mvc.view.word
 		}
 		
 		/** return the format object to object defaults */
-		private function resetFormat():void 
+		private function resetFormat():void
 		{
 			_format.size = FONTSIZE;
 			_format.align = "right";
@@ -107,7 +107,7 @@ package com.mvc.view.word
 		}
 		
 		/** Resize the textbox to fit correctly arround the current text. */
-		private function adjustDimensions():void 
+		private function adjustDimensions():void
 		{
 			width = textWidth + 5;
 			height = textHeight + 5;
