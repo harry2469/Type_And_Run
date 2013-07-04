@@ -3,7 +3,6 @@ package com.mvc.model
 	// Flash Imports
 	import flash.events.EventDispatcher;
 	import flash.display.Stage;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.events.WordSlotEvent;
@@ -12,7 +11,7 @@ package com.mvc.model
 	 * Manage the display and word progression of a word form the list.
 	 * @author Kristian Welsh
 	 */
-	public class WordSlotModel extends EventDispatcher implements IWordSlotModel
+	public class WordSlotModel extends EventDispatcher
 	{
 		/** The word that currently needs to be spelt for this word slot */
 		private var _wordToSpell:String = "";
@@ -20,13 +19,11 @@ package com.mvc.model
 		/** The index of your current progress position on the the word to spell */
 		private var _pos:uint = 0;
 		
-		// Public Functions
-		
 		/**
 		 * Returns the current word to spell.
 		 * @return current word to spell
 		 */
-		public function get wordToSpell():String
+		public function get wordToSpell():String 
 		{
 			return _wordToSpell;
 		}
@@ -57,7 +54,6 @@ package com.mvc.model
 		 */
 		public function advanceWord(inputChar:uint):void
 		{
-			FlashConnect.trace("Yes");
 			if (!isValidInput(inputChar)) return;
 			dispatchEvent(new WordSlotEvent(WordSlotEvent.ADVANCE));
 			_pos++
@@ -66,13 +62,21 @@ package com.mvc.model
 		/**
 		 * Removes all progress in the spelling, and dispatch an event to signal this occurance.
 		 */
-		private function resetWord():void
+		public function resetWord():void 
 		{
 			dispatchEvent(new WordSlotEvent(WordSlotEvent.CHANGE));
 			_pos = 0;
 		}
 		
-		// Private Functions
+		/**
+		 * Changes the word to spell to a new word.
+		 * @param	newWord
+		 */
+		private function changeWord(newWord:String):void
+		{
+			_wordToSpell = newWord;
+			resetWord();
+		}
 		
 		/**
 		 * Determines whether an Input Character Code should be allowed to incriment the word.

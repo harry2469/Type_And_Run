@@ -1,7 +1,8 @@
-package tests.events
+package tests.events 
 {
 	// Asunit imports
 	import asunit.framework.TestCase;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	// Flash imports
 	import flash.geom.Point;
@@ -14,7 +15,7 @@ package tests.events
 	 * Tests all public behavior of the WordSlotHandlerEvent class.
 	 * @author Kristian Welsh
 	 */
-	public class WordSlotHandlerEventTest extends TestCase
+	public class WordSlotHandlerEventTest extends TestCase 
 	{
 		/** Event type to pass into event. */
 		private var _type:String = "";
@@ -32,7 +33,7 @@ package tests.events
 		 * Start the test specified by the passed in string.
 		 * @param	testMethod
 		 */
-		public function WordSlotHandlerEventTest(testMethod:String):void
+		public function WordSlotHandlerEventTest(testMethod:String):void 
 		{
 			super(testMethod);
 		}
@@ -41,7 +42,7 @@ package tests.events
 		 * Set up the test environment.
 		 * Always called when test is created.
 		 */
-		protected override function setUp():void
+		protected override function setUp():void 
 		{
 			_type = WordSlotHandlerEvent.CREATE;
 			_word = new WordSlotModel();
@@ -53,7 +54,7 @@ package tests.events
 		 * Tear down the test environment.
 		 * Always called when test is destroyed.
 		 */
-		protected override function tearDown():void
+		protected override function tearDown():void 
 		{
 			_instance = null;
 			_pos = null;
@@ -93,12 +94,12 @@ package tests.events
 		 */
 		public function testToString():void
 		{
-			assertEquals("The string representation of the instance is as expected.",
+			assertEquals("The string representation of the instance is as expected.", 
 			"[WordSlotHandlerEvent type=\""
 				+ WordSlotHandlerEvent.CREATE
 				+ "\" newWord=" + _word.toString()
 				+ " position=" + _pos.toString()
-				+ " bubbles=false cancelable=false]",
+				+ " bubbles=false cancelable=false]", 
 			_instance.toString());
 		}
 	}

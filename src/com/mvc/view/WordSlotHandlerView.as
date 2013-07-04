@@ -41,7 +41,7 @@ package com.mvc.view
 		 * @param	stage
 		 * @param	model
 		 */
-		private function initVars(stage:Stage, model:WordSlotHandlerModel):void
+		private function initVars(stage:Stage, model:WordSlotHandlerModel):void 
 		{
 			_stage = stage;
 			_model = model;
@@ -50,7 +50,7 @@ package com.mvc.view
 		/**
 		 * Adds all needed listeners to the associated model.
 		 */
-		private function addListeners():void
+		private function addListeners():void 
 		{
 			_model.addEventListener(WordSlotHandlerEvent.CREATE, wordCreated);
 		}
