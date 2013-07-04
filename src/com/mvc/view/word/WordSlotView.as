@@ -7,16 +7,16 @@ package com.mvc.view.word
 	// My Imports
 	import com.events.WordSlotEvent;
 	import com.events.WordSlotHandlerEvent;
-	import com.mvc.model.WordSlotModel;
+	import com.mvc.model.IWordSlotModel;
 	
 	/**
-	 * Manage the display and visual aspects of word slot progression of the passed in WordSlotModel object.
+	 * Manage the display and visual aspects of word slot progression of the passed in IWordSlotModel object.
 	 * @author Kristian Welsh
 	 */
-	public class WordSlotView
+	public class WordSlotView implements IWordSlotView
 	{
-		/** Referance to the associated WordSlotModel object to listen for relevent events. */
-		private var _model:WordSlotModel;
+		/** Referance to the associated IWordSlotModel object to listen for relevent events. */
+		private var _model:IWordSlotModel;
 		
 		/** Specialised text box to display letters of the current word that you have yet to spell. */
 		private var _lettersToSpell:LettersToSpell;
@@ -24,13 +24,17 @@ package com.mvc.view.word
 		/** Specialised text box to display letters of the current word that you have already spelt. */
 		private var _lettersSpelt:LettersSpelt;
 		
+		/** Referance to the document's stage. */
+		private var _stage:Stage;
+		private var _position:Point;
+		
 		/**
 		 * Readys the object for use.
 		 * @param	stage
 		 * @param	model
 		 * @param	position
 		 */
-		public function WordSlotView(stage:Stage, model:WordSlotModel, position:Point):void
+		public function init(stage:Stage, model:IWordSlotModel, position:Point):void
 		{
 			initVars(stage, model, position);
 			addModelListeners();
@@ -42,9 +46,11 @@ package com.mvc.view.word
 		 * @param	model
 		 * @param	position
 		 */
-		private function initVars(stage:Stage, model:WordSlotModel, position:Point):void 
+		private function initVars(stage:Stage, model:IWordSlotModel, position:Point):void
 		{
-			_model = model
+			_stage = stage;
+			_model = model;
+			_position = position;
 			_lettersToSpell = new LettersToSpell(stage, position, _model.wordToSpell);
 			_lettersSpelt = new LettersSpelt(stage, position);
 		}
@@ -52,7 +58,7 @@ package com.mvc.view.word
 		/**
 		 * Adds all event listeners to the word's model.
 		 */
-		private function addModelListeners():void 
+		private function addModelListeners():void
 		{
 			_model.addEventListener(WordSlotEvent.ADVANCE, handleAdvance);
 			_model.addEventListener(WordSlotEvent.CHANGE, handleChange);
@@ -85,6 +91,15 @@ package com.mvc.view.word
 		public function toString():String
 		{
 			return "[Word Slot View \"" + _model.wordToSpell + "\"]";
+		}
+		
+		/**
+		 * Returns a string representation of the Word, mainly the spelling.
+		 * @exampleText Outputs something like: "[Word "cat"]"
+		 */
+		public function clone():IWordSlotView
+		{
+			return new WordSlotView();
 		}
 	}
 }

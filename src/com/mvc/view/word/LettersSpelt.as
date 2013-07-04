@@ -10,7 +10,7 @@ package com.mvc.view.word
 	 * Shows the letters you have yet to spell.
 	 * @author Kristian Welsh
 	 */
-	public class LettersSpelt extends TextField 
+	public class LettersSpelt extends TextField
 	{
 		/** The size of the font that this should be displayed in */
 		static private const FONTSIZE:Number = 20;
@@ -26,7 +26,7 @@ package com.mvc.view.word
 		 * @param	stage
 		 * @param	position
 		 */
-		public function LettersSpelt(stage:Stage, position:Point) 
+		public function LettersSpelt(stage:Stage, position:Point, format:TextFormat)
 		{
 			super();
 			initPositionals(stage, position);
@@ -37,7 +37,7 @@ package com.mvc.view.word
 		 * Add the first letter from a LettersToSpell object and append it to the end of this object.
 		 * @param	lettersToSpell:LettersToSpell
 		 */
-		public function advanceWord(lettersToSpell:LettersToSpell):void 
+		public function advanceWord(lettersToSpell:LettersToSpell):void
 		{
 			this.appendText(lettersToSpell.firstLetter);
 			this.setTextFormat(_format);
@@ -57,7 +57,7 @@ package com.mvc.view.word
 		/**
 		 * Reset the TextField to initial settings.
 		 */
-		public function reset():void 
+		public function reset():void
 		{
 			this.textColor = COLOUR;
 			_format.size = FONTSIZE;
@@ -70,7 +70,7 @@ package com.mvc.view.word
 		 * @param	stage
 		 * @param	position
 		 */
-		private function initPositionals(stage:Stage, position:Point):void 
+		private function initPositionals(stage:Stage, position:Point):void
 		{
 			this.x = position.x;
 			this.y = position.y;

@@ -11,7 +11,7 @@ package com.mvc.model
 	 * Manage the display and word progression of a word form the list.
 	 * @author Kristian Welsh
 	 */
-	public class WordSlotModel extends EventDispatcher
+	public class WordSlotModel extends EventDispatcher implements IWordSlotModel
 	{
 		/** The word that currently needs to be spelt for this word slot */
 		private var _wordToSpell:String = "";
@@ -23,7 +23,7 @@ package com.mvc.model
 		 * Returns the current word to spell.
 		 * @return current word to spell
 		 */
-		public function get wordToSpell():String 
+		public function get wordToSpell():String
 		{
 			return _wordToSpell;
 		}
@@ -62,11 +62,22 @@ package com.mvc.model
 		/**
 		 * Removes all progress in the spelling, and dispatch an event to signal this occurance.
 		 */
-		public function resetWord():void 
+		public function resetWord():void
 		{
 			dispatchEvent(new WordSlotEvent(WordSlotEvent.CHANGE));
 			_pos = 0;
 		}
+		
+		/**
+		 * Returns a new object (factory?)
+		 * @return
+		 */
+		public function clone():IWordSlotModel
+		{
+			return new WordSlotModel();
+		}
+		
+		// PRIVATE
 		
 		/**
 		 * Changes the word to spell to a new word.

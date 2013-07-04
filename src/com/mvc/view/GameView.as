@@ -11,20 +11,17 @@ package com.mvc.view
 	 * I will add more when more needs to be displayed.
 	 * @author Kristian Welsh
 	 */
-	public class GameView 
+	public class GameView
 	{
 		/** Handles all view tasks of the Word Slots. */
 		private var _wordHandler:WordSlotHandlerView;
 		
 		/**
 		 * Initialises the view components of the game.
-		 * @param	stage
-		 * @param	wordsToSpell
-		 * @param	handlerModel
 		 */
-		public function GameView(stage:Stage, wordsToSpell:Vector.<String>, handlerModel:WordSlotHandlerModel) 
+		public function GameView(wordSlotHandlerView:WordSlotHandlerView)
 		{
-			_wordHandler = new WordSlotHandlerView(stage, handlerModel);
+			_wordHandler = wordSlotHandlerView;
 		}
 	}
 }

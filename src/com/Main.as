@@ -1,6 +1,8 @@
 package com
 {
 	// FlashDevelop imports
+	import com.mvc.model.IWordSlotModel;
+	import com.mvc.model.WordSlotModel;
 	import org.flashdevelop.utils.FlashConnect;
 	
 	// Flash Imports
@@ -16,43 +18,32 @@ package com
 	import com.mvc.view.GameView;
 	import tests.MyTestRunner;
 	
-	// BUG after you complete a spelling only that wordslot will start spelling again untill a fail, which resets it.
-	
 	// BUG top word is ALWAYS aardvark.
+	
+	// TODO see if removing the clone functions is possible due to all my constructions happening in a central location.
 	
 	/**
 	 * Avoider/Typing Game Crossover.
 	 * @author Kristian Welsh
 	 */
-	public class Main extends Sprite 
+	public class Main extends Sprite
 	{
 		/** Is this run intended to run the unit tests? */
 		static public const TEST_PASS:Boolean = false;
 		
-		/** List of words to spell. */
-		private var _wordsToSpell:Vector.<String> = Vector.<String>(["foo", "cat", "dog", "watch", "wallet", "phone", "mane", "main"]);
+		/** Runs the unit tests */
+		private var _unitTestRunner:MyTestRunner;
 		
-		/** Handles player input */
-		private var _inputOperator:InputOpperator;
-		
-		/** Handles all view responsibilities for the game */
-		private var _gameView:GameView;
-		
-		/** Handles all model responsibilities related to handling the word slots. */
-		private var _handlerModel:WordSlotHandlerModel;
-		private var runner:MyTestRunner;
+		private var _dependancyInjector:DependancyInjector;
 		
 		/** Initialises the aplication. */
-		public function Main():void 
+		public function Main():void
 		{
 			// If this is a unit test run then only run the unit tests.
 			if (TEST_PASS) {
-				runner = new MyTestRunner(stage)
+				_unitTestRunner = new MyTestRunner(stage)
 				return;
 			}
-			
-			_handlerModel = new WordSlotHandlerModel(_wordsToSpell);
-			
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -61,14 +52,16 @@ package com
 		 * This function is called when added to the stage to ensure there is a stage to add objects to.
 		 * @param	e
 		 */
-		private function init(e:Event = null):void 
+		private function init(e:Event = null):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			
-			_gameView = new GameView(stage, _wordsToSpell, _handlerModel);
-			_inputOperator = new InputOpperator(stage, _handlerModel);
-			
-			_handlerModel.initWordSlots();
+			_dependancyInjector = new DependancyInjector(stage);
+			_dependancyInjector.handlerModel.initWordSlots(new WordSlotModel());
+		}
+		
+		override public function toString():String
+		{
+			return "[Main]";
 		}
 	}
 	

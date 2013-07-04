@@ -19,33 +19,41 @@ package com.mvc.model
 		private static const NUM_SLOTS:uint = 3;
 		
 		/** Assigned at constructor to be a list of spellable words. */
-		private var _wordStrings:Vector.<String> = new Vector.<String>();
+		private var _wordStrings:Vector.<String>;
 		
 		/** Holds all of the indices of _wordStrings which have already been used as a spelling. */
-		private var _usedIndexes:Vector.<uint> = new Vector.<uint>();
+		private var _usedIndexes:Vector.<uint>;
 		
 		/** Holds a referance to each of the WordSlots as they're created. */
-		private var _wordSlots:Vector.<WordSlotModel> = new Vector.<WordSlotModel>(NUM_SLOTS);
+		private var _wordSlots:Vector.<IWordSlotModel>;
 		
 		/** Holds all words that are currently being actively spelt by the player. */
-		private var _latchedWordSlots:Array = [];
+		private var _latchedWordSlots:Array;
 		
 		/**
-		 * Save the input vector of strings as the list of word strings to draw from
+		 * Set the initial values of all variables.
 		 * @param	wordList
+		 * @param	usedIndexes
+		 * @param	wordSlots
+		 * @param	latchedWordSlots
 		 */
-		public function WordSlotHandlerModel(wordList:Vector.<String>):void
+		public function WordSlotHandlerModel(wordList:Vector.<String>, usedIndexes:Vector.<uint>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Array):void
 		{
 			_wordStrings = wordList;
+			_usedIndexes = usedIndexes;
+			_wordSlots = wordSlots;
+			_latchedWordSlots = latchedWordSlots;
 		}
 		
 		/**
-		 * Set up all of the word slots with a word to spell.
+		 * Set up all the word slots and give each a word to spell.
+		 * @param	wordSlotModelTemplate
 		 */
-		public function initWordSlots():void 
+		public function initWordSlots(wordSlotModelTemplate:IWordSlotModel):void
 		{
 			for (var i:int = 0; i < NUM_SLOTS; i++) {
-				initWord(i);
+				// Use a clone of wordSlotModelTemplate or they all referance the same object.
+				initWord(i, wordSlotModelTemplate.clone());
 				wordCreationEventTasks(i);
 			}
 		}
@@ -54,7 +62,7 @@ package com.mvc.model
 		 * Deal with an input character.
 		 * @param	charCode:uint
 		 */
-		public function acceptInput(charCode:uint):void 
+		public function acceptInput(charCode:uint):void
 		{
 			latchValidWords(charCode);
 			advanceLatchedWords(charCode);
@@ -63,27 +71,28 @@ package com.mvc.model
 		/**
 		 * Initialise a word slot at an index on _wordObjects.
 		 * @param	index
+		 * @param	clone
 		 */
-		private function initWord(index:int):void 
+		private function initWord(index:int, clone:IWordSlotModel):void
 		{
-			createWordSlot(index);
+			createWordSlot(index, clone);
 			assignSpelling(_wordSlots[index]);
 		}
 		
 		/**
-		 * Create a new WordSlotModel at a specific index of _wordObjects.
+		 * Create a new IWordSlotModel at a specific index of _wordObjects.
 		 * @param	index
 		 */
-		private function createWordSlot(index:int):void 
+		private function createWordSlot(index:int, clone:IWordSlotModel):void
 		{
-			_wordSlots[index] = new WordSlotModel();
+			_wordSlots[index] = clone;
 		}
 		
 		/**
-		 * Assign a WordSlotModel a random word to spell.
-		 * @param	WordSlotModel
+		 * Assign a IWordSlotModel a random word to spell.
+		 * @param	IWordSlotModel
 		 */
-		private function assignSpelling(wordSlot:WordSlotModel):void
+		private function assignSpelling(wordSlot:IWordSlotModel):void
 		{
 			wordSlot.wordToSpell = extractRandomWordString();
 		}
@@ -99,7 +108,7 @@ package com.mvc.model
 			var acceptableInt:int = NaN;
 			while(_usedIndexes.indexOf(acceptableInt) != -1) {
 				acceptableInt = randomIntBetweenBounds(0, _wordStrings.length - 1)
-			} 
+			}
 			
 			_usedIndexes.push(acceptableInt)
 			return _wordStrings[acceptableInt];
@@ -109,30 +118,30 @@ package com.mvc.model
 		 * Deal with all the event tasks that need to occur as a Word Slot is created on _wordObjects.
 		 * @param	index:int
 		 */
-		private function wordCreationEventTasks(index:int):void 
+		private function wordCreationEventTasks(index:int):void
 		{
 			_wordSlots[index].addEventListener(WordSlotEvent.FINISH, changeWord);
-			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlots[index], new Point(100, index * 30 + 100)));
+			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlots[index], new Point(100, index * 30 + 100))); // TODO: point dependancy injection
 		}
 		
 		/**
 		 * Pick a new string for a finished word.
 		 * @param	e:WordSlotEvent
 		 */
-		private function changeWord(e:WordSlotEvent):void 
+		private function changeWord(e:WordSlotEvent):void
 		{
-			assignSpelling(e.target as WordSlotModel);
-			_latchedWordSlots = []; // reset 
+			assignSpelling(e.target as IWordSlotModel);
+			_latchedWordSlots = []; // reset
 		}
 		
 		/**
 		 * Decide which word(s) to latch onto based on the validity of the input character for each of the active words.
 		 * @param	inputChar:uint
 		 */
-		private function latchValidWords(inputChar:uint):void 
+		private function latchValidWords(inputChar:uint):void
 		{
 			if (_latchedWordSlots.length != 0) return;
-			for (var i:int = 0; i < NUM_SLOTS; i++) 
+			for (var i:int = 0; i < NUM_SLOTS; i++)
 			{
 				if (_wordSlots[i].isNextCharacterCode(inputChar)) {
 					_latchedWordSlots.push(_wordSlots[i]);
@@ -144,9 +153,9 @@ package com.mvc.model
 		 * Advance progress on all latched words.
 		 * @param	inputChar:uint
 		 */
-		private function advanceLatchedWords(inputChar:uint):void 
+		private function advanceLatchedWords(inputChar:uint):void
 		{
-			for (var i:int = _latchedWordSlots.length-1; i >= 0; --i) 
+			for (var i:int = _latchedWordSlots.length-1; i >= 0; --i)
 			{
 				if (!_latchedWordSlots[i].isNextCharacterCode(inputChar)) {
 					unlatchIndex(i);
@@ -160,7 +169,7 @@ package com.mvc.model
 		 * Cleanly reset and remove element at index on _latchedWordSlots.
 		 * @param	index
 		 */
-		private function unlatchIndex(index:int):void 
+		private function unlatchIndex(index:int):void
 		{
 			_latchedWordSlots[index].resetWord();
 			_latchedWordSlots.splice(index, 1);

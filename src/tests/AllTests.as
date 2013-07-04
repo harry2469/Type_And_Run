@@ -1,12 +1,9 @@
-package tests 
+package tests
 {
-	// FlashDevelop imports
-	import org.flashdevelop.utils.FlashConnect;
-	
 	// Asunit imports
 	import asunit.framework.TestSuite;
 	
-	// My imports
+	// My importss
 	import tests.events.WordSlotHandlerEventTest;
 	
 	// TODO: make failed tests show a stack trace.
@@ -15,10 +12,10 @@ package tests
 	 * Executes all unit tests for the aplication.
 	 * @author Kristian Welsh
 	 */
-	public class AllTests extends TestSuite 
+	public class AllTests extends TestSuite
 	{
 		/** Runs all unit tests. */
-		public function AllTests() 
+		public function AllTests()
 		{
 			super();
 			

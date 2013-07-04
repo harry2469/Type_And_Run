@@ -5,7 +5,7 @@ package com.events
 	import flash.geom.Point;
 	
 	// My Imports
-	import com.mvc.model.WordSlotModel;
+	import com.mvc.model.IWordSlotModel;
 	
 	/**
 	 * Event for the WordHandlerModel object.
@@ -17,7 +17,7 @@ package com.events
 		public static const CREATE:String = "create";
 		
 		/** Refers to the new word input. */
-		private var _newWord:WordSlotModel;
+		private var _newWord:IWordSlotModel;
 		
 		/** Refers to the new word's position. */
 		private var _position:Point;
@@ -25,12 +25,12 @@ package com.events
 		/**
 		 * Calls super for the event and captures extra stored variables in globals.
 		 * @param	type:String
-		 * @param	newWord:WordSlotModel
+		 * @param	newWord:IWordSlotModel
 		 * @param	position:Point
 		 * @param	bubbles:Boolean (Optional)
 		 * @param	cancelable:Boolean (Optional)
 		 */
-		public function WordSlotHandlerEvent(type:String, newWord:WordSlotModel, position:Point, bubbles:Boolean=false, cancelable:Boolean=false) 
+		public function WordSlotHandlerEvent(type:String, newWord:IWordSlotModel, position:Point, bubbles:Boolean=false, cancelable:Boolean=false) 
 		{ 
 			super(type, bubbles, cancelable);
 			_newWord = newWord;
@@ -59,7 +59,7 @@ package com.events
 		 * Returns the _newWord global.
 		 * @return _newWord global.
 		 */
-		public function get newWord():WordSlotModel 
+		public function get newWord():IWordSlotModel 
 		{
 			return _newWord;
 		}
