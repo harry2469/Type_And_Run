@@ -17,7 +17,7 @@ package com.mvc.model
 	public class WordSlotHandlerModel extends EventDispatcher
 	{
 		/** Number of word slots to handle. */
-		private static const NUM_SLOTS:uint = 3;
+		public static const NUM_SLOTS:uint = 3;
 		
 		/** Assigned at constructor to be a list of spellable words. */
 		private var _wordStrings:Vector.<String>;
@@ -31,8 +31,6 @@ package com.mvc.model
 		/** Holds all words that are currently being actively spelt by the player. */
 		private var _latchedWordSlots:Array;
 		
-		private var _wordSlotModelTeplate:IWordSlotModel;
-		
 		/**
 		 * Set the initial values of all variables.
 		 * @param	wordList
@@ -40,13 +38,12 @@ package com.mvc.model
 		 * @param	wordSlots
 		 * @param	latchedWordSlots
 		 */
-		public function WordSlotHandlerModel(wordList:Vector.<String>, usedIndexes:Vector.<uint>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Array, wordSlotModelTemplate:IWordSlotModel):void
+		public function WordSlotHandlerModel(wordList:Vector.<String>, usedIndexes:Vector.<uint>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Array):void
 		{
 			_wordStrings = wordList;
 			_usedIndexes = usedIndexes;
 			_wordSlots = wordSlots;
 			_latchedWordSlots = latchedWordSlots;
-			_wordSlotModelTeplate = wordSlotModelTemplate;
 		}
 		
 		/**
@@ -114,7 +111,7 @@ package com.mvc.model
 		private function changeWord(e:WordSlotEvent):void
 		{
 			assignSpelling(e.target as IWordSlotModel);
-			_latchedWordSlots = []; // reset
+			_latchedWordSlots = [];
 		}
 		
 		/**

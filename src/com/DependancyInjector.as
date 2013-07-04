@@ -59,13 +59,13 @@ package com
 			var usedIndexes:Vector.<uint> = new Vector.<uint>();
 			var latchedWordSlots:Array = new Array();
 			var wordSlots:Vector.<IWordSlotModel> = createWordSlotModelVector();
-			_handlerModel = new WordSlotHandlerModel(wordsToSpell, usedIndexes, wordSlots, latchedWordSlots, new WordSlotModel());
+			_handlerModel = new WordSlotHandlerModel(wordsToSpell, usedIndexes, wordSlots, latchedWordSlots);
 		}
 		
 		private function createWordSlotModelVector():Vector.<IWordSlotModel>
 		{
 			var wordObjects:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-			for (var i:int = 0; i < 3; i++)
+			for (var i:int = 0; i < WordSlotHandlerModel.NUM_SLOTS; i++)
 			{
 				wordObjects.push(createWordSlotModel());
 			}
@@ -80,7 +80,7 @@ package com
 		private function createWordSlotViewVector():Vector.<IWordSlotView>
 		{
 			var wordObjects:Vector.<IWordSlotView> = new Vector.<IWordSlotView>();
-			for (var i:int = 0; i < 3; i++)
+			for (var i:int = 0; i < WordSlotHandlerModel.NUM_SLOTS; i++)
 			{
 				wordObjects.push(createWordSlotView());
 			}
