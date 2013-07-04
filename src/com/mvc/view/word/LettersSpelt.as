@@ -19,16 +19,16 @@ package com.mvc.view.word
 		static private const COLOUR:uint = 0X00cc00; // Med-Dark Green
 		
 		/** TextFormat object to format the text */
-		private var _format:TextFormat = new TextFormat();
+		private var _format:TextFormat;
 		
 		/**
 		 * Initialise the object.
 		 * @param	stage
 		 * @param	position
 		 */
-		public function LettersSpelt(stage:Stage, position:Point, format:TextFormat)
+		public function init(stage:Stage, position:Point, format:TextFormat):void
 		{
-			super();
+			_format = format;
 			initPositionals(stage, position);
 			reset();
 		}

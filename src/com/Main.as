@@ -56,7 +56,7 @@ package com
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			_dependancyInjector = new DependancyInjector(stage);
-			_dependancyInjector.handlerModel.initWordSlots(new WordSlotModel());
+			_dependancyInjector.handlerModel.initWordSlots();
 		}
 		
 		override public function toString():String

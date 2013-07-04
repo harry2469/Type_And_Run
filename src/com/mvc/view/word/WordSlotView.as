@@ -3,6 +3,7 @@ package com.mvc.view.word
 	// Flash Imports
 	import flash.display.Stage;
 	import flash.geom.Point;
+	import flash.text.TextFormat;
 	
 	// My Imports
 	import com.events.WordSlotEvent;
@@ -26,7 +27,17 @@ package com.mvc.view.word
 		
 		/** Referance to the document's stage. */
 		private var _stage:Stage;
+		
 		private var _position:Point;
+		
+		/**
+		 * Creates referances to the 2 text fields
+		 */
+		public function WordSlotView(lettersToSpell:LettersToSpell, lettersSpelt:LettersSpelt):void
+		{
+			_lettersToSpell = lettersToSpell;
+			_lettersSpelt = lettersSpelt;
+		}
 		
 		/**
 		 * Readys the object for use.
@@ -51,8 +62,8 @@ package com.mvc.view.word
 			_stage = stage;
 			_model = model;
 			_position = position;
-			_lettersToSpell = new LettersToSpell(stage, position, _model.wordToSpell);
-			_lettersSpelt = new LettersSpelt(stage, position);
+			_lettersToSpell.init(stage, position, _model.wordToSpell);
+			_lettersSpelt.init(stage, position, new TextFormat());
 		}
 		
 		/**
@@ -99,7 +110,7 @@ package com.mvc.view.word
 		 */
 		public function clone():IWordSlotView
 		{
-			return new WordSlotView();
+			return new WordSlotView(_lettersToSpell, _lettersSpelt);
 		}
 	}
 }

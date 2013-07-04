@@ -4,6 +4,7 @@ package com.mvc.model
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.events.WordSlotEvent;
@@ -30,6 +31,8 @@ package com.mvc.model
 		/** Holds all words that are currently being actively spelt by the player. */
 		private var _latchedWordSlots:Array;
 		
+		private var _wordSlotModelTeplate:IWordSlotModel;
+		
 		/**
 		 * Set the initial values of all variables.
 		 * @param	wordList
@@ -37,23 +40,23 @@ package com.mvc.model
 		 * @param	wordSlots
 		 * @param	latchedWordSlots
 		 */
-		public function WordSlotHandlerModel(wordList:Vector.<String>, usedIndexes:Vector.<uint>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Array):void
+		public function WordSlotHandlerModel(wordList:Vector.<String>, usedIndexes:Vector.<uint>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Array, wordSlotModelTemplate:IWordSlotModel):void
 		{
 			_wordStrings = wordList;
 			_usedIndexes = usedIndexes;
 			_wordSlots = wordSlots;
 			_latchedWordSlots = latchedWordSlots;
+			_wordSlotModelTeplate = wordSlotModelTemplate;
 		}
 		
 		/**
 		 * Set up all the word slots and give each a word to spell.
 		 * @param	wordSlotModelTemplate
 		 */
-		public function initWordSlots(wordSlotModelTemplate:IWordSlotModel):void
+		public function initWordSlots():void
 		{
 			for (var i:int = 0; i < NUM_SLOTS; i++) {
-				// Use a clone of wordSlotModelTemplate or they all referance the same object.
-				initWord(i, wordSlotModelTemplate.clone());
+				assignSpelling(_wordSlots[i]);
 				wordCreationEventTasks(i);
 			}
 		}
@@ -66,26 +69,6 @@ package com.mvc.model
 		{
 			latchValidWords(charCode);
 			advanceLatchedWords(charCode);
-		}
-		
-		/**
-		 * Initialise a word slot at an index on _wordObjects.
-		 * @param	index
-		 * @param	clone
-		 */
-		private function initWord(index:int, clone:IWordSlotModel):void
-		{
-			createWordSlot(index, clone);
-			assignSpelling(_wordSlots[index]);
-		}
-		
-		/**
-		 * Create a new IWordSlotModel at a specific index of _wordObjects.
-		 * @param	index
-		 */
-		private function createWordSlot(index:int, clone:IWordSlotModel):void
-		{
-			_wordSlots[index] = clone;
 		}
 		
 		/**

@@ -26,18 +26,16 @@ package com.mvc.view
 		/** List of active WordSlotView Objects. */
 		private var _wordObjects:Vector.<IWordSlotView>;
 		
-		
-		private var _wordObjectTemplate:IWordSlotView;
-		private var _wordSlotViewTemplate:IWordSlotView;
+		private var _numInitialisedObjects:uint = 0;
 		
 		/**
 		 * Readys the object for use.
 		 * @param	stage
 		 * @param	model
 		 */
-		public function WordSlotHandlerView(stage:Stage, model:WordSlotHandlerModel, wordObjects:Vector.<IWordSlotView>, wordSlotViewTemplate:IWordSlotView):void
+		public function WordSlotHandlerView(stage:Stage, model:WordSlotHandlerModel, wordObjects:Vector.<IWordSlotView>):void
 		{
-			initVars(stage, model, wordObjects, wordSlotViewTemplate);
+			initVars(stage, model, wordObjects);
 			addListeners();
 		}
 		
@@ -46,12 +44,11 @@ package com.mvc.view
 		 * @param	stage
 		 * @param	model
 		 */
-		private function initVars(stage:Stage, model:WordSlotHandlerModel, wordObjects:Vector.<IWordSlotView>, wordSlotViewTemplate:IWordSlotView):void
+		private function initVars(stage:Stage, model:WordSlotHandlerModel, wordObjects:Vector.<IWordSlotView>):void
 		{
 			_stage = stage;
 			_model = model;
 			_wordObjects = wordObjects;
-			_wordSlotViewTemplate = wordSlotViewTemplate;
 		}
 		
 		/**
@@ -68,9 +65,8 @@ package com.mvc.view
 		 */
 		private function wordCreated(e:WordSlotHandlerEvent):void
 		{
-			var wordToAdd:IWordSlotView = _wordSlotViewTemplate.clone();
-			wordToAdd.init(_stage, e.newWord, e.position);
-			_wordObjects.push(wordToAdd);
+			_wordObjects[_numInitialisedObjects].init(_stage, e.newWord, e.position);
+			_numInitialisedObjects++;
 		}
 	}
 
