@@ -9,7 +9,7 @@ package com.mvc.view.word
 	 */
 	public interface IWordSlotView
 	{
-		function init(stage:Stage, model:IWordSlotModel, position:Point):void;
+		function init(stage:Stage, model:IWordSlotModel):void;
 		function toString():String;
 		function clone():IWordSlotView;
 	}

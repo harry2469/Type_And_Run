@@ -22,9 +22,6 @@ package tests.events
 		/** IWordSlotModel to pass into event. */
 		private var _word:WordSlotModel = null;
 		
-		/** Point to pass into event. */
-		private var _pos:Point = null;
-		
 		/** Instance of the event class to test. */
 		private var _instance:WordSlotHandlerEvent = null;
 		
@@ -45,8 +42,7 @@ package tests.events
 		{
 			_type = WordSlotHandlerEvent.CREATE;
 			_word = new WordSlotModel();
-			_pos = new Point(0, 0);
-			_instance = new WordSlotHandlerEvent(_type, _word, _pos);
+			_instance = new WordSlotHandlerEvent(_type, _word);
 		}
 		
 		/**
@@ -56,7 +52,6 @@ package tests.events
 		protected override function tearDown():void
 		{
 			_instance = null;
-			_pos = null;
 			_word = null;
 		}
 		
@@ -65,17 +60,9 @@ package tests.events
 		 */
 		public function testDataRetention():void
 		{
-			//assertTrue("Can access the type property of the event.", _instance.type);
-			//assertTrue("The type property of the event is a IWordSlotModel object.", _instance.type is String);
 			assertEquals("The type property of the event is equal to the passed in type", _type, _instance.type);
 			
-			//assertTrue("Can access the newWord property of the event.", _instance.newWord);
-			//assertTrue("The newWord property of the event is a IWordSlotModel object.", _instance.newWord is IWordSlotModel);
 			assertEquals("The newWord property of the event is the passed in IWordSlotModel object.", _word, _instance.newWord);
-			
-			//assertTrue("Can access the position property of the event.", _instance.position);
-			//assertTrue("The position property of the event is a Point object.", _instance.position is Point);
-			assertTrue("The position property of the event is equal to the passed in value.", _instance.position.equals(_pos));
 		}
 		
 		/**
@@ -95,9 +82,8 @@ package tests.events
 		{
 			assertEquals("The string representation of the instance is as expected.",
 			"[WordSlotHandlerEvent type=\""
-				+ WordSlotHandlerEvent.CREATE
+				+ _type
 				+ "\" newWord=" + _word.toString()
-				+ " position=" + _pos.toString()
 				+ " bubbles=false cancelable=false]",
 			_instance.toString());
 		}

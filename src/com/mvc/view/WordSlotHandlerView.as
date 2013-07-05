@@ -65,7 +65,7 @@ package com.mvc.view
 		 */
 		private function wordCreated(e:WordSlotHandlerEvent):void
 		{
-			_wordObjects[_numInitialisedObjects].init(_stage, e.newWord, e.position);
+			_wordObjects[_numInitialisedObjects].init(_stage, e.newWord);
 			_numInitialisedObjects++;
 		}
 	}

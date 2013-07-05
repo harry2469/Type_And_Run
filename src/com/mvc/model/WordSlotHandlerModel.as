@@ -101,7 +101,7 @@ package com.mvc.model
 		private function wordCreationEventTasks(index:int):void
 		{
 			_wordSlots[index].addEventListener(WordSlotEvent.FINISH, changeWord);
-			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlots[index], new Point(100, index * 30 + 100))); // TODO: point dependancy injection
+			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlots[index])); // TODO: point dependancy injection
 		}
 		
 		/**

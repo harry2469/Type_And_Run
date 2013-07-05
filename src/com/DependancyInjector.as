@@ -11,6 +11,8 @@ package com
 	import com.mvc.view.word.WordSlotView;
 	import com.mvc.view.WordSlotHandlerView;
 	import flash.display.Stage;
+	import flash.geom.Point;
+	import flash.text.TextFormat;
 	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
@@ -45,7 +47,7 @@ package com
 		{
 			createWordSlotModelSystem();
 			
-			_wordObjects = createWordSlotViewVector();
+			_wordObjects = createWordSlotViewVector(stage);
 			_wordSlotHandlerView = new WordSlotHandlerView(stage, _handlerModel, _wordObjects);
 			
 			_gameView = new GameView(_wordSlotHandlerView);
@@ -77,19 +79,19 @@ package com
 			return new WordSlotModel();
 		}
 		
-		private function createWordSlotViewVector():Vector.<IWordSlotView>
+		private function createWordSlotViewVector(stage:Stage):Vector.<IWordSlotView>
 		{
 			var wordObjects:Vector.<IWordSlotView> = new Vector.<IWordSlotView>();
 			for (var i:int = 0; i < WordSlotHandlerModel.NUM_SLOTS; i++)
 			{
-				wordObjects.push(createWordSlotView());
+				wordObjects.push(createWordSlotView(stage, i));
 			}
 			return wordObjects;
 		}
 		
-		private function createWordSlotView():IWordSlotView
+		private function createWordSlotView(stage:Stage, i:int):IWordSlotView
 		{
-			return new WordSlotView(new LettersToSpell(), new LettersSpelt());
+			return new WordSlotView(new LettersToSpell(), new LettersSpelt(), new Point(100, (i * 30) + 100));
 		}
 		
 		public function toString():String

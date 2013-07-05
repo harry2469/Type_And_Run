@@ -33,21 +33,21 @@ package com.mvc.view.word
 		/**
 		 * Creates referances to the 2 text fields
 		 */
-		public function WordSlotView(lettersToSpell:LettersToSpell, lettersSpelt:LettersSpelt):void
+		public function WordSlotView(lettersToSpell:LettersToSpell, lettersSpelt:LettersSpelt, position:Point):void
 		{
 			_lettersToSpell = lettersToSpell;
 			_lettersSpelt = lettersSpelt;
+			_position = position;
 		}
 		
 		/**
 		 * Readys the object for use.
 		 * @param	stage
 		 * @param	model
-		 * @param	position
 		 */
-		public function init(stage:Stage, model:IWordSlotModel, position:Point):void
+		public function init(stage:Stage, model:IWordSlotModel):void
 		{
-			initVars(stage, model, position);
+			initVars(stage, model);
 			addModelListeners();
 		}
 		
@@ -55,15 +55,13 @@ package com.mvc.view.word
 		 * Initialise model referance and both text boxes.
 		 * @param	stage
 		 * @param	model
-		 * @param	position
 		 */
-		private function initVars(stage:Stage, model:IWordSlotModel, position:Point):void
+		private function initVars(stage:Stage, model:IWordSlotModel):void
 		{
 			_stage = stage;
 			_model = model;
-			_position = position;
-			_lettersToSpell.init(stage, position, _model.wordToSpell);
-			_lettersSpelt.init(stage, position, new TextFormat());
+			_lettersToSpell.init(stage, _position, _model.wordToSpell);
+			_lettersSpelt.init(stage, _position, new TextFormat());
 		}
 		
 		/**
@@ -110,7 +108,7 @@ package com.mvc.view.word
 		 */
 		public function clone():IWordSlotView
 		{
-			return new WordSlotView(_lettersToSpell, _lettersSpelt);
+			return new WordSlotView(_lettersToSpell, _lettersSpelt, _position);
 		}
 	}
 }
