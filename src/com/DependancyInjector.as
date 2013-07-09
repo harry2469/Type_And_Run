@@ -1,6 +1,7 @@
 package com
 {
 	import com.mvc.controller.InputOpperator;
+	import com.mvc.model.IWordSlotHandlerModel;
 	import com.mvc.model.IWordSlotModel;
 	import com.mvc.model.WordSlotHandlerModel;
 	import com.mvc.model.WordSlotModel;
@@ -31,7 +32,7 @@ package com
 		private var _gameView:GameView;
 		
 		/** Handles all model responsibilities related to handling the word slots. */
-		private var _handlerModel:WordSlotHandlerModel;
+		private var _handlerModel:IWordSlotHandlerModel;
 		
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		
@@ -99,7 +100,7 @@ package com
 			return "[DependancyInjector handlerModel=" + handlerModel + "]";
 		}
 		
-		public function get handlerModel():WordSlotHandlerModel
+		public function get handlerModel():IWordSlotHandlerModel
 		{
 			return _handlerModel;
 		}

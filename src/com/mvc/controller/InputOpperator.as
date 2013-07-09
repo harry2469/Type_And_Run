@@ -5,7 +5,7 @@ package com.mvc.controller
 	import flash.events.KeyboardEvent;
 	
 	// My Imports
-	import com.mvc.model.WordSlotHandlerModel;
+	import com.mvc.model.IWordSlotHandlerModel;
 	
 	/**
 	 * Manage Input From The User.
@@ -17,7 +17,7 @@ package com.mvc.controller
 		private var _stage:Stage = null;
 		
 		/** Referance to the Word Handler Model to pass input */
-		private var _wordHandlerModel:WordSlotHandlerModel = null;
+		private var _wordHandlerModel:IWordSlotHandlerModel = null;
 		
 		// PUBLIC FUNCTIONS
 		
@@ -26,19 +26,11 @@ package com.mvc.controller
 		 * @param	stage:Stage
 		 * @param	wordHandlerModel:WordHandlerModel
 		 */
-		public function InputOpperator(stage:Stage, wordHandlerModel:WordSlotHandlerModel)
+		public function InputOpperator(stage:Stage, wordHandlerModel:IWordSlotHandlerModel)
 		{
 			initVars(stage, wordHandlerModel);
 			
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-		}
-		
-		/**
-		 * Stop Listening For Keypresses (For Pause Menus And The Like).
-		 */
-		public function stopListening():void
-		{
-			_stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		}
 		
 		// PRIVATE FUNCTIONS
@@ -48,7 +40,7 @@ package com.mvc.controller
 		 * @param	stage:Stage
 		 * @param	wordHandlerModel:WordHandlerModel
 		 */
-		private function initVars(stage:Stage, wordHandlerModel:WordSlotHandlerModel):void
+		private function initVars(stage:Stage, wordHandlerModel:IWordSlotHandlerModel):void
 		{
 			_stage = stage;
 			_wordHandlerModel = wordHandlerModel

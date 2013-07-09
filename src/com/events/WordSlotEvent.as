@@ -44,7 +44,7 @@ package com.events
 		 */
 		public override function toString():String
 		{
-			return formatToString("WordEvent", "type", "bubbles", "cancelable", "eventPhase");
+			return formatToString("WordSlotEvent", "type", "bubbles", "cancelable", "eventPhase");
 		}
 		
 	}

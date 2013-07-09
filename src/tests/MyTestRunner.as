@@ -1,4 +1,4 @@
-package tests 
+package tests
 {
 	import asunit.textui.TestRunner;
 	import flash.display.Stage;
@@ -7,12 +7,13 @@ package tests
 	 * Runs the unit tests
 	 * @author Kristian Welsh
 	 */
-	public class MyTestRunner extends TestRunner 
+	public class MyTestRunner extends TestRunner
 	{
-		public function MyTestRunner(stage:Stage) 
+		public function MyTestRunner(stage:Stage)
 		{
 			super();
 			stage.addChild(this)
+			AllTests.stage = stage;
 			start(AllTests, null, TestRunner.SHOW_TRACE);
 		}
 	}

@@ -14,7 +14,7 @@ package com.mvc.model
 	 * Handles all Model responsibilitys of working with the WordSlots.
 	 * @author Kristian Welsh
 	 */
-	public class WordSlotHandlerModel extends EventDispatcher
+	public class WordSlotHandlerModel extends EventDispatcher implements IWordSlotHandlerModel
 	{
 		/** Number of word slots to handle. */
 		public static const NUM_SLOTS:uint = 3;

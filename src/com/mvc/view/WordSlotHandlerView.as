@@ -1,6 +1,7 @@
 package com.mvc.view
 {
 	// Flash Imports
+	import com.mvc.model.IWordSlotHandlerModel;
 	import com.mvc.view.word.IWordSlotView;
 	import flash.display.Stage;
 	import flash.events.Event;
@@ -21,7 +22,7 @@ package com.mvc.view
 		private var _stage:Stage;
 		
 		/** Referance to the object's model component. */
-		private var _model:WordSlotHandlerModel;
+		private var _model:IWordSlotHandlerModel;
 		
 		/** List of active WordSlotView Objects. */
 		private var _wordObjects:Vector.<IWordSlotView>;
@@ -33,7 +34,7 @@ package com.mvc.view
 		 * @param	stage
 		 * @param	model
 		 */
-		public function WordSlotHandlerView(stage:Stage, model:WordSlotHandlerModel, wordObjects:Vector.<IWordSlotView>):void
+		public function WordSlotHandlerView(stage:Stage, model:IWordSlotHandlerModel, wordObjects:Vector.<IWordSlotView>):void
 		{
 			initVars(stage, model, wordObjects);
 			addListeners();
@@ -44,7 +45,7 @@ package com.mvc.view
 		 * @param	stage
 		 * @param	model
 		 */
-		private function initVars(stage:Stage, model:WordSlotHandlerModel, wordObjects:Vector.<IWordSlotView>):void
+		private function initVars(stage:Stage, model:IWordSlotHandlerModel, wordObjects:Vector.<IWordSlotView>):void
 		{
 			_stage = stage;
 			_model = model;
