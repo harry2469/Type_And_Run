@@ -37,6 +37,8 @@ package com.mvc.view.word
 		/** The format for both of the text formats injected here for consistency */
 		private var _format2:TextFormat;
 		
+		// PUBLIC FUNCTIONS
+		
 		/**
 		 * Creates referances to the 2 text fields
 		 */
@@ -59,6 +61,13 @@ package com.mvc.view.word
 			initVars(stage, model);
 			addModelListeners();
 		}
+		
+		public function toString():String
+		{
+			return "[WordSlotView]";
+		}
+		
+		// PRIVATE FUNCTIONS
 		
 		/**
 		 * Initialise model referance and both text boxes.
@@ -100,15 +109,6 @@ package com.mvc.view.word
 		{
 			_lettersToSpell.changeWord(_model.wordToSpell);
 			_lettersSpelt.reset();
-		}
-		
-		/**
-		 * Returns a string representation of the Word, mainly the spelling.
-		 * @exampleText Outputs something like: "[Word Slot View  "cat"]"
-		 */
-		public function toString():String
-		{
-			return "[Word Slot View \"" + _model.wordToSpell + "\"]";
 		}
 	}
 }

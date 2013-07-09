@@ -21,6 +21,8 @@ package com.mvc.view.word
 		/** TextFormat object to format the text */
 		private var _format:TextFormat;
 		
+		// PUBLIC FUNCTIONS
+		
 		/**
 		 * Initialise the object.
 		 * @param	stage
@@ -64,6 +66,8 @@ package com.mvc.view.word
 			this.text = "";
 			this.setTextFormat(_format);
 		}
+		
+		// PRIVATE FUNCTIONS
 		
 		/**
 		 * Position the object to the specified position on the stage.

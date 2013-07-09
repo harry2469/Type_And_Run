@@ -31,6 +31,8 @@ package com.mvc.model
 		/** Holds all words that are currently being actively spelt by the player. */
 		private var _latchedWordSlots:Array;
 		
+		// PUBLIC FUNCTIONS
+		
 		/**
 		 * Set the initial values of all variables.
 		 * @param	wordList
@@ -67,6 +69,13 @@ package com.mvc.model
 			latchValidWords(charCode);
 			advanceLatchedWords(charCode);
 		}
+		
+		override public function toString():String
+		{
+			return "[WordSlotHandlerModel]";
+		}
+		
+		// PRIVATE FUNCITONS
 		
 		/**
 		 * Assign a IWordSlotModel a random word to spell.

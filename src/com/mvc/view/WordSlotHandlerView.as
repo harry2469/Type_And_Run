@@ -58,7 +58,6 @@ package com.mvc.view
 		{
 			_model.addEventListener(WordSlotHandlerEvent.CREATE, wordCreated);
 		}
-		
 		/**
 		 * Adds a WordSlotView object to the referance list and provides needed globals and event variables.
 		 * @param	e:WordSlotHandlerEvent
@@ -67,6 +66,11 @@ package com.mvc.view
 		{
 			_wordObjects[_numInitialisedObjects].init(_stage, e.newWord);
 			_numInitialisedObjects++;
+		}
+		
+		public function toString():String
+		{
+			return "[WordSlotHandlerView]";
 		}
 	}
 

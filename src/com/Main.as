@@ -23,6 +23,7 @@ package com
 		/** Runs the unit tests */
 		private var _unitTestRunner:MyTestRunner;
 		
+		/** Controls the instantiation of all objects to decrease coupling and be able to swap out mocks for testing */
 		private var _dependancyInjector:DependancyInjector;
 		
 		/** Initialises the aplication. */

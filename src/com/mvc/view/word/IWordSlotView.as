@@ -11,5 +11,4 @@ package com.mvc.view.word
 	{
 		function init(stage:Stage, model:IWordSlotModel):void;
 	}
-	
 }

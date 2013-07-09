@@ -23,5 +23,10 @@ package com.mvc.view
 		{
 			_wordHandler = wordSlotHandlerView;
 		}
+		
+		public function toString():String
+		{
+			return "[GameView]";
+		}
 	}
 }

@@ -70,6 +70,11 @@ package com.mvc.view.word
 			adjustParameters(wordToSpell);
 		}
 		
+		override public function toString():String
+		{
+			return "[LettersToSpell firstLetter=" + firstLetter + "]";
+		}
+		
 		// PRIVATE FUNCTIONS
 		
 		/**

@@ -19,6 +19,8 @@ package com.mvc.model
 		/** The index of your current progress position on the the word to spell */
 		private var _pos:uint = 0;
 		
+		// PUBLIC FUNCTIONS
+		
 		/**
 		 * Returns the current word to spell.
 		 * @return current word to spell
@@ -68,16 +70,12 @@ package com.mvc.model
 			_pos = 0;
 		}
 		
-		/**
-		 * Returns a new object (factory?)
-		 * @return
-		 */
-		public function clone():IWordSlotModel
+		override public function toString():String
 		{
-			return new WordSlotModel();
+			return "[WordSlotModel wordToSpell=" + wordToSpell + "]";
 		}
 		
-		// PRIVATE
+		// PRIVATE FUNCTIONS
 		
 		/**
 		 * Changes the word to spell to a new word.

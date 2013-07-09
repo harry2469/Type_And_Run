@@ -11,7 +11,7 @@ package com.mvc.controller
 	 * Manage Input From The User.
 	 * @author KristianWelsh
 	 */
-	public class InputOpperator 
+	public class InputOpperator
 	{
 		/** Referance to the stage for listeners */
 		private var _stage:Stage = null;
@@ -19,12 +19,14 @@ package com.mvc.controller
 		/** Referance to the Word Handler Model to pass input */
 		private var _wordHandlerModel:WordSlotHandlerModel = null;
 		
+		// PUBLIC FUNCTIONS
+		
 		/**
 		 * Readys the object for opperation.
 		 * @param	stage:Stage
 		 * @param	wordHandlerModel:WordHandlerModel
 		 */
-		public function InputOpperator(stage:Stage, wordHandlerModel:WordSlotHandlerModel) 
+		public function InputOpperator(stage:Stage, wordHandlerModel:WordSlotHandlerModel)
 		{
 			initVars(stage, wordHandlerModel);
 			
@@ -39,12 +41,14 @@ package com.mvc.controller
 			_stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		}
 		
+		// PRIVATE FUNCTIONS
+		
 		/**
 		 * Set the object referances.
 		 * @param	stage:Stage
 		 * @param	wordHandlerModel:WordHandlerModel
 		 */
-		private function initVars(stage:Stage, wordHandlerModel:WordSlotHandlerModel):void 
+		private function initVars(stage:Stage, wordHandlerModel:WordSlotHandlerModel):void
 		{
 			_stage = stage;
 			_wordHandlerModel = wordHandlerModel
@@ -54,7 +58,7 @@ package com.mvc.controller
 		 * Manage events that occur on key down.
 		 * @param	e:KeyboardEvent
 		 */
-		private function keyDown(e:KeyboardEvent):void 
+		private function keyDown(e:KeyboardEvent):void
 		{
 			_wordHandlerModel.acceptInput(e.charCode);
 		}

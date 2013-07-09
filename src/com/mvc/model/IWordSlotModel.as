@@ -13,6 +13,5 @@ package com.mvc.model
 		function isNextCharacterCode(inputChar:uint):Boolean;
 		function advanceWord(inputChar:uint):void;
 		function resetWord():void;
-		function clone():IWordSlotModel;
 	}
 }
