@@ -43,14 +43,12 @@ package tests
 		{
 			addTest(new WordSlotHandlerEventTest("testDataRetention"));
 			addTest(new WordSlotHandlerEventTest("testClone"));
-			addTest(new WordSlotHandlerEventTest("testToString"));
 		}
 		
 		private function wordSlotEvent():void
 		{
 			addTest(new WordSlotEventTest("testDataRetention"));
 			addTest(new WordSlotEventTest("testClone"));
-			addTest(new WordSlotEventTest("testToString"));
 		}
 		
 		private function inputOpperator():void

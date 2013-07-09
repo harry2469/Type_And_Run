@@ -74,18 +74,5 @@ package tests.events
 			_instance = newInstance;
 			testDataRetention();
 		}
-		
-		/**
-		 * Tests whether the string representation of the instance is as expected.
-		 */
-		public function testToString():void
-		{
-			assertEquals("The string representation of the instance is as expected.",
-			"[WordSlotHandlerEvent type=\""
-				+ _type
-				+ "\" newWord=" + _word.toString()
-				+ " bubbles=false cancelable=false]",
-			_instance.toString());
-		}
 	}
 }
