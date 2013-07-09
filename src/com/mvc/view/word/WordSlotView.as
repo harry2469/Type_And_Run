@@ -28,16 +28,25 @@ package com.mvc.view.word
 		/** Referance to the document's stage. */
 		private var _stage:Stage;
 		
+		/** The position of both the text objects */
 		private var _position:Point;
+		
+		/** The format for both of the text formats injected here for consistency */
+		private var _format1:TextFormat;
+		
+		/** The format for both of the text formats injected here for consistency */
+		private var _format2:TextFormat;
 		
 		/**
 		 * Creates referances to the 2 text fields
 		 */
-		public function WordSlotView(lettersToSpell:LettersToSpell, lettersSpelt:LettersSpelt, position:Point):void
+		public function WordSlotView(lettersToSpell:LettersToSpell, lettersSpelt:LettersSpelt, position:Point, format1:TextFormat, format2:TextFormat):void
 		{
 			_lettersToSpell = lettersToSpell;
 			_lettersSpelt = lettersSpelt;
 			_position = position;
+			_format1 = format1;
+			_format2 = format2;
 		}
 		
 		/**
@@ -60,8 +69,8 @@ package com.mvc.view.word
 		{
 			_stage = stage;
 			_model = model;
-			_lettersToSpell.init(stage, _position, _model.wordToSpell);
-			_lettersSpelt.init(stage, _position, new TextFormat());
+			_lettersToSpell.init(stage, _position, _model.wordToSpell, _format1);
+			_lettersSpelt.init(stage, _position, _format2);
 		}
 		
 		/**
@@ -95,20 +104,11 @@ package com.mvc.view.word
 		
 		/**
 		 * Returns a string representation of the Word, mainly the spelling.
-		 * @exampleText Outputs something like: "[Word "cat"]"
+		 * @exampleText Outputs something like: "[Word Slot View  "cat"]"
 		 */
 		public function toString():String
 		{
 			return "[Word Slot View \"" + _model.wordToSpell + "\"]";
-		}
-		
-		/**
-		 * Returns a string representation of the Word, mainly the spelling.
-		 * @exampleText Outputs something like: "[Word "cat"]"
-		 */
-		public function clone():IWordSlotView
-		{
-			return new WordSlotView(_lettersToSpell, _lettersSpelt, _position);
 		}
 	}
 }

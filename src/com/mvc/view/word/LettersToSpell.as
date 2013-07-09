@@ -17,7 +17,7 @@ package com.mvc.view.word
 		static private const FONTSIZE:Number = 20;
 		
 		/** TextFormat object save in global scope to re-apply after text change */
-		private var _format:TextFormat = new TextFormat();
+		private var _format:TextFormat;
 		
 		/**
 		 * Initialise the object.
@@ -25,8 +25,9 @@ package com.mvc.view.word
 		 * @param	position
 		 * @param	startingWord
 		 */
-		public function init(stage:Stage, position:Point, startingWord:String):void
+		public function init(stage:Stage, position:Point, startingWord:String, format:TextFormat):void
 		{
+			_format = format;
 			initPositionals(stage, position);
 			adjustParameters(startingWord);
 		}

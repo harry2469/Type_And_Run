@@ -1,21 +1,10 @@
 package com
 {
-	// FlashDevelop imports
-	import com.mvc.model.IWordSlotModel;
-	import com.mvc.model.WordSlotModel;
-	import org.flashdevelop.utils.FlashConnect;
-	
 	// Flash Imports
 	import flash.display.Sprite;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.events.IOErrorEvent;
 	import flash.events.Event;
 	
 	// My Imports
-	import com.mvc.controller.InputOpperator;
-	import com.mvc.model.WordSlotHandlerModel;
-	import com.mvc.view.GameView;
 	import tests.MyTestRunner;
 	
 	// BUG top word is ALWAYS aardvark.

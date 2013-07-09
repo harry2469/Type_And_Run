@@ -1,0 +1,37 @@
+*
++Type And Run Development Spec List:
+*
+
+-Game must fit well within the following environments:
+	Newgrounds
+	Kongregate
+	Armor Games
+
+-Game must have an endless mode with:
+	Endlessly increasing word difficulty
+	Endlessly increasing running speed
+	Gradualy introduced obstical types
+
+-Game must contain a list of real words for the user to spell.
+	Must not contain names
+	Could have the option to switch between english US and UK spelling
+	Would have different language options
+
+-Game Should have a story mode with:
+	Gradually increasing difficulty
+	Gradually introduced obsticals and mechanics
+
+*
++Type And Run Publication Spec List
+*
+
+-Game must be published on the following websites:
+	Newgrounds
+	Kongregate
+	Armor Games
+	FGL
+
+-I should seek a sponsor for the game
+
+-I must put paid adverts in the game.
+	Unless a contract precludes this.

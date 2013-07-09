@@ -91,7 +91,7 @@ package com
 		
 		private function createWordSlotView(stage:Stage, i:int):IWordSlotView
 		{
-			return new WordSlotView(new LettersToSpell(), new LettersSpelt(), new Point(100, (i * 30) + 100));
+			return new WordSlotView(new LettersToSpell(), new LettersSpelt(), new Point(100, (i * 30) + 100), new TextFormat(), new TextFormat());
 		}
 		
 		public function toString():String
