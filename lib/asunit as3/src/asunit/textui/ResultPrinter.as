@@ -6,7 +6,8 @@ package asunit.textui {
     import asunit.framework.TestResult;
     import asunit.runner.BaseTestRunner;
     import asunit.runner.Version;
-    
+	import org.flashdevelop.utils.FlashConnect;
+
     import flash.display.Sprite;
     import flash.events.*;
     import flash.system.Capabilities;
@@ -19,12 +20,12 @@ package asunit.textui {
     /**
     *   This is the base class for collecting test output and formatting for different
     *   displays.
-    *   
+    *
     *   This class simply presents test results as if they were being shown on a terminal.
-    *   
-    *   The <code>XMLResultPrinter</code> provides a good example of how this class can 
+    *
+    *   The <code>XMLResultPrinter</code> provides a good example of how this class can
     *   be subclassed and used to emit different/additional output.
-    *   
+    *
     *   @see XMLResultPrinter
     **/
     public class ResultPrinter extends Sprite implements TestListener {
@@ -73,7 +74,7 @@ package asunit.textui {
         public function setShowTrace(showTrace:Boolean):void {
             this.showTrace = showTrace;
         }
-        
+
         public override function set width(w:Number):void {
             textArea.x = gutter;
             textArea.width = w - gutter*2;
@@ -95,14 +96,14 @@ package asunit.textui {
         public function print(...args:Array):void {
             textArea.appendText(args.toString());
         }
-        
+
         /**
          * API for use by textui.TestRunner
          */
-         
+
         public function run(test:Test):void {
         }
-        
+
         public function printResult(result:TestResult, runTime:Number):void {
             printHeader(runTime);
             printErrors(result);
@@ -111,7 +112,7 @@ package asunit.textui {
 
                bar.setSuccess(result.wasSuccessful());
                if(showTrace) {
-                trace(textArea.text.split("\r").join("\n"));
+                FlashConnect.trace(textArea.text.split("\r").join("\n"));
                }
         }
 
@@ -129,6 +130,13 @@ package asunit.textui {
 
         protected function printFailures(result:TestResult):void {
             printDefects(result.failures(), result.failureCount(), "failure");
+			FlashConnect.trace("");
+			FlashConnect.trace("---");
+			for each (var item:TestFailure in result.failures()) {
+                FlashConnect.trace(item.thrownException().getStackTrace);
+            }
+			FlashConnect.trace("---");
+			FlashConnect.trace("");
         }
 
         protected function printDefects(booBoos:Object, count:int, type:String):void {
@@ -172,7 +180,8 @@ package asunit.textui {
         }
 
         protected function printDefectTrace(booBoo:TestFailure):void {
-            println(BaseTestRunner.getFilteredTrace(booBoo.thrownException().getStackTrace()));
+			println(booBoo.thrownException()); // WARNING USER ADDED LINE (Kristian Welsh) remove when the getStackTrace glitch is resolved
+            println(BaseTestRunner.getFilteredTrace(booBoo.thrownException().getStackTrace())); // USER POINT OF INTEREST (Kristian Welsh)
         }
 
         protected function printFooter(result:TestResult):void {
@@ -186,11 +195,11 @@ package asunit.textui {
                              ",  Failures: "+result.failureCount()+
                              ",  Errors: "+result.errorCount());
             }
-            
+
             printTimeSummary();
             println();
         }
-        
+
         protected function printTimeSummary():void {
             testTimes.sortOn('duration', Array.NUMERIC | Array.DESCENDING);
             println();

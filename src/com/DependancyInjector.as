@@ -36,8 +36,6 @@ package com
 		
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		
-		private var _usedIndexes:Vector.<uint>;
-		
 		private var _latchedWordSlots:Array;
 		
 		private var _wordSlotHandlerView:WordSlotHandlerView;
@@ -59,10 +57,32 @@ package com
 		private function createWordSlotModelSystem():void
 		{
 			var wordsToSpell:Vector.<String> = Vector.<String>(["foo", "cat", "dog", "watch", "wallet", "phone", "mane", "main"]);
-			var usedIndexes:Vector.<uint> = new Vector.<uint>();
+			scramble(wordsToSpell);
 			var latchedWordSlots:Array = new Array();
 			var wordSlots:Vector.<IWordSlotModel> = createWordSlotModelVector();
-			_handlerModel = new WordSlotHandlerModel(wordsToSpell, usedIndexes, wordSlots, latchedWordSlots);
+			_handlerModel = new WordSlotHandlerModel(wordsToSpell, wordSlots, latchedWordSlots);
+		}
+		
+		public static function scramble(wordList:Vector.<String>):void
+		{
+			var tempHolder:String;
+			var randomNum:uint;
+			for (var i:uint = 0; i < wordList.length-1; ++i) {
+				randomNum = randomIntBetweenBounds(i + 1, wordList.length-1);
+				tempHolder = wordList[randomNum];
+				wordList[randomNum] = wordList[i];
+				wordList[i] = tempHolder;
+			}
+		}
+		
+		/**
+		 * Return a random integer between bounds.
+		 * @param	lowerBound
+		 * @param	upperBound
+		 * @return	random int between the lower and upper bounds.
+		 */
+		private static function randomIntBetweenBounds(lowerBound:int, upperBound:int):int {
+			return Math.floor(Math.random() * (upperBound - lowerBound + 1) + lowerBound);
 		}
 		
 		private function createWordSlotModelVector():Vector.<IWordSlotModel>

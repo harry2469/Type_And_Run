@@ -3,6 +3,7 @@ package com
 	// Flash Imports
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import tests.MyTestRunner;
@@ -38,10 +39,6 @@ package com
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
-		/**
-		 * This function is called when added to the stage to ensure there is a stage to add objects to.
-		 * @param	e
-		 */
 		private function init(e:Event = null):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);

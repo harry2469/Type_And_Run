@@ -6,6 +6,7 @@ package asunit.framework {
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.setTimeout;
+	import org.flashdevelop.utils.FlashConnect;
 
 	import asunit.errors.AssertionFailedError;
 	import asunit.util.ArrayIterator;
@@ -237,7 +238,8 @@ package asunit.framework {
 					this[methodName]();
 				}
 			}
-			catch(assertionFailedError:AssertionFailedError) {
+			catch (assertionFailedError:AssertionFailedError) {
+				//FlashConnect.trace("HEYHEYHEY" + assertionFailedError.);
 				getResult().addFailure(this, assertionFailedError);
 			}
 			catch(unknownError:Error) {

@@ -58,7 +58,7 @@ package tests
 		
 		private function wordSlotHandlerModel():void
 		{
-			addTest(new WordSlotHandlerModelTest("testStuff"));
+			addTest(new WordSlotHandlerModelTest("testInitWordSlots"));
 		}
 	}
 }
