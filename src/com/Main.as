@@ -3,13 +3,10 @@ package com
 	// Flash Imports
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import tests.MyTestRunner;
-	
-	// BUG top word is ALWAYS aardvark.
-	
-	// TODO see if removing the clone functions is possible due to all my constructions happening in a central location.
 	
 	/**
 	 * Avoider/Typing Game Crossover.
@@ -18,7 +15,7 @@ package com
 	public class Main extends Sprite
 	{
 		/** Is this run intended to run the unit tests? */
-		static public const TEST_PASS:Boolean = true;
+		static public const TEST_PASS:Boolean = false;
 		
 		/** Runs the unit tests */
 		private var _unitTestRunner:MyTestRunner;

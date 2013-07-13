@@ -14,6 +14,7 @@ package com
 	import flash.display.Stage;
 	import flash.geom.Point;
 	import flash.text.TextFormat;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * Creates all the objects.
@@ -21,6 +22,8 @@ package com
 	 */
 	public class DependancyInjector
 	{
+		private const NUMBER_OF_WORD_SLOTS_TO_CREATE:uint = 3
+		
 		/** List of words to spell. */
 		private var _wordsToSpell:Vector.<String>;
 		
@@ -35,7 +38,7 @@ package com
 		
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		
-		private var _latchedWordSlots:Array;
+		private var _latchedWordSlots:Vector.<IWordSlotModel>;
 		
 		private var _wordSlotHandlerView:WordSlotHandlerView;
 		
@@ -55,11 +58,11 @@ package com
 		
 		private function createWordSlotModelSystem():void
 		{
-			var wordsToSpell:Vector.<String> = Vector.<String>(["foo", "cat", "dog", "watch", "wallet", "phone", "mane", "main"]);
-			scramble(wordsToSpell);
-			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-			var wordSlots:Vector.<IWordSlotModel> = createWordSlotModelVector();
-			_handlerModel = new WordSlotHandlerModel(wordsToSpell, wordSlots, latchedWordSlots);
+			_wordsToSpell = Vector.<String>(["foo", "cat", "dog", "watch", "wallet", "phone", "mane", "main"]);
+			scramble(_wordsToSpell);
+			_latchedWordSlots = new Vector.<IWordSlotModel>();
+			_wordSlots = createWordSlotModelVector();
+			_handlerModel = new WordSlotHandlerModel(_wordsToSpell, _wordSlots, _latchedWordSlots);
 		}
 		
 		public static function scramble(wordList:Vector.<String>):void
@@ -87,7 +90,7 @@ package com
 		private function createWordSlotModelVector():Vector.<IWordSlotModel>
 		{
 			var wordObjects:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-			for (var i:int = 0; i < WordSlotHandlerModel.NUM_SLOTS; i++)
+			for (var i:int = 0; i < NUMBER_OF_WORD_SLOTS_TO_CREATE; i++)
 			{
 				wordObjects.push(createWordSlotModel());
 			}
@@ -102,14 +105,15 @@ package com
 		private function createWordSlotViewVector(stage:Stage):Vector.<IWordSlotView>
 		{
 			var wordObjects:Vector.<IWordSlotView> = new Vector.<IWordSlotView>();
-			for (var i:int = 0; i < WordSlotHandlerModel.NUM_SLOTS; i++)
+			FlashConnect.trace(_wordSlots);
+			for (var i:uint = 0; i < _wordSlots.length; i++)
 			{
 				wordObjects.push(createWordSlotView(stage, i));
 			}
 			return wordObjects;
 		}
 		
-		private function createWordSlotView(stage:Stage, i:int):IWordSlotView
+		private function createWordSlotView(stage:Stage, i:uint):IWordSlotView
 		{
 			return new WordSlotView(new LettersToSpell(), new LettersSpelt(), new Point(100, (i * 30) + 100), new TextFormat(), new TextFormat());
 		}

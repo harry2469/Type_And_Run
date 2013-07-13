@@ -95,12 +95,12 @@ package com.mvc.view.word
 		 */
 		private function adjustParameters(newSpelling:String):void
 		{
-			text = newSpelling;
 			// TODO decide on a standard text field size so i dont have to pass the starting word to this.
-			// TODO seperate the assignment of startingWord.
+			// TODO seperate the assignment of the starting word.
+			// Operation order is important.
+			text = newSpelling;
 			resetFormat();
 			adjustDimensions();
-			// Operation order is important.
 		}
 		
 		/** return the format object to object defaults */

@@ -16,17 +16,12 @@ package tests.events
 	 */
 	public class WordSlotHandlerEventTest extends TestCase
 	{
-		/** Event type to pass into event. */
-		private var _type:String = "";
-		
-		/** IWordSlotModel to pass into event. */
-		private var _word:WordSlotModel = null;
-		
-		/** Instance of the event class to test. */
+		private var _eventType:String = "";
+		private var _wordSlot:WordSlotModel = null;
 		private var _instance:WordSlotHandlerEvent = null;
 		
 		/**
-		 * Start the test specified by the passed in string.
+		 * Start the passed in test.
 		 * @param	testMethod
 		 */
 		public function WordSlotHandlerEventTest(testMethod:String):void
@@ -40,29 +35,20 @@ package tests.events
 		 */
 		protected override function setUp():void
 		{
-			_type = WordSlotHandlerEvent.CREATE;
-			_word = new WordSlotModel();
-			_instance = new WordSlotHandlerEvent(_type, _word);
+			_eventType = WordSlotHandlerEvent.CREATE;
+			_wordSlot = new WordSlotModel();
+			_instance = new WordSlotHandlerEvent(_eventType, _wordSlot);
 		}
 		
-		/**
-		 * Tear down the test environment.
-		 * Always called when test is destroyed.
-		 */
-		protected override function tearDown():void
-		{
-			_instance = null;
-			_word = null;
-		}
+		protected override function tearDown():void { }
 		
 		/**
 		 * Tests whether the event stores its custom data correctly.
 		 */
 		public function testDataRetention():void
 		{
-			assertEquals("The type property of the event is equal to the passed in type", _type, _instance.type);
-			
-			assertEquals("The newWord property of the event is the passed in IWordSlotModel object.", _word, _instance.newWord);
+			assertEquals("The type property of the event is equal to the passed in type", _eventType, _instance.type);
+			assertEquals("The newWord property of the event is the passed in IWordSlotModel object.", _wordSlot, _instance.newWord);
 		}
 		
 		/**
@@ -71,8 +57,8 @@ package tests.events
 		public function testClone():void
 		{
 			var newInstance:WordSlotHandlerEvent = _instance.clone() as WordSlotHandlerEvent;
-			_instance = newInstance;
-			testDataRetention();
+			assertEquals("The type property of the event is equal to the passed in type", _instance.type, newInstance.type);
+			assertEquals("The newWord property of the event is the passed in IWordSlotModel object.", _instance.newWord, newInstance.newWord);
 		}
 	}
 }

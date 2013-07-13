@@ -5,14 +5,13 @@ package tests
 	import tests.events.WordSlotEventTest;
 	import tests.mvc.controller.InputOpperatorTest;
 	import tests.mvc.model.WordSlotHandlerModelTest;
+	import tests.mvc.model.WordSlotModelTest;
 	
 	// Flash Imports
 	import flash.display.Stage;
 	
 	// My imports
 	import tests.events.WordSlotHandlerEventTest;
-	
-	// TODO: make failed tests show a stack trace.
 	
 	/**
 	 * Executes all unit tests for the aplication.
@@ -37,6 +36,7 @@ package tests
 			wordSlotEvent();
 			inputOpperator();
 			wordSlotHandlerModel();
+			wordSlotModel();
 		}
 		
 		private function wordSlotHandlerEvent():void
@@ -59,7 +59,15 @@ package tests
 		private function wordSlotHandlerModel():void
 		{
 			addTest(new WordSlotHandlerModelTest("testInitWordSlots"));
-			addTest(new WordSlotHandlerModelTest("testAcceptInput"));
+			addTest(new WordSlotHandlerModelTest("testWordFinishReset"));
+			addTest(new WordSlotHandlerModelTest("testAcceptInputHappyCase1"));
+			addTest(new WordSlotHandlerModelTest("testAcceptInputSadCase1"));
+		}
+		
+		private function wordSlotModel():void
+		{
+			addTest(new WordSlotModelTest("testGettingAndSettingWordToSpell"));
+			addTest(new WordSlotModelTest("testIsNextCharacterCode"));
 		}
 	}
 }

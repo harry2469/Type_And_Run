@@ -4,6 +4,7 @@ package com.mvc.model
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.events.WordSlotEvent;
@@ -15,11 +16,8 @@ package com.mvc.model
 	 */
 	public class WordSlotHandlerModel extends EventDispatcher implements IWordSlotHandlerModel
 	{
-		// TODO: encapsulate the requirements and assumptions for _wordStrings into its own class.
-		// TODO: encapsulate the requirements and assumptions for _wordSlots into its own class.
-		// TODO: randomise inputted strings before they go in to avoid need for non-determinstic random number generation.
+		// TODO: merge _wordStrings and _wordSlots somehow?
 		
-		/** Number of word slots to handle. */
 		public static const NUM_SLOTS:uint = 3;
 		
 		/** Assigned at constructor to be a list of spellable words. */
@@ -32,22 +30,19 @@ package com.mvc.model
 		private var _latchedWordSlots:Vector.<IWordSlotModel>;
 		
 		/** The current index you are at in the _wordStrings array. */
-		private var _listProgress:uint = 0;
+		private var _spellingListProgress:uint = 0;
 		
 		// PUBLIC FUNCTIONS
 		
 		/**
-		 * Set the initial values of all variables.
-		 * @param	wordList
-		 * @param	usedIndexes
-		 * @param	wordSlots
-		 * @param	latchedWordSlots
+		 * Set the initial values of all dependencies.
+		 * @param List of word spellings to assign.
+		 * @param List of word slots to handle.
+		 * @param List of word slots that are currently being correctly spelled by the user.
 		 */
 		public function WordSlotHandlerModel(wordList:Vector.<String>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Vector.<IWordSlotModel>):void
 		{
-			//give contructor defaults
-			if (wordList.length < NUM_SLOTS) throw new Error("The passed in wordList Vector needs to contain at least " + NUM_SLOTS + " strings.", 3);
-			if (wordSlots.length < NUM_SLOTS) throw new Error("The passed in wordSlots Vector needs to contain at least " + NUM_SLOTS + " WordSlotModels.", 4);
+			if (!(wordList.length > wordSlots.length)) throw new Error("The passed in wordList Vector needs to be longer than the wordSlots Vector.", 3);
 			
 			_wordStrings = wordList;
 			_wordSlots = wordSlots;
@@ -59,31 +54,22 @@ package com.mvc.model
 		 */
 		public function destroy():void
 		{
-			for (var i:int = 0; i < _wordSlots.length; ++i)
-			{
-				if (_wordSlots[i].hasEventListener(WordSlotEvent.FINISH)){
-					_wordSlots[i].removeEventListener(WordSlotEvent.FINISH, changeWord);
-				}
-			}
-			_wordStrings = null;
-			_wordSlots = null;
-			_latchedWordSlots = null;
+			removeAllListeners();
 		}
 		
 		/**
 		 * Set up all the word slots and give each a word to spell.
-		 * @param	wordSlotModelTemplate
 		 */
 		public function initWordSlots():void
 		{
-			for (var i:uint = 0; i < NUM_SLOTS; i++) {
+			for (var i:uint = 0; i < _wordSlots.length; i++) {
 				initWordSlotAtIndex(i);
 			}
 		}
 		
 		/**
-		 * Deal with an input character.
-		 * @param	charCode:uint
+		 * Send advance and reset messages to the valid wordslots for the input character.
+		 * @param Character code of the key parse
 		 */
 		public function acceptInput(charCode:uint):void
 		{
@@ -98,49 +84,45 @@ package com.mvc.model
 		
 		// PRIVATE FUNCITONS
 		
-		/*
-		 * Deal with all the event tasks that need to occur as a Word Slot is created on _wordObjects.
-		 * @param	index:int
-		 */
 		private function initWordSlotAtIndex(index:int):void
 		{
-			assignSpelling(_wordSlots[index]);
-			_wordSlots[index].addEventListener(WordSlotEvent.FINISH, changeWord);
+			giveWordNewSpelling(_wordSlots[index]);
+			_wordSlots[index].addEventListener(WordSlotEvent.FINISH, onWordFinish);
 			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlots[index]));
 		}
 		
-		/*
-		 * Give an IWordSlotModel the next word to spell.
-		 * @param	IWordSlotModel
-		 */
-		private function assignSpelling(wordSlot:IWordSlotModel):void
+		private function giveWordNewSpelling(wordSlot:IWordSlotModel):void
 		{
 			wordSlot.wordToSpell = returnNextWord();
 		}
 		
-		/*
-		 * Get the next string to use.
-		 * @return	Next free word in the _wordStrings Vector
-		 */
+		// non-determinstic
 		private function returnNextWord():String
 		{
-			// BUG word can be the same as another already picked word
-			if (_listProgress >= _wordStrings.length) _listProgress = 0;
-			var returnMe:String = _wordStrings[_listProgress];
-			if (_listProgress < _wordStrings.length) _listProgress++;
+			if (_spellingListProgress >= _wordStrings.length) _spellingListProgress = 0;
+			var returnMe:String = _wordStrings[_spellingListProgress];
+			_spellingListProgress++;
 			
 			// Could find a better (and non-recursive) way of dealing with this in the future.
-			if (wordInUse(returnMe)) returnMe = returnNextWord();
+			// Possibly extract boolean method from checking logic.
+			if (isWordInUse(returnMe)) returnMe = returnNextWord();
 			
 			return returnMe;
 		}
 		
+		
 		/*
-		 * Checks to see if the input is in use by any of the word slots.
-		 * @param	word
-		 * @return	true if input is in use, otherwise false.
-		 */
-		private function wordInUse(word:String):Boolean
+			if (_spellingListProgress >= _wordStrings.length) _spellingListProgress = 0;
+			var returnMe:String = _wordStrings[_spellingListProgress];
+			_spellingListProgress++;
+			
+			// Could find a better (and non-recursive) way of dealing with this in the future.
+			// Possibly extract boolean method from checking logic.
+			if (isWordInUse(returnMe)) returnMe = returnNextWord();
+			
+			return returnMe;*/
+		
+		private function isWordInUse(word:String):Boolean
 		{
 			for (var i:int = 0; i < _wordSlots.length; ++i)
 			{
@@ -149,24 +131,16 @@ package com.mvc.model
 			return false;
 		}
 		
-		/*
-		 * Pick a new string for a finished word.
-		 * @param	e:WordSlotEvent
-		 */
-		private function changeWord(e:WordSlotEvent):void
+		private function onWordFinish(e:WordSlotEvent):void
 		{
-			assignSpelling(e.target as IWordSlotModel);
+			giveWordNewSpelling(e.target as IWordSlotModel);
 			_latchedWordSlots.length = 0;
 		}
 		
-		/*
-		 * Decide which word(s) to latch onto based on the validity of the input character for each of the active words.
-		 * @param	inputChar:uint
-		 */
 		private function latchValidWords(inputChar:uint):void
 		{
 			if (_latchedWordSlots.length != 0) return;
-			for (var i:int = 0; i < NUM_SLOTS; i++)
+			for (var i:int = 0; i < _wordSlots.length; i++)
 			{
 				if (_wordSlots[i].isNextCharacterCode(inputChar)) {
 					_latchedWordSlots.push(_wordSlots[i]);
@@ -174,10 +148,6 @@ package com.mvc.model
 			}
 		}
 		
-		/*
-		 * Advance progress on all latched words.
-		 * @param	inputChar:uint
-		 */
 		private function advanceLatchedWords(inputChar:uint):void
 		{
 			for (var i:int = _latchedWordSlots.length-1; i >= 0; --i)
@@ -185,12 +155,12 @@ package com.mvc.model
 				if (!_latchedWordSlots[i].isNextCharacterCode(inputChar)) {
 					unlatchIndex(i);
 				} else {
-					_latchedWordSlots[i].advanceWord(inputChar)
+					_latchedWordSlots[i].advanceWord(inputChar);
 				}
 			}
 		}
 		
-		/*
+		/**
 		 * Cleanly reset and remove element at index on _latchedWordSlots.
 		 * @param	index
 		 */
@@ -198,6 +168,16 @@ package com.mvc.model
 		{
 			_latchedWordSlots[index].resetWord();
 			_latchedWordSlots.splice(index, 1);
+		}
+		
+		private function removeAllListeners():void
+		{
+			for (var i:int = 0; i < _wordSlots.length; ++i)
+			{
+				if (_wordSlots[i].hasEventListener(WordSlotEvent.FINISH)){
+					_wordSlots[i].removeEventListener(WordSlotEvent.FINISH, onWordFinish);
+				}
+			}
 		}
 	}
 }

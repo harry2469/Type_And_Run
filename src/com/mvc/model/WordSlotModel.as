@@ -32,7 +32,7 @@ package com.mvc.model
 		
 		/**
 		 * Changes the value of word to spell, and dispatch an event to tell listeners that the value has been updated.
-		 * @param	input:String
+		 * @param	input
 		 */
 		public function set wordToSpell(input:String):void
 		{
@@ -41,7 +41,7 @@ package com.mvc.model
 		}
 		
 		/**
-		 * Returns whether the input character code and the next character code in the word to spell are the same.
+		 * Returns true if the input character code is the character code of the next character of the word to spell, otherwise returns false.
 		 * @param	inputChar
 		 * @return	whether they are the same.
 		 */
