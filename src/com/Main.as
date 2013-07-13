@@ -3,7 +3,6 @@ package com
 	// Flash Imports
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import tests.MyTestRunner;
@@ -32,7 +31,7 @@ package com
 		{
 			// If this is a unit test run then only run the unit tests.
 			if (TEST_PASS) {
-				_unitTestRunner = new MyTestRunner(stage)
+				_unitTestRunner = new MyTestRunner(stage);
 				return;
 			}
 			if (stage) init();

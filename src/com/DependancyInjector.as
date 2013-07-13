@@ -14,7 +14,6 @@ package com
 	import flash.display.Stage;
 	import flash.geom.Point;
 	import flash.text.TextFormat;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * Creates all the objects.
@@ -58,7 +57,7 @@ package com
 		{
 			var wordsToSpell:Vector.<String> = Vector.<String>(["foo", "cat", "dog", "watch", "wallet", "phone", "mane", "main"]);
 			scramble(wordsToSpell);
-			var latchedWordSlots:Array = new Array();
+			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 			var wordSlots:Vector.<IWordSlotModel> = createWordSlotModelVector();
 			_handlerModel = new WordSlotHandlerModel(wordsToSpell, wordSlots, latchedWordSlots);
 		}

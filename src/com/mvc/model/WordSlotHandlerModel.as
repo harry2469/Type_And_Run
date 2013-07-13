@@ -4,7 +4,6 @@ package com.mvc.model
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.events.WordSlotEvent;
@@ -19,7 +18,6 @@ package com.mvc.model
 		// TODO: encapsulate the requirements and assumptions for _wordStrings into its own class.
 		// TODO: encapsulate the requirements and assumptions for _wordSlots into its own class.
 		// TODO: randomise inputted strings before they go in to avoid need for non-determinstic random number generation.
-		// TODO: investigate
 		
 		/** Number of word slots to handle. */
 		public static const NUM_SLOTS:uint = 3;
@@ -31,7 +29,7 @@ package com.mvc.model
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		
 		/** Holds all words that are currently being actively spelt by the player. */
-		private var _latchedWordSlots:Array;
+		private var _latchedWordSlots:Vector.<IWordSlotModel>;
 		
 		/** The current index you are at in the _wordStrings array. */
 		private var _listProgress:uint = 0;
@@ -45,8 +43,9 @@ package com.mvc.model
 		 * @param	wordSlots
 		 * @param	latchedWordSlots
 		 */
-		public function WordSlotHandlerModel(wordList:Vector.<String>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Array):void
+		public function WordSlotHandlerModel(wordList:Vector.<String>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Vector.<IWordSlotModel>):void
 		{
+			//give contructor defaults
 			if (wordList.length < NUM_SLOTS) throw new Error("The passed in wordList Vector needs to contain at least " + NUM_SLOTS + " strings.", 3);
 			if (wordSlots.length < NUM_SLOTS) throw new Error("The passed in wordSlots Vector needs to contain at least " + NUM_SLOTS + " WordSlotModels.", 4);
 			
@@ -78,7 +77,7 @@ package com.mvc.model
 		public function initWordSlots():void
 		{
 			for (var i:uint = 0; i < NUM_SLOTS; i++) {
-				initializeWordSlotAtIndex(i);
+				initWordSlotAtIndex(i);
 			}
 		}
 		
@@ -99,51 +98,68 @@ package com.mvc.model
 		
 		// PRIVATE FUNCITONS
 		
-		/**
+		/*
 		 * Deal with all the event tasks that need to occur as a Word Slot is created on _wordObjects.
 		 * @param	index:int
 		 */
-		private function initializeWordSlotAtIndex(index:int):void
+		private function initWordSlotAtIndex(index:int):void
 		{
 			assignSpelling(_wordSlots[index]);
 			_wordSlots[index].addEventListener(WordSlotEvent.FINISH, changeWord);
 			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlots[index]));
 		}
 		
-		/**
+		/*
 		 * Give an IWordSlotModel the next word to spell.
 		 * @param	IWordSlotModel
 		 */
 		private function assignSpelling(wordSlot:IWordSlotModel):void
 		{
-			wordSlot.wordToSpell = returnNextWord()
+			wordSlot.wordToSpell = returnNextWord();
 		}
 		
-		/**
+		/*
 		 * Get the next string to use.
-		 * @return	Next word in the _wordStrings Vector
+		 * @return	Next free word in the _wordStrings Vector
 		 */
 		private function returnNextWord():String
 		{
-			if (_listProgress < _wordStrings.length) {
-				_listProgress++;
-			} else {
-				_listProgress = 0;
-			}
-			return _wordStrings[_listProgress];
+			// BUG word can be the same as another already picked word
+			if (_listProgress >= _wordStrings.length) _listProgress = 0;
+			var returnMe:String = _wordStrings[_listProgress];
+			if (_listProgress < _wordStrings.length) _listProgress++;
+			
+			// Could find a better (and non-recursive) way of dealing with this in the future.
+			if (wordInUse(returnMe)) returnMe = returnNextWord();
+			
+			return returnMe;
 		}
 		
-		/**
+		/*
+		 * Checks to see if the input is in use by any of the word slots.
+		 * @param	word
+		 * @return	true if input is in use, otherwise false.
+		 */
+		private function wordInUse(word:String):Boolean
+		{
+			for (var i:int = 0; i < _wordSlots.length; ++i)
+			{
+				if (_wordSlots[i].wordToSpell == word) return true;
+			}
+			return false;
+		}
+		
+		/*
 		 * Pick a new string for a finished word.
 		 * @param	e:WordSlotEvent
 		 */
 		private function changeWord(e:WordSlotEvent):void
 		{
 			assignSpelling(e.target as IWordSlotModel);
-			_latchedWordSlots = [];
+			_latchedWordSlots.length = 0;
 		}
 		
-		/**
+		/*
 		 * Decide which word(s) to latch onto based on the validity of the input character for each of the active words.
 		 * @param	inputChar:uint
 		 */
@@ -158,7 +174,7 @@ package com.mvc.model
 			}
 		}
 		
-		/**
+		/*
 		 * Advance progress on all latched words.
 		 * @param	inputChar:uint
 		 */
@@ -174,7 +190,7 @@ package com.mvc.model
 			}
 		}
 		
-		/**
+		/*
 		 * Cleanly reset and remove element at index on _latchedWordSlots.
 		 * @param	index
 		 */

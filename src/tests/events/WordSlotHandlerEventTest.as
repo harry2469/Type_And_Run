@@ -1,7 +1,7 @@
 package tests.events
 {
 	// Asunit imports
-	import asunit.framework.TestCase;
+	import asunitsrc.asunit.framework.TestCase;
 	
 	// Flash imports
 	import flash.geom.Point;

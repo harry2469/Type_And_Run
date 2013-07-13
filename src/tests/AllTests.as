@@ -1,7 +1,7 @@
 package tests
 {
 	// Asunit imports
-	import asunit.framework.TestSuite;
+	import asunitsrc.asunit.framework.TestSuite;
 	import tests.events.WordSlotEventTest;
 	import tests.mvc.controller.InputOpperatorTest;
 	import tests.mvc.model.WordSlotHandlerModelTest;
@@ -59,6 +59,7 @@ package tests
 		private function wordSlotHandlerModel():void
 		{
 			addTest(new WordSlotHandlerModelTest("testInitWordSlots"));
+			addTest(new WordSlotHandlerModelTest("testAcceptInput"));
 		}
 	}
 }

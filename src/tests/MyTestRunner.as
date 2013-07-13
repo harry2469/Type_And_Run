@@ -1,6 +1,6 @@
 package tests
 {
-	import asunit.textui.TestRunner;
+	import asunitsrc.asunit.textui.TestRunner;
 	import flash.display.Stage;
 	
 	/**
@@ -14,7 +14,7 @@ package tests
 			super();
 			stage.addChild(this)
 			AllTests.stage = stage;
-			start(AllTests, null, TestRunner.SHOW_TRACE);
+			start(AllTests, null, false);
 		}
 	}
 }

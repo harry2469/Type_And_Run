@@ -3,9 +3,6 @@ package com.mvc.view
 	// Flash Imports
 	import flash.display.Stage;
 	
-	// My Imports
-	import com.mvc.model.WordSlotHandlerModel;
-	
 	/**
 	 * Currently just a wrapper for the word handler.
 	 * I will add more when more needs to be displayed.
