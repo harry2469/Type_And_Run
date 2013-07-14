@@ -30,7 +30,7 @@ package com.mvc.model
 		private var _latchedWordSlots:Vector.<IWordSlotModel>;
 		
 		/** The current index you are at in the _wordStrings array. */
-		private var _spellingListProgress:uint = 0;
+		private var _spellingListProgress:int = -1;
 		
 		// PUBLIC FUNCTIONS
 		
@@ -93,34 +93,28 @@ package com.mvc.model
 		
 		private function giveWordNewSpelling(wordSlot:IWordSlotModel):void
 		{
-			wordSlot.wordToSpell = returnNextWord();
+			wordSlot.wordToSpell = doTheThing();
 		}
 		
-		// non-determinstic
-		private function returnNextWord():String
+		private function doTheThing():String
 		{
-			if (_spellingListProgress >= _wordStrings.length) _spellingListProgress = 0;
-			var returnMe:String = _wordStrings[_spellingListProgress];
-			_spellingListProgress++;
-			
-			// Could find a better (and non-recursive) way of dealing with this in the future.
-			// Possibly extract boolean method from checking logic.
-			if (isWordInUse(returnMe)) returnMe = returnNextWord();
-			
+			advanceToNextSpelling();
+			var returnMe:String = NextSpelling;
 			return returnMe;
 		}
 		
+		private function get NextSpelling():String
+		{
+			return _wordStrings[_spellingListProgress];
+		}
 		
-		/*
-			if (_spellingListProgress >= _wordStrings.length) _spellingListProgress = 0;
-			var returnMe:String = _wordStrings[_spellingListProgress];
-			_spellingListProgress++;
-			
-			// Could find a better (and non-recursive) way of dealing with this in the future.
-			// Possibly extract boolean method from checking logic.
-			if (isWordInUse(returnMe)) returnMe = returnNextWord();
-			
-			return returnMe;*/
+		private function advanceToNextSpelling():void
+		{
+			do {
+				_spellingListProgress++;
+				if (_spellingListProgress >= _wordStrings.length) _spellingListProgress = 0;
+			} while (isWordInUse(NextSpelling));
+		}
 		
 		private function isWordInUse(word:String):Boolean
 		{
