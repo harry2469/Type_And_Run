@@ -27,7 +27,7 @@ package com.mvc.view
 		/** List of active WordSlotView Objects. */
 		private var _wordObjects:Vector.<IWordSlotView>;
 		
-		private var _numInitialisedObjects:uint = 0;
+		private var _numInitialisedObjects:int = 0;
 		
 		/**
 		 * Readys the object for use.

@@ -17,7 +17,7 @@ package com.mvc.model
 		private var _wordToSpell:String = "";
 		
 		/** The index of your current progress position on the the word to spell */
-		private var _pos:uint = 0;
+		private var _pos:int = 0;
 		
 		// PUBLIC FUNCTIONS
 		
@@ -45,16 +45,16 @@ package com.mvc.model
 		 * @param	inputChar
 		 * @return	whether they are the same.
 		 */
-		public function isNextCharacterCode(inputChar:uint):Boolean
+		public function isNextCharacterCode(inputChar:int):Boolean
 		{
 			return inputChar == _wordToSpell.charCodeAt(_pos);
 		}
 		
 		/**
 		 * If the input is valid, dispatch an ADVANCE WordSlotEvent.
-		 * @param	inputChar:uint
+		 * @param	inputChar:int
 		 */
-		public function advanceWord(inputChar:uint):void
+		public function advanceWord(inputChar:int):void
 		{
 			if (!isValidInput(inputChar)) return;
 			dispatchEvent(new WordSlotEvent(WordSlotEvent.ADVANCE));
@@ -89,10 +89,10 @@ package com.mvc.model
 		
 		/**
 		 * Determines whether an Input Character Code should be allowed to incriment the word.
-		 * @param	inputChar:uint
+		 * @param	inputChar:int
 		 * @return	false if input is invalid, otherwise return true.
 		 */
-		private function isValidInput(inputChar:uint):Boolean
+		private function isValidInput(inputChar:int):Boolean
 		{
 			if (isFinished()) return false;
 			if (!isNextCharacterCode(inputChar)) return false;

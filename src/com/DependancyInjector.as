@@ -22,7 +22,7 @@ package com
 	 */
 	public class DependancyInjector
 	{
-		private const NUMBER_OF_WORD_SLOTS_TO_CREATE:uint = 3
+		private const NUMBER_OF_WORD_SLOTS_TO_CREATE:int = 3
 		
 		/** List of words to spell. */
 		private var _wordsToSpell:Vector.<String>;
@@ -68,8 +68,8 @@ package com
 		public static function scramble(wordList:Vector.<String>):void
 		{
 			var tempHolder:String;
-			var randomNum:uint;
-			for (var i:uint = 0; i < wordList.length-1; ++i) {
+			var randomNum:int;
+			for (var i:int = 0; i < wordList.length-1; ++i) {
 				randomNum = randomIntBetweenBounds(i + 1, wordList.length-1);
 				tempHolder = wordList[randomNum];
 				wordList[randomNum] = wordList[i];
@@ -106,14 +106,14 @@ package com
 		{
 			var wordObjects:Vector.<IWordSlotView> = new Vector.<IWordSlotView>();
 			FlashConnect.trace(_wordSlots);
-			for (var i:uint = 0; i < _wordSlots.length; i++)
+			for (var i:int = 0; i < _wordSlots.length; i++)
 			{
 				wordObjects.push(createWordSlotView(stage, i));
 			}
 			return wordObjects;
 		}
 		
-		private function createWordSlotView(stage:Stage, i:uint):IWordSlotView
+		private function createWordSlotView(stage:Stage, i:int):IWordSlotView
 		{
 			return new WordSlotView(new LettersToSpell(), new LettersSpelt(), new Point(100, (i * 30) + 100), new TextFormat(), new TextFormat());
 		}

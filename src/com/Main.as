@@ -15,7 +15,7 @@ package com
 	public class Main extends Sprite
 	{
 		/** Is this run intended to run the unit tests? */
-		static public const TEST_PASS:Boolean = true;
+		private const TEST_PASS:Boolean = true;
 		
 		/** Runs the unit tests */
 		private var _unitTestRunner:MyTestRunner;

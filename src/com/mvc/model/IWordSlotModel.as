@@ -10,8 +10,8 @@ package com.mvc.model
 	{
 		function get wordToSpell():String;
 		function set wordToSpell(input:String):void;
-		function isNextCharacterCode(inputChar:uint):Boolean;
-		function advanceWord(inputChar:uint):void;
+		function isNextCharacterCode(inputChar:int):Boolean;
+		function advanceWord(inputChar:int):void;
 		function resetWord():void;
 	}
 }

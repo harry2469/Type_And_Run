@@ -16,7 +16,7 @@ package com.mvc.view.word
 		static private const FONTSIZE:Number = 20;
 		
 		/** The colour to display this text in. */
-		static private const COLOUR:uint = 0X00cc00; // Med-Dark Green
+		static private const COLOUR:uint = 0x00CC00; // Med-Dark Green
 		
 		/** TextFormat object to format the text */
 		private var _format:TextFormat;

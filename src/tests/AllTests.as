@@ -66,8 +66,10 @@ package tests
 		
 		private function wordSlotModel():void
 		{
-			addTest(new WordSlotModelTest("testGettingAndSettingWordToSpell"));
-			addTest(new WordSlotModelTest("testIsNextCharacterCode"));
+			addTest(new WordSlotModelTest("testUserCanAndSetWordToSpell"));
+			addTest(new WordSlotModelTest("testSettingWordToSpellDispatchesChangeWordSlotEvent"));
+			addTest(new WordSlotModelTest("testCorrectAdvanceWordCallDispatchesAdvanceWordSlotEvent"));
+			addTest(new WordSlotModelTest("testUserCanCheckNextCharacterCodeAndAdvanceWord"));
 		}
 	}
 }

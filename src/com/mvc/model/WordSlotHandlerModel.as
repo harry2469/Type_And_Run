@@ -18,21 +18,32 @@ package com.mvc.model
 	{
 		// TODO: merge _wordStrings and _wordSlots somehow?
 		
-		public static const NUM_SLOTS:uint = 3;
+		// Variables
 		
-		/** Assigned at constructor to be a list of spellable words. */
+		/** Scrambled list of spellable words. */
 		private var _wordStrings:Vector.<String>;
 		
-		/** Holds a referance to each of the WordSlots as they're created. */
+		/** List of all the word slot models this object is handling. */
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		
-		/** Holds all words that are currently being actively spelt by the player. */
+		/** List of words the player is currently spelling correctly. */
 		private var _latchedWordSlots:Vector.<IWordSlotModel>;
 		
-		/** The current index you are at in the _wordStrings array. */
+		/**
+		 * The current index you are at in the _wordStrings array.
+		 * This starts at -1 so that when you want a new word
+		 * you can increase it then use it immediately.
+		 */
 		private var _spellingListProgress:int = -1;
 		
-		// PUBLIC FUNCTIONS
+		// Getters and setters
+		
+		private function get nextSpelling():String
+		{
+			return _wordStrings[_spellingListProgress];
+		}
+		
+		// Public functions
 		
 		/**
 		 * Set the initial values of all dependencies.
@@ -42,7 +53,10 @@ package com.mvc.model
 		 */
 		public function WordSlotHandlerModel(wordList:Vector.<String>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Vector.<IWordSlotModel>):void
 		{
-			if (!(wordList.length > wordSlots.length)) throw new Error("The passed in wordList Vector needs to be longer than the wordSlots Vector.", 3);
+			if (!(wordList.length > wordSlots.length))
+			{
+				throw new Error("The passed in wordList Vector needs to be longer than the wordSlots Vector.", 3);
+			}
 			
 			_wordStrings = wordList;
 			_wordSlots = wordSlots;
@@ -62,7 +76,7 @@ package com.mvc.model
 		 */
 		public function initWordSlots():void
 		{
-			for (var i:uint = 0; i < _wordSlots.length; i++) {
+			for (var i:int = 0; i < _wordSlots.length; i++) {
 				initWordSlotAtIndex(i);
 			}
 		}
@@ -71,10 +85,10 @@ package com.mvc.model
 		 * Send advance and reset messages to the valid wordslots for the input character.
 		 * @param Character code of the key parse
 		 */
-		public function acceptInput(charCode:uint):void
+		public function acceptInput(charCode:int):void
 		{
 			latchValidWords(charCode);
-			advanceLatchedWords(charCode);
+			advanceAllLatchedWords(charCode);
 		}
 		
 		override public function toString():String
@@ -93,19 +107,17 @@ package com.mvc.model
 		
 		private function giveWordNewSpelling(wordSlot:IWordSlotModel):void
 		{
-			wordSlot.wordToSpell = doTheThing();
+			wordSlot.wordToSpell = consumeSpelling();
 		}
 		
-		private function doTheThing():String
+		/**
+		 * Advances to the next spelling then returns that new spelling.
+		 * @return
+		 */
+		private function consumeSpelling():String
 		{
 			advanceToNextSpelling();
-			var returnMe:String = NextSpelling;
-			return returnMe;
-		}
-		
-		private function get NextSpelling():String
-		{
-			return _wordStrings[_spellingListProgress];
+			return nextSpelling;
 		}
 		
 		private function advanceToNextSpelling():void
@@ -113,7 +125,7 @@ package com.mvc.model
 			do {
 				_spellingListProgress++;
 				if (_spellingListProgress >= _wordStrings.length) _spellingListProgress = 0;
-			} while (isWordInUse(NextSpelling));
+			} while (isWordInUse(nextSpelling));
 		}
 		
 		private function isWordInUse(word:String):Boolean
@@ -131,7 +143,7 @@ package com.mvc.model
 			_latchedWordSlots.length = 0;
 		}
 		
-		private function latchValidWords(inputChar:uint):void
+		private function latchValidWords(inputChar:int):void
 		{
 			if (_latchedWordSlots.length != 0) return;
 			for (var i:int = 0; i < _wordSlots.length; i++)
@@ -142,7 +154,7 @@ package com.mvc.model
 			}
 		}
 		
-		private function advanceLatchedWords(inputChar:uint):void
+		private function advanceAllLatchedWords(inputChar:int):void
 		{
 			for (var i:int = _latchedWordSlots.length-1; i >= 0; --i)
 			{
