@@ -3,6 +3,7 @@ package com.mvc.view.words
 	// Flash Imports
 	import flash.display.Stage;
 	import flash.events.Event;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.events.WordSlotHandlerEvent;
@@ -66,12 +67,7 @@ package com.mvc.view.words
 		private function wordCreated(e:WordSlotHandlerEvent):void
 		{
 			_wordObjects[_numInitialisedObjects].init(_stage, e.newWord);
-			_numInitialisedObjects++;
-		}
-		
-		public function toString():String
-		{
-			return "[WordSlotHandlerView]";
+			if(_numInitialisedObjects < _wordObjects.length-1) _numInitialisedObjects++;
 		}
 	}
 

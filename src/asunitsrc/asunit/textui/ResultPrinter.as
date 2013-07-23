@@ -172,8 +172,7 @@ package asunitsrc.asunit.textui {
         }
 
         protected function printDefectTrace(booBoo:TestFailure):void {
-			println(booBoo.thrownException()); // WARNING USER ADDED LINE (Kristian Welsh) remove when the getStackTrace glitch is resolved
-            println(BaseTestRunner.getFilteredTrace(booBoo.thrownException().getStackTrace())); // USER POINT OF INTEREST (Kristian Welsh)
+            println(BaseTestRunner.getFilteredTrace(booBoo.thrownException().getStackTrace()));
         }
 
         protected function printFooter(result:TestResult):void {

@@ -28,7 +28,8 @@ package tests.mvc.model
 		{
 			var instance:ObstacleModel = new ObstacleModel(100, 200, 25, 25);
 			instance.addEventListener(ObstacleModelEvent.POSITION_CHANGE, logPositionChange);
-			instance.moveBy(100, 0);
+			
+			instance.moveBy(100, 50);
 			
 			assertEquals(
 			"After changing the position of the instance once, one ObstacleModelEvent.POSITION_CHANGE event should have been dispatched",
@@ -36,8 +37,23 @@ package tests.mvc.model
 			
 			assertTrue(
 			"The dispatched event contains a point that is the corect new position of the instance",
-			_positionChanges[0].equals( new Point(200, 200) ));
+			_positionChanges[0].equals( new Point(200, 250) ));
 			
+			instance.moveBy(-30, -100);
+			
+			assertEquals(
+			"After changing the position of the instance once with positive numbers, then once with negative numbers, two ObstacleModelEvent.POSITION_CHANGE events should have been dispatched",
+			2, _positionChanges.length);
+			
+			assertTrue(
+			"The dispatched event contains a point that is the corect new position of the instance",
+			_positionChanges[1].equals( new Point(170, 150) ));
+			
+			instance.moveBy(0, 0);
+			
+			assertEquals(
+			"After changing the position of the instance once with positive numbers, then once with negative numbers, then once with zeros, two ObstacleModelEvent.POSITION_CHANGE events should have been dispatched",
+			2, _positionChanges.length);
 			
 			instance = null;
 		}

@@ -84,7 +84,7 @@ package tests
 		
 		private function wordSlotHandlerView():void
 		{
-			addTest(new WordSlotHandlerViewTest("testCallsInitOnWordViewsOnCreateEvent", _stage));
+			addTest(new WordSlotHandlerViewTest("should_call_init_on_word_views_when_create_event_dispatched", _stage));
 		}
 		
 		private function playerModel():void
