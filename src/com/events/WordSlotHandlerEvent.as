@@ -5,7 +5,7 @@ package com.events
 	import flash.geom.Point;
 	
 	// My Imports
-	import com.mvc.model.IWordSlotModel;
+	import com.mvc.model.words.IWordSlotModel;
 	
 	/**
 	 * Event for the WordHandlerModel object.

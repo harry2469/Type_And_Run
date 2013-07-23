@@ -2,16 +2,20 @@ package tests
 {
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestSuite;
-	import tests.events.WordSlotEventTest;
-	import tests.mvc.controller.InputOpperatorTest;
-	import tests.mvc.model.WordSlotHandlerModelTest;
-	import tests.mvc.model.WordSlotModelTest;
+	import tests.mvc.model.words.WordSlotHandlerModelTest;
+	import tests.mvc.model.words.WordSlotModelTest;
 	
 	// Flash Imports
 	import flash.display.Stage;
 	
 	// My imports
 	import tests.events.WordSlotHandlerEventTest;
+	import tests.events.WordSlotEventTest;
+	import tests.mvc.controller.InputOpperatorTest;
+	import tests.mvc.model.ObstacleModelTest;
+	import tests.mvc.model.PlayerModelTest;
+	import tests.mvc.view.PlayerViewTest;
+	import tests.mvc.view.WordSlotHandlerViewTest;
 	
 	/**
 	 * Executes all unit tests for the aplication.
@@ -37,6 +41,10 @@ package tests
 			inputOpperator();
 			wordSlotHandlerModel();
 			wordSlotModel();
+			wordSlotHandlerView();
+			playerModel();
+			playerView();
+			obstacleModel();
 		}
 		
 		private function wordSlotHandlerEvent():void
@@ -62,14 +70,39 @@ package tests
 			addTest(new WordSlotHandlerModelTest("testWordFinishReset"));
 			addTest(new WordSlotHandlerModelTest("testAcceptInputHappyCase1"));
 			addTest(new WordSlotHandlerModelTest("testAcceptInputSadCase1"));
+			addTest(new WordSlotHandlerModelTest("testDispatchEventOnWordComplete"));
 		}
 		
 		private function wordSlotModel():void
 		{
-			addTest(new WordSlotModelTest("testUserCanAndSetWordToSpell"));
+			addTest(new WordSlotModelTest("testUserCanGetAndSetWordToSpell"));
 			addTest(new WordSlotModelTest("testSettingWordToSpellDispatchesChangeWordSlotEvent"));
 			addTest(new WordSlotModelTest("testCorrectAdvanceWordCallDispatchesAdvanceWordSlotEvent"));
 			addTest(new WordSlotModelTest("testUserCanCheckNextCharacterCodeAndAdvanceWord"));
+			addTest(new WordSlotModelTest("testCompletingWordCallDispatchesFinishEvent"));
+		}
+		
+		private function wordSlotHandlerView():void
+		{
+			addTest(new WordSlotHandlerViewTest("testCallsInitOnWordViewsOnCreateEvent", _stage));
+		}
+		
+		private function playerModel():void
+		{
+			addTest(new PlayerModelTest("testCanGetXAndY"));
+			addTest(new PlayerModelTest("testJump"));
+			addTest(new PlayerModelTest("should_dispatch_position_change_event_on_jump"));
+		}
+		
+		private function playerView():void
+		{
+			addTest(new PlayerViewTest("testArtPositioning", _stage));
+			addTest(new PlayerViewTest("should_update_art_position_when_model_dispatches_change_position_event", _stage));
+		}
+		
+		private function obstacleModel():void
+		{
+			addTest(new ObstacleModelTest("should_dispatch_event_on_position_change"));
 		}
 	}
 }

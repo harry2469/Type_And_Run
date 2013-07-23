@@ -5,7 +5,7 @@ package com.mvc.controller
 	import flash.events.KeyboardEvent;
 	
 	// My Imports
-	import com.mvc.model.IWordSlotHandlerModel;
+	import com.mvc.model.words.IWordSlotHandlerModel;
 	
 	/**
 	 * Manage Input From The User.
@@ -19,7 +19,7 @@ package com.mvc.controller
 		/** Referance to the Word Handler Model to pass input */
 		private var _wordHandlerModel:IWordSlotHandlerModel = null;
 		
-		// PUBLIC FUNCTIONS
+		// PUBLIC
 		
 		/**
 		 * Readys the object for opperation.
@@ -33,7 +33,7 @@ package com.mvc.controller
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		}
 		
-		// PRIVATE FUNCTIONS
+		// PRIVATE
 		
 		/**
 		 * Set the object referances.

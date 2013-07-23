@@ -8,7 +8,7 @@ package tests.events
 	
 	// My imports
 	import com.events.WordSlotHandlerEvent;
-	import com.mvc.model.WordSlotModel;
+	import com.mvc.model.words.WordSlotModel;
 	
 	/**
 	 * Tests all public behavior of the WordSlotHandlerEvent class.
