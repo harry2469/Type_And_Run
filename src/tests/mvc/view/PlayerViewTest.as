@@ -11,7 +11,6 @@ package tests.mvc.view
 	// My imports
 	import com.mvc.model.PlayerModel;
 	import com.mvc.view.PlayerView;
-	import com.mvc.model.IPlayerModel;
 	import com.mvc.model.words.WordSlotHandlerModel;
 	
 	/**

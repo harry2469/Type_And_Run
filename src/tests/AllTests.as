@@ -2,6 +2,7 @@ package tests
 {
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestSuite;
+	import tests.mvc.model.EntityModelTest;
 	import tests.mvc.model.words.WordSlotHandlerModelTest;
 	import tests.mvc.model.words.WordSlotModelTest;
 	import tests.mvc.view.ObstacleViewTest;
@@ -46,6 +47,7 @@ package tests
 			playerModel();
 			playerView();
 			obstacleModel();
+			entityModel();
 		}
 		
 		private function wordSlotHandlerEvent():void
@@ -90,9 +92,7 @@ package tests
 		
 		private function playerModel():void
 		{
-			addTest(new PlayerModelTest("testCanGetXAndY"));
-			addTest(new PlayerModelTest("testJump"));
-			addTest(new PlayerModelTest("should_dispatch_position_change_event_on_jump"));
+			addTest(new PlayerModelTest("should_move_up_on_jump"));
 		}
 		
 		private function playerView():void
@@ -109,6 +109,11 @@ package tests
 		private function obstacleView():void
 		{
 			addTest(new ObstacleViewTest("should_change_position_when_model_does"));
+		}
+		
+		private function entityModel():void
+		{
+			addTest(new EntityModelTest("can_get_x_and_y"));
 		}
 	}
 }

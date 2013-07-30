@@ -2,7 +2,7 @@ package tests.mvc.model
 {
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestCase;
-	import com.events.PlayerModelEvent;
+	import com.events.EntityModelEvent;
 	import testhelpers.MockWordSlotHandlerModel;
 	
 	// My imports
@@ -16,7 +16,7 @@ package tests.mvc.model
 	 */
 	public class PlayerModelTest extends TestCase
 	{
-		private var _positionChangeEvents:Vector.<PlayerModelEvent> = new Vector.<PlayerModelEvent>();
+		private var _positionChangeEvents:Vector.<EntityModelEvent> = new Vector.<EntityModelEvent>();
 		
 		/**
 		 * Start the test specified by the passed in string.
@@ -28,32 +28,9 @@ package tests.mvc.model
 		}
 		
 		/**
-		 * Tests that you can get correct x and y properties from the object
-		 */
-		public function testCanGetXAndY():void
-		{
-			var handler:IWordSlotHandlerModel = new MockWordSlotHandlerModel();
-			var instance:PlayerModel = new PlayerModel(0, 0, handler);
-			
-			assertEquals("you get a correct x property from the object", 0, instance.x);
-			assertEquals("you get a correct y property from the object", 0, instance.y);
-			
-			instance = new PlayerModel(10, 10, handler);
-			assertEquals("you get a correct x property from the object", 10, instance.x);
-			assertEquals("you get a correct y property from the object", 10, instance.y);
-			
-			instance = new PlayerModel(-10, -10, handler);
-			assertEquals("you get a correct x property from the object", -10, instance.x);
-			assertEquals("you get a correct y property from the object", -10, instance.y);
-			
-			instance = null;
-			handler = null;
-		}
-		
-		/**
 		 * Tests that when a WordCompleteEvent.FINISH event is dispatched on handler, instance's y value decreases by 50
 		 */
-		public function testJump():void
+		public function should_move_up_on_jump():void
 		{
 			var handler:IWordSlotHandlerModel = new MockWordSlotHandlerModel();
 			var instance:PlayerModel = new PlayerModel(0, 0, handler);
@@ -72,24 +49,6 @@ package tests.mvc.model
 			
 			instance = null;
 			handler = null;
-		}
-		
-		public function should_dispatch_position_change_event_on_jump():void
-		{
-			var handler:IWordSlotHandlerModel = new MockWordSlotHandlerModel();
-			var instance:PlayerModel = new PlayerModel(0, 0, handler);
-			instance.addEventListener(PlayerModelEvent.CHANGE_POSITION, recordPositionChange);
-			
-			handler.dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
-			assertEquals("dispatches the first event correctly", 1, _positionChangeEvents.length);
-			
-			handler.dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
-			assertEquals("dispatches the seccond event correctly", 2, _positionChangeEvents.length);
-		}
-		
-		private function recordPositionChange(e:PlayerModelEvent):void
-		{
-			_positionChangeEvents.push(e);
 		}
 	}
 }

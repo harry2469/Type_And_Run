@@ -2,7 +2,7 @@ package com.mvc.view
 {
 	// FlashDevelop Imports
 	import com.events.EntityModelEvent;
-	import com.mvc.model.EntityModel;
+	import com.mvc.model.ObstacleModel;
 	import com.mvc.model.PlayerModel;
 	
 	// Flash Imports
@@ -13,15 +13,15 @@ package com.mvc.view
 	 * ...
 	 * @author Kristian Welsh
 	 */
-	public class PlayerView
+	public class ObstacleView
 	{
 		private var _art:Shape;
-		private var _model:EntityModel;
+		private var _model:ObstacleModel;
 		private var _stage:Stage;
 		
 		// PUBLIC
 		
-		public function PlayerView(stage:Stage, model:EntityModel)
+		public function ObstacleView(stage:Stage, model:ObstacleModel)
 		{
 			_model = model;
 			_stage = stage;
@@ -35,7 +35,7 @@ package com.mvc.view
 		/** Returns the object's y position */
 		public function get y():Number { return _art.y; }
 		
-		/** Removes the playerview completely */
+		/** Removes the obstacleview completely */
 		public function destroy():void
 		{
 			_stage.removeChild(_art);
@@ -57,8 +57,8 @@ package com.mvc.view
 		
 		private function initGraphics():void
 		{
-			_art.graphics.beginFill(0, 1);
-			_art.graphics.drawRect(0, 0, 40, 70);
+			_art.graphics.beginFill(0xFF0000, 1);
+			_art.graphics.drawRect(0, 0, 40, 40);
 		}
 		
 		private function updatePosition(e:EntityModelEvent):void

@@ -2,7 +2,7 @@ package tests.mvc.model
 {
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestCase;
-	import com.events.ObstacleModelEvent;
+	import com.events.EntityModelEvent;
 	import com.mvc.model.ObstacleModel;
 	import flash.events.Event;
 	import flash.geom.Point;
@@ -27,7 +27,7 @@ package tests.mvc.model
 		public function should_dispatch_event_on_position_change():void
 		{
 			var instance:ObstacleModel = new ObstacleModel(100, 200, 25, 25);
-			instance.addEventListener(ObstacleModelEvent.POSITION_CHANGE, logPositionChange);
+			instance.addEventListener(EntityModelEvent.POSITION_CHANGE, logPositionChange);
 			
 			instance.moveBy(100, 50);
 			
@@ -58,7 +58,7 @@ package tests.mvc.model
 			instance = null;
 		}
 		
-		private function logPositionChange(e:ObstacleModelEvent):void
+		private function logPositionChange(e:EntityModelEvent):void
 		{
 			_positionChanges.push(e.position);
 		}

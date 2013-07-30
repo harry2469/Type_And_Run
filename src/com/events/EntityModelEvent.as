@@ -4,16 +4,16 @@ package com.events
 	import flash.geom.Point;
 	
 	/**
-	 * ...
+	 * Events for any game objects
 	 * @author Kristian Welsh
 	 */
-	public class ObstacleModelEvent extends Event
+	public class EntityModelEvent extends Event
 	{
 		public static const POSITION_CHANGE:String = "position change";
 		
-		private var _position:Point = null;
+		private var _position:Point;
 		
-		public function ObstacleModelEvent(type:String, position:Point = null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function EntityModelEvent(type:String, position:Point = null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 			_position = position;
@@ -21,16 +21,15 @@ package com.events
 		
 		public override function clone():Event
 		{
-			return new ObstacleModelEvent(type, position, bubbles, cancelable);
+			return new EntityModelEvent(type, position, bubbles, cancelable);
 		}
 		
 		public override function toString():String
 		{
-			return formatToString("ObstacleModelEvent", "position", "type", "bubbles", "cancelable", "eventPhase");
+			return formatToString("EntityModelEvent", "position", "type", "bubbles", "cancelable", "eventPhase");
 		}
 		
 		public function get position():Point { return _position; }
-		
 	}
 	
 }
