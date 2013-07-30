@@ -66,8 +66,9 @@ package com.mvc.view.words
 		 */
 		private function wordCreated(e:WordSlotHandlerEvent):void
 		{
+			if (!(_numInitialisedObjects < _wordObjects.length)) return;
 			_wordObjects[_numInitialisedObjects].init(_stage, e.newWord);
-			if(_numInitialisedObjects < _wordObjects.length-1) _numInitialisedObjects++;
+			_numInitialisedObjects++;
 		}
 	}
 

@@ -4,7 +4,6 @@ package kris
 	import flash.display.Stage;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * ...

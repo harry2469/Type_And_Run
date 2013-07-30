@@ -1,15 +1,12 @@
 package com
 {
-	// Flash Imports
 	import com.mvc.controller.GameController;
 	import com.mvc.model.GameModel;
 	import com.mvc.view.GameView;
 	import com.mvc.view.PlayerView;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import kris.SineGen;
-	
-	// My Imports
+	import org.flashdevelop.utils.FlashConnect;
 	import tests.MyTestRunner;
 	
 	/**
@@ -19,22 +16,17 @@ package com
 	public class Main extends Sprite
 	{
 		/** Is this run a run of the unit tests? */
-		private const TEST_RUN:Boolean = true;
+		private const TEST_RUN:Boolean = false;
 		
-		/** Runs the unit tests */
-		private var _unitTestRunner:MyTestRunner;
-		
-		/** MVC variables */
 		private var _model:GameModel;
 		private var _view:GameView;
 		private var _controller:GameController;
 		
-		/** Initialises the aplication. */
 		public function Main():void
 		{
 			//If this is a unit test run then only run the unit tests.
 			if (TEST_RUN) {
-				_unitTestRunner = new MyTestRunner(stage);
+				var _unitTestRunner:MyTestRunner = new MyTestRunner(stage);
 				return;
 			}
 			if (stage) initMVC();
@@ -50,11 +42,6 @@ package com
 			_controller = new GameController(_model, stage);
 			
 			_model.startAplication();
-		}
-		
-		override public function toString():String
-		{
-			return "[Main]";
 		}
 	}
 	

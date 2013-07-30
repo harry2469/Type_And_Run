@@ -3,6 +3,7 @@ package tests.mvc.view
 	// Flash imports
 	import flash.display.Stage;
 	import flash.geom.Point;
+	import testhelpers.MockPlayerModel;
 	
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestCase;
@@ -81,32 +82,5 @@ package tests.mvc.view
 			//teardown
 			instance.destroy();
 		}
-	}
-}
-
-// My imports
-import com.events.PlayerModelEvent;
-import com.mvc.model.IPlayerModel;
-import flash.events.EventDispatcher;
-import flash.geom.Point;
-
-class MockPlayerModel extends EventDispatcher implements IPlayerModel
-{
-	private var _pos:Point = new Point();
-	
-	public function MockPlayerModel(x:Number, y:Number):void
-	{
-		_pos.x = x;
-		_pos.y = y;
-	}
-	
-	public function set pos(value:Point):void { _pos = value; }
-	
-	public function get x():Number { return _pos.x; }
-	public function get y():Number { return _pos.y; }
-	
-	public function dispatchChangePositionEvent():void
-	{
-		dispatchEvent(new PlayerModelEvent(PlayerModelEvent.CHANGE_POSITION, _pos));
 	}
 }

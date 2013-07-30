@@ -1,12 +1,14 @@
 package com.mvc.model
 {
-	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.IWordSlotHandlerModel;
 	import com.mvc.model.words.IWordSlotModel;
-	import com.mvc.model.words.WordSlotHandlerModel;
-	import com.mvc.model.words.WordSlotModel;
 	import flash.events.EventDispatcher;
+	import com.mvc.model.words.WordSlotHandlerModel;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	import kris.Util;
+	import com.mvc.model.words.WordSlotModel;
+	import com.events.WordCompleteEvent;
 	
 	/**
 	 * ...
@@ -19,12 +21,25 @@ package com.mvc.model
 		private var _wordSlotHandler:IWordSlotHandlerModel;
 		private var _player:PlayerModel;
 		
+		private var _obstacle:ObstacleModel;
+		private var _timer:Timer;
+		
 		// PUBLIC
 		
 		public function GameModel():void
 		{
 			_wordSlotHandler = createWordSlotModelSystem();
 			_player = new PlayerModel(50, 100, _wordSlotHandler);
+			
+			_obstacle = new ObstacleModel(400, 400, 30, 30);
+			
+			_timer = new Timer(100);
+			_timer.addEventListener(TimerEvent.TIMER, tock);
+		}
+		
+		private function tock(e:TimerEvent):void
+		{
+			_obstacle.moveBy( -5, 0);
 		}
 		
 		public function startAplication():void
@@ -35,6 +50,11 @@ package com.mvc.model
 		public function get wordSlotHandler():IWordSlotHandlerModel
 		{
 			return _wordSlotHandler;
+		}
+		
+		public function get obstacle():ObstacleModel
+		{
+			return _obstacle;
 		}
 		
 		public function get player():PlayerModel
@@ -50,7 +70,7 @@ package com.mvc.model
 		 */
 		private function createWordSlotModelSystem():WordSlotHandlerModel
 		{
-			var wordsToSpell:Vector.<String> = Vector.<String>(["foo", "cat", "dog", "watch", "wallet", "phone", "mane", "main"]);
+			var wordsToSpell:Vector.<String> = Vector.<String>(["aaaa", "bbbb", "cccc", "dddd", "eeee", "ffff", "gggg", "hhhh"]);
 			wordsToSpell = Util.scrambleStringVector(wordsToSpell);
 			var wordSlots:Vector.<IWordSlotModel> = createWordSlotModelVector();
 			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();

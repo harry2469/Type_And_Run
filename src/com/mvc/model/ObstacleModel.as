@@ -29,6 +29,16 @@ package com.mvc.model
 			dispatchEvent(new ObstacleModelEvent(ObstacleModelEvent.POSITION_CHANGE, _pos));
 		}
 		
+		public function get x():Number
+		{
+			return _pos.x;
+		}
+		
+		public function get y():Number
+		{
+			return _pos.y;
+		}
+		
 	}
 
 }

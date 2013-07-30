@@ -26,6 +26,9 @@ package com.mvc.view
 		private var _player:PlayerView;
 		private var _wordSlotHandlerView:WordSlotHandlerView;
 		
+		
+		private var _obstacle:ObstacleView;
+		
 		// PUBLIC
 		
 		/**
@@ -38,6 +41,8 @@ package com.mvc.view
 			_model = model;
 			_wordSlotHandlerView = createWordSlotHandlerView(model, stage);
 			_player = new PlayerView(stage, model.player);
+			
+			_obstacle = new ObstacleView(stage, model.obstacle);
 		}
 		
 		public function toString():String

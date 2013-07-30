@@ -4,7 +4,6 @@ package com.mvc.view
 	import com.events.PlayerModelEvent;
 	import com.mvc.model.IPlayerModel;
 	import com.mvc.model.PlayerModel;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	// Flash Imports
 	import flash.display.Shape;

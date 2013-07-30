@@ -3,6 +3,7 @@ package tests.mvc.model.words
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestCase;
 	import com.events.WordCompleteEvent;
+	import testhelpers.MockWordSlotModel;
 	
 	//Flash imports
 	import flash.events.Event;
@@ -193,53 +194,5 @@ package tests.mvc.model.words
 		{
 			_numJumps++
 		}
-	}
-}
-
-//Flash imports
-import com.events.WordSlotEvent;
-import flash.events.Event;
-import flash.events.EventDispatcher;
-
-//My imports
-import com.mvc.model.words.IWordSlotModel;
-
-class MockWordSlotModel extends EventDispatcher implements IWordSlotModel
-{
-	private var _wordToSpell:String = "";
-	private var _pos:int = 0;
-	
-	public function get wordToSpell():String { return _wordToSpell; }
-	public function set wordToSpell(input:String):void { _wordToSpell = input; }
-	
-	public function get pos():int { return _pos; }
-	
-	public function isNextCharacterCode(inputChar:int):Boolean
-	{
-		if(!isNextCharCodeInternal(inputChar))dispatchEvent(new Event(Event.DEACTIVATE));
-		return isNextCharCodeInternal(inputChar);
-	}
-	
-	private function isNextCharCodeInternal(inputChar:int):Boolean
-	{
-		return inputChar == _wordToSpell.charCodeAt(_pos);
-	}
-	
-	public function advanceWord(inputChar:int):void
-	{
-		if (!isNextCharCodeInternal(inputChar)) return;
-		if (isFinished()) return;
-		dispatchEvent(new Event(Event.ACTIVATE));
-		_pos++;
-	}
-	
-	public function resetWord():void { }
-	private function isFinished():Boolean
-	{
-		if (_pos == _wordToSpell.length-1)
-		{
-			dispatchEvent(new WordSlotEvent(WordSlotEvent.FINISH));
-		}
-		return false
 	}
 }

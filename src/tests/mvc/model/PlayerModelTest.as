@@ -3,7 +3,7 @@ package tests.mvc.model
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestCase;
 	import com.events.PlayerModelEvent;
-	import org.flashdevelop.utils.FlashConnect;
+	import testhelpers.MockWordSlotHandlerModel;
 	
 	// My imports
 	import com.mvc.model.words.IWordSlotHandlerModel;
@@ -89,21 +89,7 @@ package tests.mvc.model
 		
 		private function recordPositionChange(e:PlayerModelEvent):void
 		{
-			FlashConnect.trace("TRACE");
 			_positionChangeEvents.push(e);
 		}
-	}
-}
-import com.events.WordCompleteEvent;
-import com.mvc.model.words.IWordSlotHandlerModel;
-import flash.events.EventDispatcher;
-
-class MockWordSlotHandlerModel extends EventDispatcher implements IWordSlotHandlerModel
-{
-	public function acceptInput(charCode:int):void { }
-	public function initWordSlots():void { }
-	public function finishWord():void
-	{
-		dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
 	}
 }

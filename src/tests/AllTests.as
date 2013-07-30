@@ -4,6 +4,7 @@ package tests
 	import asunitsrc.asunit.framework.TestSuite;
 	import tests.mvc.model.words.WordSlotHandlerModelTest;
 	import tests.mvc.model.words.WordSlotModelTest;
+	import tests.mvc.view.ObstacleViewTest;
 	
 	// Flash Imports
 	import flash.display.Stage;
@@ -103,6 +104,11 @@ package tests
 		private function obstacleModel():void
 		{
 			addTest(new ObstacleModelTest("should_dispatch_event_on_position_change"));
+		}
+		
+		private function obstacleView():void
+		{
+			addTest(new ObstacleViewTest("should_change_position_when_model_does"));
 		}
 	}
 }

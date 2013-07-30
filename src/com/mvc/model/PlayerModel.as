@@ -5,7 +5,6 @@ package com.mvc.model
 	import com.mvc.model.words.IWordSlotHandlerModel;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
-	import org.flashdevelop.utils.FlashConnect;
 	/**
 	 * ...
 	 * @author Kristian Welsh
@@ -20,7 +19,6 @@ package com.mvc.model
 		{
 			_pos = new Point(x, y);
 			handler.addEventListener(WordCompleteEvent.JUMP, jump);
-			FlashConnect.trace(_pos);
 		}
 		
 		public function get x():Number { return _pos.x; }
