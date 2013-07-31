@@ -1,8 +1,9 @@
-package com.mvc.view.words
+package com.mvc.view.text
 {
 	import flash.display.Stage;
 	import flash.geom.Point;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	
 	/**
@@ -15,7 +16,7 @@ package com.mvc.view.words
 		static private const FONTSIZE:Number = 20;
 		
 		/** standard width of ActionTextFields */
-		static private const WIDTH:Number = 53;
+		static private const WIDTH:Number = 101;
 		
 		/** standard height of ActionTextFields */
 		static private const HEIGHT:Number = 25;
@@ -25,10 +26,10 @@ package com.mvc.view.words
 		
 		// PUBLIC
 		
-		public function ActionTextField(stage:Stage, position:Point, format:TextFormat)
+		public function ActionTextField(position:Point, format:TextFormat)
 		{
 			super();
-			initPosition(stage, position);
+			initPosition(position);
 			initFormat(format);
 		}
 		
@@ -49,13 +50,12 @@ package com.mvc.view.words
 		 * @param	stage
 		 * @param	position
 		 */
-		private function initPosition(stage:Stage, position:Point):void
+		private function initPosition(position:Point):void
 		{
 			this.x = position.x;
 			this.y = position.y;
 			width = WIDTH;
 			height = HEIGHT;
-			stage.addChild(this);
 		}
 		
 		/**
@@ -67,6 +67,7 @@ package com.mvc.view.words
 			_format = format || new TextFormat();
 			_format.size = FONTSIZE
 			_format.font = "Courier New"; // Currently only works correctly with monospce fonts
+			_format.bold = true;
 		}
 	}
 }

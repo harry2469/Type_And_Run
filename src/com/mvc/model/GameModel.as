@@ -1,17 +1,17 @@
 package com.mvc.model
 {
+	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.IWordSlotHandlerModel;
 	import com.mvc.model.words.IWordSlotModel;
-	import flash.events.EventDispatcher;
 	import com.mvc.model.words.WordSlotHandlerModel;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
-	import kris.Util;
 	import com.mvc.model.words.WordSlotModel;
-	import com.events.WordCompleteEvent;
+	import flash.events.EventDispatcher;
+	import flash.utils.Timer;
+	import flash.events.TimerEvent;
+	import kris.Util;
 	
 	/**
-	 * ...
+	 * Contains the bulk of the logic
 	 * @author Kristian Welsh
 	 */
 	public class GameModel extends EventDispatcher
@@ -39,9 +39,9 @@ package com.mvc.model
 		public function GameModel():void
 		{
 			_wordSlotHandler = createWordSlotModelSystem();
-			_player = new PlayerModel(800/2-20, 600/2-75, 40, 75, _wordSlotHandler);
+			_player = new PlayerModel(800/2-20, 600/2-75, _wordSlotHandler);
 			
-			_obstacle = new ObstacleModel(600, 600/2-30, 30, 30);
+			_obstacle = new ObstacleModel(600, 600/2-30);
 			
 			_timer = new Timer(100);
 			_timer.addEventListener(TimerEvent.TIMER, tock);
@@ -65,7 +65,7 @@ package com.mvc.model
 		 */
 		private function createWordSlotModelSystem():WordSlotHandlerModel
 		{
-			var wordsToSpell:Vector.<String> = Vector.<String>(["aaaa", "bbbb", "cccc", "dddd", "eeee", "ffff", "gggg", "hhhh"]);
+			var wordsToSpell:Vector.<String> = Vector.<String>(["aaaaaaa", "bbbbbb", "ccccc", "dddd", "eee", "ff", "g"]);
 			wordsToSpell = Util.scrambleStringVector(wordsToSpell);
 			_wordSlots = createWordSlotModelVector();
 			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();

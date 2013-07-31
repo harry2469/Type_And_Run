@@ -2,6 +2,7 @@ package com.mvc.view
 {
 	import com.events.EntityModelEvent;
 	import com.mvc.model.EntityModel;
+	import flash.display.Bitmap;
 	import flash.display.Shape;
 	import flash.display.Stage;
 	
@@ -10,19 +11,18 @@ package com.mvc.view
 	 */
 	public class EntityView
 	{
-		protected var _art:Shape;
 		protected var _model:EntityModel;
 		protected var _stage:Stage;
-		private var _colour:uint;
+		private var _art:Bitmap;
 		
 		// PUBLIC
 		
-		public function EntityView(stage:Stage, model:EntityModel, colour:uint)
+		public function EntityView(stage:Stage, model:EntityModel, image:Class)
 		{
 			_model = model;
 			_stage = stage;
-			_colour = colour;
-			initArt();
+			initArt(image, _model.x, _model.y);
+			
 			_model.addEventListener(EntityModelEvent.POSITION_CHANGE, updatePosition);
 		}
 		
@@ -33,21 +33,12 @@ package com.mvc.view
 		
 		// PRIVATE
 		
-		private function get art():Shape { return _art; }
-		
-		private function initArt():void
+		private function initArt(image:Class, x:Number, y:Number):void
 		{
-			_art = new Shape();
-			initGraphics();
-			_art.x = _model.x;
-			_art.y = _model.y;
+			_art = new image();
+			_art.x = x;
+			_art.y = y;
 			_stage.addChild(_art);
-		}
-		
-		private function initGraphics():void
-		{
-			_art.graphics.beginFill(_colour, 1);
-			_art.graphics.drawRect(0, 0, _model.width, _model.height);
 		}
 		
 		private function updatePosition(e:EntityModelEvent):void

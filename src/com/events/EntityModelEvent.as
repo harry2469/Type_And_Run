@@ -2,7 +2,6 @@ package com.events
 {
 	import flash.events.Event;
 	import flash.geom.Point;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * Events for any Entity
@@ -21,7 +20,6 @@ package com.events
 		{
 			super(type, bubbles, cancelable);
 			_position = position;
-			FlashConnect.trace(2);
 		}
 		
 		public override function clone():Event

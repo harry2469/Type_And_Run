@@ -13,10 +13,13 @@ package com.mvc.view
 	 */
 	public class ObstacleView extends EntityView
 	{
+		[Embed(source="../../../../lib/images/simple/Obstacle.png")]
+		private var image:Class;
+		
 		// PUBLIC
 		public function ObstacleView(stage:Stage, model:ObstacleModel)
 		{
-			super(stage, model, 0xFF0000);
+			super(stage, model, image);
 		}
 	}
 }

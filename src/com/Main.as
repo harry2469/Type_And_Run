@@ -6,7 +6,6 @@ package com
 	import com.mvc.view.PlayerView;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import org.flashdevelop.utils.FlashConnect;
 	import tests.MyTestRunner;
 	
 	/**
@@ -16,7 +15,7 @@ package com
 	public class Main extends Sprite
 	{
 		/** Is this run a run of the unit tests? */
-		private const TEST_RUN:Boolean = false;
+		private const TEST_RUN:Boolean = true;
 		
 		private var _model:GameModel;
 		private var _view:GameView;

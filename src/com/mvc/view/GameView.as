@@ -3,9 +3,9 @@ package com.mvc.view
 	// Flash Imports
 	import com.mvc.model.GameModel;
 	import com.mvc.model.words.IWordSlotModel;
-	import com.mvc.view.words.LettersSpelt;
-	import com.mvc.view.words.LettersToSpell;
-	import com.mvc.view.words.WordSlotView;
+	import com.mvc.view.text.LettersSpelt;
+	import com.mvc.view.text.LettersToSpell;
+	import com.mvc.view.WordSlotView;
 	import flash.display.Stage;
 	import flash.geom.Point;
 	import flash.text.TextFormat;
@@ -52,11 +52,11 @@ package com.mvc.view
 		{
 			var position:Point = new Point(100, (i * 30) + 100);
 			
-			var lettersToSpell:LettersToSpell = new LettersToSpell(stage, position)
-			var lettersSpelt:LettersSpelt = new LettersSpelt(stage, position);
+			var lettersToSpell:LettersToSpell = new LettersToSpell(position)
+			var lettersSpelt:LettersSpelt = new LettersSpelt(position);
 			var model:IWordSlotModel = _model.getWordSlotAt(i);
 			
-			return new WordSlotView(model, lettersToSpell, lettersSpelt);
+			return new WordSlotView(stage, model, lettersToSpell, lettersSpelt);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.mvc.view.words
+package com.mvc.view.text
 {
 	import flash.display.Stage;
 	import flash.geom.Point;
@@ -13,9 +13,9 @@ package com.mvc.view.words
 		/** The colour to display this text in. */
 		static private const COLOUR:uint = 0x00CC00; // Med-Dark Green
 		
-		public function LettersSpelt(stage:Stage, position:Point, format:TextFormat = null)
+		public function LettersSpelt(position:Point, format:TextFormat = null)
 		{
-			super(stage, position, format);
+			super(position, format);
 			this.textColor = COLOUR;
 		}
 	}

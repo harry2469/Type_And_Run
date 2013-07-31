@@ -3,7 +3,6 @@ package com.events
 	// Flash Imports
 	import flash.events.Event;
 	import flash.geom.Point;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	// My Imports
 	import com.mvc.model.words.IWordSlotModel;
@@ -24,7 +23,6 @@ package com.events
 		{
 			super(type, bubbles, cancelable);
 			_newWord = newWord;
-			FlashConnect.trace(1);
 		}
 		
 		public override function clone():Event

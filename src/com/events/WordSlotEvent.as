@@ -2,7 +2,6 @@ package com.events
 {
 	// Flash Imports
 	import flash.events.Event;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * Event for the WordSlotModel object.
@@ -22,7 +21,6 @@ package com.events
 		{
 			super(type, bubbles, cancelable);
 			_wordToSpell = wordToSpell;
-			FlashConnect.trace(4);
 		}
 		
 		public override function clone():Event
