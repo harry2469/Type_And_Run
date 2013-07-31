@@ -10,7 +10,6 @@ package tests
 	import tests.mvc.model.EntityModelTest;
 	import tests.mvc.model.words.WordSlotHandlerModelTest;
 	import tests.mvc.model.words.WordSlotModelTest;
-	import tests.mvc.view.WordSlotHandlerViewTest;
 	
 	/**
 	 * Executes all unit tests for the aplication.
@@ -36,7 +35,6 @@ package tests
 			inputOpperator();
 			wordSlotHandlerModel();
 			wordSlotModel();
-			wordSlotHandlerView();
 			playerModel();
 			entityModel();
 		}
@@ -74,11 +72,6 @@ package tests
 			addTest(new WordSlotModelTest("testCorrectAdvanceWordCallDispatchesAdvanceWordSlotEvent"));
 			addTest(new WordSlotModelTest("testUserCanCheckNextCharacterCodeAndAdvanceWord"));
 			addTest(new WordSlotModelTest("testCompletingWordCallDispatchesFinishEvent"));
-		}
-		
-		private function wordSlotHandlerView():void
-		{
-			addTest(new WordSlotHandlerViewTest("should_call_init_on_word_views_when_create_event_dispatched", _stage));
 		}
 		
 		private function playerModel():void

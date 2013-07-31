@@ -23,8 +23,18 @@ package com.mvc.model
 		
 		private var _obstacle:ObstacleModel;
 		private var _timer:Timer;
+		private var _wordSlots:Vector.<IWordSlotModel>;
 		
 		// PUBLIC
+		
+		public function get wordSlotHandler():IWordSlotHandlerModel { return _wordSlotHandler; }
+		public function get obstacle():ObstacleModel { return _obstacle; }
+		public function get player():PlayerModel { return _player; }
+		
+		public function getWordSlotAt(i:int):IWordSlotModel
+		{
+			return _wordSlots[i];
+		}
 		
 		public function GameModel():void
 		{
@@ -37,32 +47,17 @@ package com.mvc.model
 			_timer.addEventListener(TimerEvent.TIMER, tock);
 		}
 		
-		private function tock(e:TimerEvent):void
-		{
-			_obstacle.moveBy( -5, 0);
-		}
-		
 		public function startAplication():void
 		{
 			_wordSlotHandler.initWordSlots();
 		}
 		
-		public function get wordSlotHandler():IWordSlotHandlerModel
-		{
-			return _wordSlotHandler;
-		}
-		
-		public function get obstacle():ObstacleModel
-		{
-			return _obstacle;
-		}
-		
-		public function get player():PlayerModel
-		{
-			return _player;
-		}
-		
 		// PRIVATE
+		
+		private function tock(e:TimerEvent):void
+		{
+			_obstacle.moveBy( -5, 0);
+		}
 		
 		/**
 		 * Builds WordSlotHandlerModel and injects its dependancies.
@@ -72,9 +67,9 @@ package com.mvc.model
 		{
 			var wordsToSpell:Vector.<String> = Vector.<String>(["aaaa", "bbbb", "cccc", "dddd", "eeee", "ffff", "gggg", "hhhh"]);
 			wordsToSpell = Util.scrambleStringVector(wordsToSpell);
-			var wordSlots:Vector.<IWordSlotModel> = createWordSlotModelVector();
+			_wordSlots = createWordSlotModelVector();
 			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-			return new WordSlotHandlerModel(wordsToSpell, wordSlots, latchedWordSlots);
+			return new WordSlotHandlerModel(wordsToSpell, _wordSlots, latchedWordSlots);
 		}
 		
 		/**

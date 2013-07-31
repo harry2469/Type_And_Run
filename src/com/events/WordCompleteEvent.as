@@ -3,7 +3,7 @@ package com.events
 	import flash.events.Event;
 	
 	/**
-	 * ...
+	 * Carries the information that a word in a specific slot has finished
 	 * @author Kristian Welsh
 	 */
 	public class WordCompleteEvent extends Event

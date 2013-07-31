@@ -2,49 +2,37 @@ package com.events
 {
 	// Flash Imports
 	import flash.events.Event;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
-	 * Event for the Word object.
+	 * Event for the WordSlotModel object.
 	 * @author Kristian Welsh
 	 */
 	public class WordSlotEvent extends Event
 	{
-		/** Event Enumeration Constant */
 		public static const CHANGE:String = "change";
-		
-		/** Event Enumeration Constant */
 		public static const ADVANCE:String = "advance";
-		
-		/** Event Enumeration Constant */
 		public static const FINISH:String = "finish";
 		
-		/**
-		 * Call super on the new Event.
-		 * @param	type
-		 * @param	bubbles (Optional)
-		 * @param	cancelable (Optional)
-		 */
-		public function WordSlotEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false)
+		private var _wordToSpell:String;
+		
+		public function get wordToSpell():String { return _wordToSpell; }
+		
+		public function WordSlotEvent(type:String, wordToSpell:String = null, bubbles:Boolean = false, cancelable:Boolean = false)
 		{
 			super(type, bubbles, cancelable);
+			_wordToSpell = wordToSpell;
+			FlashConnect.trace(4);
 		}
 		
-		/**
-		 * Returns a carbon copy of the Event.
-		 * @return	Clone of the object
-		 */
 		public override function clone():Event
 		{
-			return new WordSlotEvent(type, bubbles, cancelable);
+			return new WordSlotEvent(type, wordToSpell, bubbles, cancelable);
 		}
 		
-		/**
-		 * Returns a string representation of the Event.
-		 * @return String Representation
-		 */
 		public override function toString():String
 		{
-			return formatToString("WordSlotEvent", "type", "bubbles", "cancelable", "eventPhase");
+			return formatToString("WordSlotEvent", "type", "wordToSpell", "bubbles", "cancelable", "eventPhase");
 		}
 		
 	}

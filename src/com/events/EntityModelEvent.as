@@ -5,7 +5,7 @@ package com.events
 	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
-	 * Events for any game objects
+	 * Events for any Entity
 	 * @author Kristian Welsh
 	 */
 	public class EntityModelEvent extends Event
@@ -14,10 +14,14 @@ package com.events
 		
 		private var _position:Point;
 		
+		public function get x():Number { return _position.x; }
+		public function get y():Number { return _position.y; }
+		
 		public function EntityModelEvent(type:String, position:Point = null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 			_position = position;
+			FlashConnect.trace(2);
 		}
 		
 		public override function clone():Event
@@ -29,9 +33,6 @@ package com.events
 		{
 			return formatToString("EntityModelEvent", "x", "y", "type", "bubbles", "cancelable", "eventPhase");
 		}
-		
-		public function get x():Number { return _position.x; }
-		public function get y():Number { return _position.y; }
 	}
 	
 }

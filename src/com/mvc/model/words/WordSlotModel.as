@@ -18,10 +18,7 @@ package com.mvc.model.words
 		
 		// PUBLIC
 		
-		public function get wordToSpell():String
-		{
-			return _wordToSpell;
-		}
+		public function get wordToSpell():String { return _wordToSpell; }
 		
 		/**
 		 * Changes the value of word to spell, dispatch an event to tell listeners
@@ -44,54 +41,29 @@ package com.mvc.model.words
 			return inputChar == _wordToSpell.charCodeAt(_pos);
 		}
 		
+		/** Removes all progress in the spelling, and dispatch an event to signal this occurance. */
+		public function resetWord():void
+		{
+			dispatchEvent(new WordSlotEvent(WordSlotEvent.CHANGE, _wordToSpell));
+			_pos = 0;
+		}
+		
 		/**
 		 * If the input is valid, dispatch an ADVANCE WordSlotEvent.
 		 * @param	inputChar:int
 		 */
 		public function advanceWord(inputChar:int):void
 		{
-			if (!isValidInput(inputChar)) return;
+			if (!isNextCharacterCode(inputChar)) return;
+			if (isFinished()) {
+				dispatchEvent(new WordSlotEvent(WordSlotEvent.FINISH));
+				return;
+			}
+			_pos++;
 			dispatchEvent(new WordSlotEvent(WordSlotEvent.ADVANCE));
-			_pos++
-		}
-		
-		/**
-		 * Removes all progress in the spelling, and dispatch an event to signal this occurance.
-		 */
-		public function resetWord():void
-		{
-			dispatchEvent(new WordSlotEvent(WordSlotEvent.CHANGE));
-			_pos = 0;
-		}
-		
-		override public function toString():String
-		{
-			return "[WordSlotModel wordToSpell=" + wordToSpell + "]";
 		}
 		
 		// PRIVATE
-		
-		/**
-		 * Changes the word to spell to a new word.
-		 * @param	newWord
-		 */
-		private function changeWord(newWord:String):void
-		{
-			_wordToSpell = newWord;
-			resetWord();
-		}
-		
-		/**
-		 * Determines whether an Input Character Code should be allowed to incriment the word.
-		 * @param	inputChar:int
-		 * @return	false if input is invalid, otherwise return true.
-		 */
-		private function isValidInput(inputChar:int):Boolean
-		{
-			if (isFinished()) return false;
-			if (!isNextCharacterCode(inputChar)) return false;
-			return true
-		}
 		
 		/**
 		 * Returns whether the word has been fully spelled.
@@ -99,11 +71,7 @@ package com.mvc.model.words
 		 */
 		private function isFinished():Boolean
 		{
-			if (_pos >= _wordToSpell.length - 1) {
-				dispatchEvent(new WordSlotEvent(WordSlotEvent.FINISH));
-				return true;
-			}
-			return false
+			return _pos >= _wordToSpell.length - 1;
 		}
 	}
 }

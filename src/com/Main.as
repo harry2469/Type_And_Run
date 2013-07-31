@@ -16,7 +16,7 @@ package com
 	public class Main extends Sprite
 	{
 		/** Is this run a run of the unit tests? */
-		private const TEST_RUN:Boolean = true;
+		private const TEST_RUN:Boolean = false;
 		
 		private var _model:GameModel;
 		private var _view:GameView;
