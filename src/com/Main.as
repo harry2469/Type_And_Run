@@ -16,7 +16,7 @@ package com
 	public class Main extends Sprite
 	{
 		/** Is this run a run of the unit tests? */
-		private const TEST_RUN:Boolean = false;
+		private const TEST_RUN:Boolean = true;
 		
 		private var _model:GameModel;
 		private var _view:GameView;
@@ -24,11 +24,11 @@ package com
 		
 		public function Main():void
 		{
-			//If this is a unit test run then only run the unit tests.
 			if (TEST_RUN) {
 				var _unitTestRunner:MyTestRunner = new MyTestRunner(stage);
 				return;
 			}
+			
 			if (stage) initMVC();
 			else addEventListener(Event.ADDED_TO_STAGE, initMVC);
 		}
@@ -36,12 +36,15 @@ package com
 		private function initMVC(e:Event = null):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, initMVC);
-			
+			createMVC();
+			_model.startAplication();
+		}
+		
+		private function createMVC():void
+		{
 			_model = new GameModel();
 			_view = new GameView(_model, stage);
 			_controller = new GameController(_model, stage);
-			
-			_model.startAplication();
 		}
 	}
 	

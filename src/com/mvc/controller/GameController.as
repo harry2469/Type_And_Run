@@ -8,9 +8,7 @@ package com.mvc.controller
 	 */
 	public class GameController
 	{
-		
 		// PUBLIC
-		
 		public function GameController(model:GameModel, stage:Stage)
 		{
 			var _inputOperator:InputOpperator = new InputOpperator(stage, model.wordSlotHandler);

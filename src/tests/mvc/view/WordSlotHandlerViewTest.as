@@ -20,6 +20,8 @@ package tests.mvc.view
 	
 	/**
 	 * Tests all public behavior of the WordSlotHandlerViewTest class.
+	 * I would rather not test this view but it is nessercarry until i can move the logic out of this class
+	 * once i decide on a standard size of the text for the final presentation and formating.
 	 * @author Kristian Welsh
 	 */
 	public class WordSlotHandlerViewTest extends TestCase

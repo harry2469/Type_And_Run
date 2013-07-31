@@ -1,11 +1,8 @@
 package com.mvc.model.words
 {
-	// Flash Imports
+	import com.events.WordSlotEvent;
 	import flash.events.EventDispatcher;
 	import flash.display.Stage;
-	
-	// My Imports
-	import com.events.WordSlotEvent;
 	
 	/**
 	 * Manage the display and word progression of a word form the list.
@@ -19,19 +16,16 @@ package com.mvc.model.words
 		/** The index of your current progress position on the the word to spell */
 		private var _pos:int = 0;
 		
-		// PUBLIC FUNCTIONS
+		// PUBLIC
 		
-		/**
-		 * Returns the current word to spell.
-		 * @return current word to spell
-		 */
 		public function get wordToSpell():String
 		{
 			return _wordToSpell;
 		}
 		
 		/**
-		 * Changes the value of word to spell, and dispatch an event to tell listeners that the value has been updated.
+		 * Changes the value of word to spell, dispatch an event to tell listeners
+		 * that the value has been updated, and adjust state as appropiate.
 		 * @param	input
 		 */
 		public function set wordToSpell(input:String):void
@@ -75,7 +69,7 @@ package com.mvc.model.words
 			return "[WordSlotModel wordToSpell=" + wordToSpell + "]";
 		}
 		
-		// PRIVATE FUNCTIONS
+		// PRIVATE
 		
 		/**
 		 * Changes the word to spell to a new word.

@@ -31,6 +31,8 @@ package com.mvc.model
 		
 		public function get x():Number { return _pos.x; }
 		public function get y():Number { return _pos.y; }
+		public function get width():Number { return _width; }
+		public function get height():Number { return _height; }
 		
 	}
 }

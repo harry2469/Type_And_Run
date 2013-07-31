@@ -1,22 +1,15 @@
 package tests
 {
-	// Asunit imports
 	import asunitsrc.asunit.framework.TestSuite;
-	import tests.mvc.model.EntityModelTest;
-	import tests.mvc.model.words.WordSlotHandlerModelTest;
-	import tests.mvc.model.words.WordSlotModelTest;
-	import tests.mvc.view.ObstacleViewTest;
-	
-	// Flash Imports
 	import flash.display.Stage;
-	
-	// My imports
 	import tests.events.WordSlotHandlerEventTest;
 	import tests.events.WordSlotEventTest;
 	import tests.mvc.controller.InputOpperatorTest;
-	import tests.mvc.model.ObstacleModelTest;
+	import tests.mvc.model.EntityModelTest;
 	import tests.mvc.model.PlayerModelTest;
-	import tests.mvc.view.PlayerViewTest;
+	import tests.mvc.model.EntityModelTest;
+	import tests.mvc.model.words.WordSlotHandlerModelTest;
+	import tests.mvc.model.words.WordSlotModelTest;
 	import tests.mvc.view.WordSlotHandlerViewTest;
 	
 	/**
@@ -36,7 +29,7 @@ package tests
 		public function AllTests()
 		{
 			super();
-			if (_stage == null) throw new Error("You must set the stage for all tests before calling the constructor", 2);
+			if (_stage == null) throw new Error("You must set the stage for all tests before calling the constructor");
 			
 			wordSlotHandlerEvent();
 			wordSlotEvent();
@@ -45,8 +38,6 @@ package tests
 			wordSlotModel();
 			wordSlotHandlerView();
 			playerModel();
-			playerView();
-			obstacleModel();
 			entityModel();
 		}
 		
@@ -95,25 +86,13 @@ package tests
 			addTest(new PlayerModelTest("should_move_up_on_jump"));
 		}
 		
-		private function playerView():void
-		{
-			addTest(new PlayerViewTest("testArtPositioning", _stage));
-			addTest(new PlayerViewTest("should_update_art_position_when_model_dispatches_change_position_event", _stage));
-		}
-		
-		private function obstacleModel():void
-		{
-			addTest(new ObstacleModelTest("should_dispatch_event_on_position_change"));
-		}
-		
-		private function obstacleView():void
-		{
-			addTest(new ObstacleViewTest("should_change_position_when_model_does"));
-		}
-		
 		private function entityModel():void
 		{
-			addTest(new EntityModelTest("can_get_x_and_y"));
+			addTest(new EntityModelTest("can_get_x"));
+			addTest(new EntityModelTest("can_get_y"));
+			addTest(new EntityModelTest("can_get_width"));
+			addTest(new EntityModelTest("can_get_height"));
+			addTest(new EntityModelTest("should_dispatch_position_change_event_when_moved"));
 		}
 	}
 }

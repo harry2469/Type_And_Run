@@ -1,7 +1,8 @@
 package kris
 {
+	
 	/**
-	 * ...
+	 * A collection of utility functions
 	 * @author Kristian Welsh
 	 */
 	public class Util
@@ -46,7 +47,7 @@ package kris
 		
 		public static function scrambleNumberVector(list:Vector.<Number>):Vector.<Number>
 		{
-			if (!list is Vector.<Number>) throw new Error("Input must be a Vector of Numbers", 1002) ;
+			if (!(list is Vector.<Number>)) throw new Error("Input must be a Vector of Numbers") ;
 			
 			var tempHolder:Number;
 			var randomNum:int = 0;

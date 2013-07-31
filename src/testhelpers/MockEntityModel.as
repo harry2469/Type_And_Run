@@ -4,9 +4,9 @@ package testhelpers
 	import com.mvc.model.EntityModel;
 	import flash.geom.Point;
 	
-	public class MockPlayerModel extends EntityModel
+	public class MockEntityModel extends EntityModel
 	{
-		public function MockPlayerModel(x:Number, y:Number):void
+		public function MockEntityModel(x:Number, y:Number):void
 		{
 			super(x, y, 0, 0);
 		}

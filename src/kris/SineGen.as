@@ -22,16 +22,10 @@ package kris
 		public function SineGen(scalar:Number, speed:Number, stage:Stage = null)
 		{
 			if (stage != null) {
-				_debugDot = new Shape();
-				_debugDot.graphics.beginFill(0x000000);
-				_debugDot.graphics.drawCircle(stage.stageWidth / 2, stage.stageHeight / 2, 10);
-				stage.addChild(_debugDot);
+				initDebugDot(stage);
 			}
-			
 			_scalar = scalar;
 			_speed = speed;
-			_seed = 0;
-			_output = 0;
 			
 			_timer = new Timer(1);
 			_timer.addEventListener(TimerEvent.TIMER, adjust);
@@ -45,10 +39,16 @@ package kris
 			} else {
 				_seed += _speed;
 			}
-			
 			_output = Math.sin(_seed) * _scalar;
-			
 			_debugDot.y = _output;
+		}
+		
+		private function initDebugDot(stage:Stage):void
+		{
+			_debugDot = new Shape();
+			_debugDot.graphics.beginFill(0x000000);
+			_debugDot.graphics.drawCircle(stage.stageWidth / 2, stage.stageHeight / 2, 10);
+			stage.addChild(_debugDot);
 		}
 		
 	}
