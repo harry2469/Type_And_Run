@@ -39,7 +39,7 @@ package com.mvc.model.words
 		// Getters and setters
 		
 		private function get nextSpelling():String
-		{//#~
+		{//#
 			return _wordStrings[_spellingListProgress];
 		}
 		
@@ -66,7 +66,10 @@ package com.mvc.model.words
 		/** Destroys the object in a clean and memory concious fashion. */
 		public function destroy():void
 		{//#
-			removeAllListeners();
+			for (var i:int = 0; i < _wordSlots.length; ++i)
+			{
+				_wordSlots[i].removeEventListener(WordSlotEvent.FINISH, onWordFinish);
+			}
 		}
 		
 		/** Set up all the word slots and give each a word to spell. */
@@ -96,28 +99,29 @@ package com.mvc.model.words
 			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlots[index]));
 		}
 		
+		private function onWordFinish(e:WordSlotEvent):void
+		{//#
+			giveWordNewSpelling(e.target as IWordSlotModel);
+			_latchedWordSlots.length = 0;
+			dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
+		}
+		
 		private function giveWordNewSpelling(wordSlot:IWordSlotModel):void
 		{//#
 			wordSlot.wordToSpell = consumeSpelling();
 		}
 		
 		/**
-		 * Advances to the next spelling then returns that new spelling.
-		 * Also advances state past the next spelling,
+		 * Advances to the next spelling, returning that new spelling.
 		 * @return first available spelling from the list
 		 */
 		private function consumeSpelling():String
-		{//#
-			advanceToNextSpelling();
-			return nextSpelling;
-		}
-		
-		private function advanceToNextSpelling():void
 		{//#
 			do {
 				_spellingListProgress++;
 				if (_spellingListProgress >= _wordStrings.length) _spellingListProgress = 0;
 			} while (isWordInUse(nextSpelling));
+			return nextSpelling;
 		}
 		
 		private function isWordInUse(word:String):Boolean
@@ -127,21 +131,6 @@ package com.mvc.model.words
 				if (_wordSlots[i].wordToSpell == word) return true;
 			}
 			return false;
-		}
-		
-		private function onWordFinish(e:WordSlotEvent):void
-		{//#
-			giveWordNewSpelling(e.target as IWordSlotModel);
-			_latchedWordSlots.length = 0;
-			dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
-		}
-		
-		private function removeAllListeners():void
-		{//#
-			for (var i:int = 0; i < _wordSlots.length; ++i)
-			{
-				_wordSlots[i].removeEventListener(WordSlotEvent.FINISH, onWordFinish);
-			}
 		}
 		
 		private function latchValidWords(inputChar:int):void
