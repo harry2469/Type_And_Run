@@ -8,6 +8,7 @@ package tests
 	import tests.mvc.model.EntityModelTest;
 	import tests.mvc.model.PlayerModelTest;
 	import tests.mvc.model.EntityModelTest;
+	import tests.mvc.model.words.WordSetTest;
 	import tests.mvc.model.words.WordSlotHandlerModelTest;
 	import tests.mvc.model.words.WordSlotModelTest;
 	
@@ -37,6 +38,7 @@ package tests
 			wordSlotModel();
 			playerModel();
 			entityModel();
+			wordSet();
 		}
 		
 		private function wordSlotHandlerEvent():void
@@ -84,6 +86,13 @@ package tests
 			addTest(new EntityModelTest("can_get_x"));
 			addTest(new EntityModelTest("can_get_y"));
 			addTest(new EntityModelTest("should_dispatch_position_change_event_when_moved"));
+		}
+		
+		private function wordSet():void
+		{
+			addTest(new WordSetTest("should_throw_exception_if_less_strings_than_slots"));
+			addTest(new WordSetTest("should_dispatch_event_on_word_complete"));
+			addTest(new WordSetTest("should_throw_exception_if_less_strings_than_slots"));
 		}
 	}
 }
