@@ -3,7 +3,6 @@ package com.mvc.model
 	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.IWordSlotHandlerModel;
 	import com.mvc.model.words.IWordSlotModel;
-	import com.mvc.model.words.WordSet;
 	import com.mvc.model.words.WordSlotHandlerModel;
 	import com.mvc.model.words.WordSlotModel;
 	import flash.events.EventDispatcher;
@@ -68,14 +67,9 @@ package com.mvc.model
 		{
 			var wordsToSpell:Vector.<String> = Vector.<String>(["aaaaaaa", "bbbbbb", "ccccc", "dddd", "eee", "ff", "g"]);
 			wordsToSpell = Util.scrambleStringVector(wordsToSpell);
-			
 			_wordSlots = createWordSlotModelVector();
-			
-			var wordSet:WordSet = new WordSet(wordsToSpell, _wordSlots);
-			
 			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-			
-			return new WordSlotHandlerModel(wordSet, latchedWordSlots);
+			return new WordSlotHandlerModel(wordsToSpell, _wordSlots, latchedWordSlots);
 		}
 		
 		/**
