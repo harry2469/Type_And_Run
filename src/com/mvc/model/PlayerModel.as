@@ -10,9 +10,9 @@ package com.mvc.model
 	public class PlayerModel extends EntityModel
 	{
 		// PUBLIC
-		public function PlayerModel(x:Number, y:Number, handler:IWordSlotHandlerModel)
+		public function PlayerModel(x:Number, y:Number, width:Number, height:Number, handler:IWordSlotHandlerModel)
 		{
-			super(x, y);
+			super(x, y, width, height);
 			handler.addEventListener(WordCompleteEvent.JUMP, jump);
 		}
 		

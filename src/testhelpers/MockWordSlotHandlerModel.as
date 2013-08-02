@@ -9,19 +9,37 @@ package testhelpers
 	public class MockWordSlotHandlerModel extends EventDispatcher implements IWordSlotHandlerModel
 	{
 		private var _wordSlots:Vector.<IWordSlotModel>;
+		public function initWordSlots():void { }
 		public function MockWordSlotHandlerModel(mockWordSlotModels:Vector.<IWordSlotModel> = null)
 		{
 			super();
 			mockWordSlotModels ||= new Vector.<IWordSlotModel>();
 			_wordSlots = mockWordSlotModels
 		}
+		
 		public function get wordSlots():Vector.<IWordSlotModel> { return _wordSlots; }
+		
 		public function acceptInput(charCode:int):void {
 			dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, charCode));
 		}
-		public function initWordSlots():void { }
+		
 		public function finishWord():void {
 			dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
+		}
+		
+		public function get length():uint
+		{
+			return _wordSlots.length;
+		}
+		
+		public function isNextCharacterCode(index:uint, characterCode:int):Boolean
+		{
+			return _wordSlots[index].isNextCharacterCode(characterCode);
+		}
+		
+		public function getWordSlotAt(index:uint):IWordSlotModel
+		{
+			return _wordSlots[index];
 		}
 	}
 }

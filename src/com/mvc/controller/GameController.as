@@ -11,7 +11,7 @@ package com.mvc.controller
 		// PUBLIC
 		public function GameController(model:GameModel, stage:Stage)
 		{
-			var _inputOperator:InputOpperator = new InputOpperator(stage, model.wordSlotHandler);
+			var _inputOperator:InputOpperator = new InputOpperator(stage, model.wordSlotLatcher);
 		}
 	}
 }

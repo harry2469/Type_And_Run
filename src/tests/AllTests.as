@@ -63,6 +63,7 @@ package tests
 			addTest(new WordSlotHandlerModelTest("testInitWordSlots"));
 			addTest(new WordSlotHandlerModelTest("testWordFinishReset"));
 			addTest(new WordSlotHandlerModelTest("testDispatchEventOnWordComplete"));
+			addTest(new WordSlotHandlerModelTest("should_reject_incorrect_constructor_parameters"));
 		}
 		
 		private function wordSlotLatcher():void
@@ -90,6 +91,8 @@ package tests
 			addTest(new EntityModelTest("can_get_x"));
 			addTest(new EntityModelTest("can_get_y"));
 			addTest(new EntityModelTest("should_dispatch_position_change_event_when_moved"));
+			addTest(new EntityModelTest("should_check_colliision_with_other_entitys_correctly"));
+			addTest(new EntityModelTest("should_collide_with_other_entitys_correctly"));
 		}
 	}
 }

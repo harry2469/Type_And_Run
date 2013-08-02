@@ -4,6 +4,8 @@ package tests.mvc.model.words
 	import asunitsrc.asunit.framework.TestCase;
 	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.WordSlotLatcher;
+	import com.mvc.model.words.WordSlotModel;
+	import org.flashdevelop.utils.FlashConnect;
 	import testhelpers.MockWordSlotModel;
 	
 	//Flash imports
@@ -53,7 +55,6 @@ package tests.mvc.model.words
 		{
 			_wordList = Vector.<String>(["AAA", "ABB", "ABC", "Word4", "Word5", "Word6"]);
 			_wordSlots = createWordSlotModelVector();
-			_latchedWordSlots = new Vector.<IWordSlotModel>();
 			_instance = new WordSlotHandlerModel(_wordList, _wordSlots);
 		}
 		
@@ -74,6 +75,32 @@ package tests.mvc.model.words
 		protected override function tearDown():void
 		{
 			_instance.destroy();
+		}
+		
+		public function should_reject_incorrect_constructor_parameters():void
+		{
+			_wordList = new Vector.<String>();
+			_wordSlots = new Vector.<IWordSlotModel>();
+			assertTrue("Throws error if inputs are equal length", createInstance());
+			
+			_wordList = new Vector.<String>();
+			_wordSlots = Vector.<IWordSlotModel>([new MockWordSlotModel() as IWordSlotModel]);
+			assertTrue("Throws error if there are more slots than strings", createInstance());
+			
+			_wordList = Vector.<String>([""]);
+			_wordSlots = new Vector.<IWordSlotModel>();
+			assertFalse("Does not throw an error if there are more strings than slots", createInstance());
+		}
+		
+		private function createInstance():Boolean
+		{
+			try {
+				new WordSlotHandlerModel(_wordList, _wordSlots);
+				return false;
+			} catch (error:Error) {
+				return true;
+			}
+			return false; // compiler satisfaction, reaches this point only if an error is both not caught and not not caught.
 		}
 		
 		/**

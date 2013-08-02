@@ -8,9 +8,9 @@ package com.mvc.model.words
 	 */
 	public interface IWordSlotModel extends IEventDispatcher
 	{
+		function isNextCharacterCode(inputChar:int):Boolean;
 		function get wordToSpell():String;
 		function set wordToSpell(input:String):void;
-		function isNextCharacterCode(inputChar:int):Boolean;
 		function advanceWord(inputChar:int):void;
 		function resetWord():void;
 	}

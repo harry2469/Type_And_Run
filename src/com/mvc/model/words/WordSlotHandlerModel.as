@@ -11,13 +11,11 @@ package com.mvc.model.words
 	import com.events.WordSlotHandlerEvent;
 	
 	/**
-	 * Handles all Model responsibilitys of working with the WordSlots.
+	 * Prepares a list of word slots and listens to them for changes.
 	 * @author Kristian Welsh
 	 */
 	public class WordSlotHandlerModel extends EventDispatcher implements IWordSlotHandlerModel
 	{
-		// TODO: merge _wordStrings and _wordSlots somehow?
-		
 		// Variables
 		
 		/** Scrambled list of spellable words. */
@@ -33,19 +31,7 @@ package com.mvc.model.words
 		 */
 		private var _spellingListProgress:int = -1;
 		
-		// Getters and setters
-		
-		private function get nextSpelling():String
-		{
-			return _wordStrings[_spellingListProgress];
-		}
-		
 		// PUBLIC
-		
-		public function get wordSlots():Vector.<IWordSlotModel>
-		{
-			return wordSlots;
-		}
 		
 		/**
 		 * Set the initial values of all dependencies.
@@ -62,6 +48,21 @@ package com.mvc.model.words
 			
 			_wordStrings = wordList;
 			_wordSlots = wordSlots;
+		}
+		
+		public function getWordSlotAt(index:uint):IWordSlotModel
+		{
+			return _wordSlots[index];
+		}
+		
+		public function get length():uint
+		{
+			return _wordSlots.length;
+		}
+		
+		public function isNextCharacterCode(index:uint, characterCode:int):Boolean
+		{
+			return _wordSlots[index].isNextCharacterCode(characterCode);
 		}
 		
 		/** Destroys the object in a clean and memory concious fashion. */
@@ -82,6 +83,11 @@ package com.mvc.model.words
 		}
 		
 		// PRIVATE
+		
+		private function get nextSpelling():String
+		{
+			return _wordStrings[_spellingListProgress];
+		}
 		
 		private function initWordSlotAtIndex(index:int):void
 		{

@@ -1,11 +1,10 @@
 package com.mvc.model.words
 {
-	import org.flashdevelop.utils.FlashConnect;
 	/**
 	 * ...
 	 * @author Kristian Welsh
 	 */
-	public class WordSlotLatcher
+	public class WordSlotLatcher implements IWordSlotLatcher
 	{
 		private var _latchedWordSlots:Vector.<IWordSlotModel>;
 		private var _wordSlots:Vector.<IWordSlotModel>;
@@ -15,8 +14,6 @@ package com.mvc.model.words
 		{
 			super();
 			_handler = handler
-			_wordSlots = handler.wordSlots;
-			FlashConnect.trace(_wordSlots);
 			_latchedWordSlots = latchedWordSlots;
 		}
 		
@@ -40,10 +37,10 @@ package com.mvc.model.words
 		private function latchValidWords(inputChar:int):void
 		{
 			if (_latchedWordSlots.length != 0) return;
-			for (var i:int = 0; i < _wordSlots.length; i++)
+			for (var i:int = 0; i < _handler.length; i++)
 			{
-				if (_wordSlots[i].isNextCharacterCode(inputChar)) {
-					_latchedWordSlots.push(_wordSlots[i]);
+				if (_handler.isNextCharacterCode(i, inputChar)) {
+					_latchedWordSlots.push(_handler.getWordSlotAt(i));
 				}
 			}
 		}
