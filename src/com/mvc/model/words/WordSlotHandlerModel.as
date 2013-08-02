@@ -26,8 +26,6 @@ package com.mvc.model.words
 		/** List of all the word slot models this object is handling. */
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		
-		private var _latchedWordSlots:WordSlotLatcher;
-		
 		/**
 		 * The current index you are at in the _wordStrings array.
 		 * This starts at -1 so that when you want a new word
@@ -38,11 +36,16 @@ package com.mvc.model.words
 		// Getters and setters
 		
 		private function get nextSpelling():String
-		{//#
+		{
 			return _wordStrings[_spellingListProgress];
 		}
 		
 		// PUBLIC
+		
+		public function get wordSlots():Vector.<IWordSlotModel>
+		{
+			return wordSlots;
+		}
 		
 		/**
 		 * Set the initial values of all dependencies.
@@ -50,7 +53,7 @@ package com.mvc.model.words
 		 * @param List of word slots to handle.
 		 * @param List of word slots that are currently being correctly spelled by the user.
 		 */
-		public function WordSlotHandlerModel(wordList:Vector.<String>, wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:WordSlotLatcher):void
+		public function WordSlotHandlerModel(wordList:Vector.<String>, wordSlots:Vector.<IWordSlotModel>):void
 		{
 			if (!(wordList.length > wordSlots.length))
 			{
@@ -59,8 +62,6 @@ package com.mvc.model.words
 			
 			_wordStrings = wordList;
 			_wordSlots = wordSlots;
-			
-			_latchedWordSlots = latchedWordSlots;
 		}
 		
 		/** Destroys the object in a clean and memory concious fashion. */
@@ -80,11 +81,6 @@ package com.mvc.model.words
 			}
 		}
 		
-		public function acceptInput(charCode:int):void
-		{
-			_latchedWordSlots.acceptInput(charCode);
-		}
-		
 		// PRIVATE
 		
 		private function initWordSlotAtIndex(index:int):void
@@ -97,7 +93,6 @@ package com.mvc.model.words
 		private function onWordFinish(e:WordSlotEvent):void
 		{
 			giveWordNewSpelling(e.target as IWordSlotModel);
-			_latchedWordSlots.unlatchAll();
 			dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
 		}
 		

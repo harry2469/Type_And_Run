@@ -1,5 +1,6 @@
 package com.mvc.model.words
 {
+	import org.flashdevelop.utils.FlashConnect;
 	/**
 	 * ...
 	 * @author Kristian Welsh
@@ -8,11 +9,14 @@ package com.mvc.model.words
 	{
 		private var _latchedWordSlots:Vector.<IWordSlotModel>;
 		private var _wordSlots:Vector.<IWordSlotModel>;
+		private var _handler:IWordSlotHandlerModel;
 		
-		public function WordSlotLatcher(wordSlots:Vector.<IWordSlotModel>, latchedWordSlots:Vector.<IWordSlotModel>)
+		public function WordSlotLatcher(handler:IWordSlotHandlerModel, latchedWordSlots:Vector.<IWordSlotModel>)
 		{
 			super();
-			_wordSlots = wordSlots;
+			_handler = handler
+			_wordSlots = handler.wordSlots;
+			FlashConnect.trace(_wordSlots);
 			_latchedWordSlots = latchedWordSlots;
 		}
 		

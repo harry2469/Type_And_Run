@@ -70,7 +70,8 @@ package com.mvc.model
 			wordsToSpell = Util.scrambleStringVector(wordsToSpell);
 			_wordSlots = createWordSlotModelVector();
 			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-			return new WordSlotHandlerModel(wordsToSpell, _wordSlots, new WordSlotLatcher(_wordSlots, latchedWordSlots));
+			var handler:WordSlotHandlerModel = new WordSlotHandlerModel(wordsToSpell, _wordSlots);
+			return handler;
 		}
 		
 		/**

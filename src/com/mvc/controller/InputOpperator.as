@@ -52,7 +52,7 @@ package com.mvc.controller
 		 */
 		private function keyDown(e:KeyboardEvent):void
 		{
-			_wordHandlerModel.acceptInput(e.charCode);
+			//_wordHandlerModel.acceptInput(e.charCode);
 		}
 	}
 }

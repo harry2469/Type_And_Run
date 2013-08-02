@@ -9,6 +9,7 @@ package tests
 	import tests.mvc.model.PlayerModelTest;
 	import tests.mvc.model.EntityModelTest;
 	import tests.mvc.model.words.WordSlotHandlerModelTest;
+	import tests.mvc.model.words.WordSlotLatcherTest;
 	import tests.mvc.model.words.WordSlotModelTest;
 	
 	/**
@@ -37,6 +38,7 @@ package tests
 			wordSlotModel();
 			playerModel();
 			entityModel();
+			wordSlotLatcher();
 		}
 		
 		private function wordSlotHandlerEvent():void
@@ -60,9 +62,13 @@ package tests
 		{
 			addTest(new WordSlotHandlerModelTest("testInitWordSlots"));
 			addTest(new WordSlotHandlerModelTest("testWordFinishReset"));
-			addTest(new WordSlotHandlerModelTest("testAcceptInputHappyCase1"));
-			addTest(new WordSlotHandlerModelTest("testAcceptInputSadCase1"));
 			addTest(new WordSlotHandlerModelTest("testDispatchEventOnWordComplete"));
+		}
+		
+		private function wordSlotLatcher():void
+		{
+			addTest(new WordSlotLatcherTest("testAcceptInputHappyCase1"));
+			addTest(new WordSlotLatcherTest("testAcceptInputSadCase1"));
 		}
 		
 		private function wordSlotModel():void
