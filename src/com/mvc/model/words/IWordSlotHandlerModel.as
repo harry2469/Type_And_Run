@@ -7,7 +7,7 @@ package com.mvc.model.words
 	 */
 	public interface IWordSlotHandlerModel extends IEventDispatcher
 	{
-		function acceptInput(charCode:int):void;
+		function acceptInput(charCode:int):void
 		function initWordSlots():void;
 	}
 }

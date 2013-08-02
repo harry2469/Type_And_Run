@@ -4,6 +4,7 @@ package com.mvc.model
 	import com.mvc.model.words.IWordSlotHandlerModel;
 	import com.mvc.model.words.IWordSlotModel;
 	import com.mvc.model.words.WordSlotHandlerModel;
+	import com.mvc.model.words.WordSlotLatcher;
 	import com.mvc.model.words.WordSlotModel;
 	import flash.events.EventDispatcher;
 	import flash.utils.Timer;
@@ -69,7 +70,7 @@ package com.mvc.model
 			wordsToSpell = Util.scrambleStringVector(wordsToSpell);
 			_wordSlots = createWordSlotModelVector();
 			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-			return new WordSlotHandlerModel(wordsToSpell, _wordSlots, latchedWordSlots);
+			return new WordSlotHandlerModel(wordsToSpell, _wordSlots, new WordSlotLatcher(_wordSlots, latchedWordSlots));
 		}
 		
 		/**

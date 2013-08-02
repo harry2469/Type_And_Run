@@ -3,6 +3,7 @@ package tests.mvc.model.words
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestCase;
 	import com.events.WordCompleteEvent;
+	import com.mvc.model.words.WordSlotLatcher;
 	import testhelpers.MockWordSlotModel;
 	
 	//Flash imports
@@ -53,7 +54,7 @@ package tests.mvc.model.words
 			_wordList = Vector.<String>(["AAA", "ABB", "ABC", "Word4", "Word5", "Word6"]);
 			_wordSlots = createWordSlotModelVector();
 			_latchedWordSlots = new Vector.<IWordSlotModel>();
-			_instance = new WordSlotHandlerModel(_wordList, _wordSlots, _latchedWordSlots);
+			_instance = new WordSlotHandlerModel(_wordList, _wordSlots, new WordSlotLatcher(_wordSlots, _latchedWordSlots));
 		}
 		
 		private function createWordSlotModelVector():Vector.<IWordSlotModel>
