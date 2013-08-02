@@ -7,8 +7,14 @@ package testhelpers
 	
 	public class MockWordSlotModel extends EventDispatcher implements IWordSlotModel
 	{
-		private var _wordToSpell:String = "";
+		private var _wordToSpell:String;
 		private var _pos:int = 0;
+		
+		public function MockWordSlotModel(word:String = "")
+		{
+			super();
+			_wordToSpell = word;
+		}
 		
 		public function get wordToSpell():String { return _wordToSpell; }
 		public function set wordToSpell(input:String):void { _wordToSpell = input; }

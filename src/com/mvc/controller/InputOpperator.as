@@ -1,6 +1,7 @@
 package com.mvc.controller
 {
 	// Flash Imports
+	import com.mvc.model.words.IWordSlotLatcher;
 	import flash.display.Stage;
 	import flash.events.KeyboardEvent;
 	
@@ -17,7 +18,7 @@ package com.mvc.controller
 		private var _stage:Stage = null;
 		
 		/** Referance to the Word Handler Model to pass input */
-		private var _wordHandlerModel:IWordSlotHandlerModel = null;
+		private var _wordLatcher:IWordSlotLatcher = null;
 		
 		// PUBLIC
 		
@@ -26,9 +27,10 @@ package com.mvc.controller
 		 * @param	stage:Stage
 		 * @param	wordHandlerModel:WordHandlerModel
 		 */
-		public function InputOpperator(stage:Stage, wordHandlerModel:IWordSlotHandlerModel)
+		public function InputOpperator(stage:Stage, wordLatcher:IWordSlotLatcher)
 		{
-			initVars(stage, wordHandlerModel);
+			_stage = stage;
+			_wordLatcher = wordLatcher;
 			
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		}
@@ -36,23 +38,12 @@ package com.mvc.controller
 		// PRIVATE
 		
 		/**
-		 * Set the object referances.
-		 * @param	stage:Stage
-		 * @param	wordHandlerModel:WordHandlerModel
-		 */
-		private function initVars(stage:Stage, wordHandlerModel:IWordSlotHandlerModel):void
-		{
-			_stage = stage;
-			_wordHandlerModel = wordHandlerModel
-		}
-		
-		/**
 		 * Manage events that occur on key down.
 		 * @param	e:KeyboardEvent
 		 */
 		private function keyDown(e:KeyboardEvent):void
 		{
-			_wordHandlerModel.acceptInput(e.charCode);
+			_wordLatcher.acceptInput(e.charCode);
 		}
 	}
 }

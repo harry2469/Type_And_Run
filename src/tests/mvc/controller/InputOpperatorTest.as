@@ -7,6 +7,7 @@ package tests.mvc.controller
 	import flash.display.Stage;
 	import com.mvc.controller.InputOpperator;
 	import com.mvc.model.words.IWordSlotHandlerModel;
+	import testhelpers.MockWordSlotLatcher;
 	
 	/**
 	 * Tests all public behavior of the InputOpperatorTest class.
@@ -28,7 +29,7 @@ package tests.mvc.controller
 		 */
 		public function testKeyPress():void
 		{
-			var model:MockWordSlotHandlerModel = new MockWordSlotHandlerModel();
+			var model:MockWordSlotLatcher = new MockWordSlotLatcher();
 			var instance:InputOpperator = new InputOpperator(_stage, model);
 			
 			model.addEventListener(KeyboardEvent.KEY_DOWN, validateInputCharacter);

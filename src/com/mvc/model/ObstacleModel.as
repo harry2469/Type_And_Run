@@ -6,9 +6,9 @@ package com.mvc.model
 	 */
 	public class ObstacleModel extends EntityModel
 	{
-		public function ObstacleModel(x:Number, y:Number)
+		public function ObstacleModel(x:Number, y:Number, width:Number, height:Number)
 		{
-			super(x, y);
+			super(x, y, width, height);
 		}
 	}
 }

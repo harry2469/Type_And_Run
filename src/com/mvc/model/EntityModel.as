@@ -3,6 +3,8 @@ package com.mvc.model
 	import com.events.EntityModelEvent;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * Abstract model of any moving component that needs to be displayed to the player
@@ -10,22 +12,43 @@ package com.mvc.model
 	 */
 	public class EntityModel extends EventDispatcher
 	{
-		protected var _pos:Point = new Point(0, 0);
+		private var _rectangle:Rectangle = new Rectangle(0, 0, 0, 0);
 		
-		public function EntityModel(x:Number, y:Number)
+		public function EntityModel(x:Number, y:Number, width:Number, height:Number)
 		{
-			moveBy(x, y);
+			_rectangle.x = x;
+			_rectangle.y = y;
+			_rectangle.width = width;
+			_rectangle.height = height;
 		}
 		
 		public function moveBy(x:Number, y:Number):void
 		{
 			if (x == 0 && y == 0) return;
-			_pos.x += x;
-			_pos.y += y;
-			dispatchEvent(new EntityModelEvent(EntityModelEvent.POSITION_CHANGE, _pos));
+			_rectangle.x += x;
+			_rectangle.y += y;
+			dispatchEvent(new EntityModelEvent(EntityModelEvent.POSITION_CHANGE, _rectangle.topLeft));
 		}
 		
-		public function get x():Number { return _pos.x; }
-		public function get y():Number { return _pos.y; }
+		public function isCollidingWith(collider:EntityModel):Boolean
+		{
+			if (collider == this) throw new Error("An entity can not check for collision against itself");
+			if (collider.x == this.x && collider.y == this.y) return true;
+			return rectangle.intersects(collider.rectangle);
+		}
+		
+		public function collideWith(collider:EntityModel):void
+		{
+			if (!isCollidingWith(collider)) return;
+			var collisionRect:Rectangle = rectangle.intersection(collider.rectangle);
+		}
+		
+		public function get rectangle():Rectangle
+		{
+			return _rectangle;
+		}
+		
+		public function get x():Number { return _rectangle.x; }
+		public function get y():Number { return _rectangle.y; }
 	}
 }

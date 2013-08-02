@@ -3,6 +3,9 @@ package tests.mvc.model.words
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestCase;
 	import com.events.WordCompleteEvent;
+	import com.mvc.model.words.WordSlotLatcher;
+	import com.mvc.model.words.WordSlotModel;
+	import org.flashdevelop.utils.FlashConnect;
 	import testhelpers.MockWordSlotModel;
 	
 	//Flash imports
@@ -52,8 +55,7 @@ package tests.mvc.model.words
 		{
 			_wordList = Vector.<String>(["AAA", "ABB", "ABC", "Word4", "Word5", "Word6"]);
 			_wordSlots = createWordSlotModelVector();
-			_latchedWordSlots = new Vector.<IWordSlotModel>();
-			_instance = new WordSlotHandlerModel(_wordList, _wordSlots, _latchedWordSlots);
+			_instance = new WordSlotHandlerModel(_wordList, _wordSlots);
 		}
 		
 		private function createWordSlotModelVector():Vector.<IWordSlotModel>
@@ -73,6 +75,32 @@ package tests.mvc.model.words
 		protected override function tearDown():void
 		{
 			_instance.destroy();
+		}
+		
+		public function should_reject_incorrect_constructor_parameters():void
+		{
+			_wordList = new Vector.<String>();
+			_wordSlots = new Vector.<IWordSlotModel>();
+			assertTrue("Throws error if inputs are equal length", createInstance());
+			
+			_wordList = new Vector.<String>();
+			_wordSlots = Vector.<IWordSlotModel>([new MockWordSlotModel() as IWordSlotModel]);
+			assertTrue("Throws error if there are more slots than strings", createInstance());
+			
+			_wordList = Vector.<String>([""]);
+			_wordSlots = new Vector.<IWordSlotModel>();
+			assertFalse("Does not throw an error if there are more strings than slots", createInstance());
+		}
+		
+		private function createInstance():Boolean
+		{
+			try {
+				new WordSlotHandlerModel(_wordList, _wordSlots);
+				return false;
+			} catch (error:Error) {
+				return true;
+			}
+			return false; // compiler satisfaction, reaches this point only if an error is both not caught and not not caught.
 		}
 		
 		/**
@@ -118,81 +146,30 @@ package tests.mvc.model.words
 			}
 		}
 		
-		/**
-		 * Tests acceptInput()'s behaviour in the case that the user types a word without mistakes.
-		 */
-		public function testAcceptInputHappyCase1():void
-		{
-			for (var i:int = 0; i < _wordSlots.length; ++i)
-			{
-				_wordSlots[i].wordToSpell = _wordList[i];
-				_wordSlots[i].addEventListener(Event.ACTIVATE, recordAdvancement);
-				_wordSlots[i].addEventListener(Event.DEACTIVATE, recordNonAdvancement);
-			}
-			
-			_instance.acceptInput(Util.toCharcode("A"));
-			_instance.acceptInput(Util.toCharcode("B"));
-			_instance.acceptInput(Util.toCharcode("C"));
-			
-			assertEquals("Words receive an advanceWord call with the correct charCode the the correct number of times", 6, _numAdvancements);
-			assertEquals("Words receive a failing external isNextCharacterCode call the correct number of times", 2, _numNonAdvancements);
-			
-		}
-		
-		/**
-		 * Tests acceptInput()'s behaviour in the case that the user starts typing a word correctly, but makes a mistake before finishing the word.
-		 */
-		public function testAcceptInputSadCase1():void
-		{
-			for (var i:int = 0; i < _wordSlots.length; ++i)
-			{
-				_wordSlots[i].wordToSpell = _wordList[i];
-				_wordSlots[i].addEventListener(Event.ACTIVATE, recordAdvancement);
-				_wordSlots[i].addEventListener(Event.DEACTIVATE, recordNonAdvancement);
-			}
-			
-			_instance.acceptInput(Util.toCharcode("A"));
-			_instance.acceptInput(Util.toCharcode("X"));
-			
-			assertEquals("Words receive an advanceWord call with the correct charCode the the correct number of times", 3, _numAdvancements);
-			assertEquals("Words receive a failing external isNextCharacterCode call the correct number of times", 3, _numNonAdvancements);
-		}
-		
-		private function recordAdvancement(e:Event):void
-		{
-			++_numAdvancements
-		}
-		
-		private function recordNonAdvancement(e:Event):void
-		{
-			++_numNonAdvancements
-		}
-		
 		public function testDispatchEventOnWordComplete():void
 		{
 			_instance.initWordSlots();
 			_instance.addEventListener(WordCompleteEvent.JUMP, recordJump);
 			
-			_instance.acceptInput(Util.toCharcode("A"));
-			_instance.acceptInput(Util.toCharcode("A"));
-			_instance.acceptInput(Util.toCharcode("A"));
+			_wordSlots[0].advanceWord(Util.toCharcode("A"));
+			_wordSlots[0].advanceWord(Util.toCharcode("A"));
+			_wordSlots[0].advanceWord(Util.toCharcode("A"));
 			assertEquals("Dispatches a WordCompleteEvent.JUMP event when a word completes", 1, _numJumps);
 			
-			_instance.acceptInput(Util.toCharcode("A"));
-			_instance.acceptInput(Util.toCharcode("B"));
-			_instance.acceptInput(Util.toCharcode("B"));
+			_wordSlots[1].advanceWord(Util.toCharcode("A"));
+			_wordSlots[1].advanceWord(Util.toCharcode("B"));
+			_wordSlots[1].advanceWord(Util.toCharcode("B"));
 			assertEquals("Dispatches a WordCompleteEvent.JUMP event when a word completes", 2, _numJumps);
 			
-			_instance.acceptInput(Util.toCharcode("A"));
-			_instance.acceptInput(Util.toCharcode("B"));
-			_instance.acceptInput(Util.toCharcode("C"));
+			_wordSlots[2].advanceWord(Util.toCharcode("A"));
+			_wordSlots[2].advanceWord(Util.toCharcode("B"));
+			_wordSlots[2].advanceWord(Util.toCharcode("C"));
 			assertEquals("Dispatches a WordCompleteEvent.JUMP event when a word completes", 3, _numJumps);
-			
 		}
 		
 		private function recordJump(e:WordCompleteEvent):void
 		{
-			_numJumps++
+			_numJumps++;
 		}
 	}
 }
