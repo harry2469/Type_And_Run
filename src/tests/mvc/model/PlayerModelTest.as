@@ -3,6 +3,7 @@ package tests.mvc.model
 	// Asunit imports
 	import asunitsrc.asunit.framework.TestCase;
 	import com.events.EntityModelEvent;
+	import flash.geom.Point;
 	import testhelpers.MockWordSlotHandlerModel;
 	
 	// My imports
@@ -33,17 +34,17 @@ package tests.mvc.model
 		public function should_move_up_on_jump():void
 		{
 			var handler:IWordSlotHandlerModel = new MockWordSlotHandlerModel();
-			var instance:PlayerModel = new PlayerModel(0, 0, 0, 0, handler);
+			var instance:PlayerModel = new PlayerModel(new Point(0, 0), 0, 0, handler);
 			
 			handler.dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
 			
 			assertEquals("instance correctly responds to a WordCompleteEvent.FINISH from handler", -50, instance.y);
 			
-			instance = new PlayerModel(666, 500, 0, 0, handler);
+			instance = new PlayerModel(new Point(666, 500), 0, 0, handler);
 			handler.dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
 			assertEquals("instance correctly responds to a WordCompleteEvent.FINISH from handler", 450, instance.y);
 			
-			instance = new PlayerModel(666, -500, 0, 0, handler);
+			instance = new PlayerModel(new Point(666, -500), 0, 0, handler);
 			handler.dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
 			assertEquals("instance correctly responds to a WordCompleteEvent.FINISH from handler", -550, instance.y);
 			

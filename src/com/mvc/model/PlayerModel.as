@@ -2,6 +2,8 @@ package com.mvc.model
 {
 	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.IWordSlotHandlerModel;
+	import flash.geom.Point;
+	import kris.Dimentions;
 	
 	/**
 	 * ...
@@ -10,9 +12,9 @@ package com.mvc.model
 	public class PlayerModel extends EntityModel
 	{
 		// PUBLIC
-		public function PlayerModel(x:Number, y:Number, width:Number, height:Number, handler:IWordSlotHandlerModel)
+		public function PlayerModel(position:Point, width:Number, height:Number, handler:IWordSlotHandlerModel)
 		{
-			super(x, y, width, height);
+			super(position, new Dimentions(width, height));
 			handler.addEventListener(WordCompleteEvent.JUMP, jump);
 		}
 		

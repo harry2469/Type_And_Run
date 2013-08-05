@@ -4,6 +4,7 @@ package com.mvc.model
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import kris.Dimentions;
 	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
@@ -14,12 +15,12 @@ package com.mvc.model
 	{
 		private var _rectangle:Rectangle = new Rectangle(0, 0, 0, 0);
 		
-		public function EntityModel(x:Number, y:Number, width:Number, height:Number)
+		public function EntityModel(position:Point, dimentions:Dimentions)
 		{
-			_rectangle.x = x;
-			_rectangle.y = y;
-			_rectangle.width = width;
-			_rectangle.height = height;
+			_rectangle.x = position.x;
+			_rectangle.y = position.y;
+			_rectangle.width = dimentions.width;
+			_rectangle.height = dimentions.height;
 		}
 		
 		public function moveBy(x:Number, y:Number):void

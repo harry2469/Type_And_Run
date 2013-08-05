@@ -8,8 +8,10 @@ package com.mvc.model
 	import com.mvc.model.words.WordSlotLatcher;
 	import com.mvc.model.words.WordSlotModel;
 	import flash.events.EventDispatcher;
+	import flash.geom.Point;
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
+	import kris.Dimentions;
 	import kris.Util;
 	import org.flashdevelop.utils.FlashConnect;
 	
@@ -43,9 +45,9 @@ package com.mvc.model
 		public function GameModel():void
 		{
 			createWordSlotSystem();
-			_player = new PlayerModel(800/2-20, 600/2-75, 53, 53, _wordSlotHandler);
+			_player = new PlayerModel(new Point(800/2-20, 600/2-75), 53, 53, _wordSlotHandler);
 			
-			_obstacle = new ObstacleModel(600, 600/2-30, 43, 41);
+			_obstacle = new ObstacleModel(new Point(600, 600/2-30), new Dimentions(43, 41));
 			
 			_timer = new Timer(10);
 			_timer.addEventListener(TimerEvent.TIMER, tock);
