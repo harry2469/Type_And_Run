@@ -1,6 +1,5 @@
 package com.events
 {
-	// Flash Imports
 	import flash.events.Event;
 	
 	/**
@@ -15,21 +14,20 @@ package com.events
 		
 		private var _wordToSpell:String;
 		
-		public function get wordToSpell():String { return _wordToSpell; }
+		public function get wordToSpell():String {
+			return _wordToSpell;
+		}
 		
-		public function WordSlotEvent(type:String, wordToSpell:String = null, bubbles:Boolean = false, cancelable:Boolean = false)
-		{
+		public function WordSlotEvent(type:String, wordToSpell:String = null, bubbles:Boolean = false, cancelable:Boolean = false){
 			super(type, bubbles, cancelable);
 			_wordToSpell = wordToSpell;
 		}
 		
-		public override function clone():Event
-		{
+		public override function clone():Event {
 			return new WordSlotEvent(type, wordToSpell, bubbles, cancelable);
 		}
 		
-		public override function toString():String
-		{
+		public override function toString():String {
 			return formatToString("WordSlotEvent", "type", "wordToSpell", "bubbles", "cancelable", "eventPhase");
 		}
 		

@@ -23,7 +23,8 @@ package testhelpers
 		
 		public function isNextCharacterCode(inputChar:int):Boolean
 		{
-			if(!isNextCharCodeInternal(inputChar))dispatchEvent(new Event(Event.DEACTIVATE));
+			if (!isNextCharCodeInternal(inputChar))
+				dispatchEvent(new Event(Event.DEACTIVATE));
 			return isNextCharCodeInternal(inputChar);
 		}
 		
@@ -34,19 +35,26 @@ package testhelpers
 		
 		public function advanceWord(inputChar:int):void
 		{
-			if (!isNextCharCodeInternal(inputChar)) return;
-			if (isFinished()) return;
+			if (!shouldAdvance(inputChar)) return;
 			dispatchEvent(new Event(Event.ACTIVATE));
 			_pos++;
 		}
 		
-		public function resetWord():void { }
+		private function shouldAdvance(inputChar:int):Boolean
+		{
+			if (!isNextCharCodeInternal(inputChar)) return false;
+			if (isFinished()) return false;
+			return true;
+		}
+		
+		public function resetWord():void {
+			_pos = 0;
+		}
+		
 		private function isFinished():Boolean
 		{
 			if (_pos == _wordToSpell.length-1)
-			{
 				dispatchEvent(new WordSlotEvent(WordSlotEvent.FINISH));
-			}
 			return false
 		}
 	}

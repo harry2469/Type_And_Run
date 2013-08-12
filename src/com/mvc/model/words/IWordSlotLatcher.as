@@ -7,7 +7,6 @@ package com.mvc.model.words
 	 */
 	public interface IWordSlotLatcher
 	{
-		function unlatchAll():void;
 		function acceptInput(charCode:int):void;
 	}
 	

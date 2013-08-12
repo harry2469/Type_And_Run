@@ -1,175 +1,106 @@
-package tests.mvc.model.words
-{
-	// Asunit imports
+package tests.mvc.model.words {
 	import asunitsrc.asunit.framework.TestCase;
 	import com.events.WordCompleteEvent;
-	import com.mvc.model.words.WordSlotLatcher;
-	import com.mvc.model.words.WordSlotModel;
-	import org.flashdevelop.utils.FlashConnect;
-	import testhelpers.MockWordSlotModel;
-	
-	//Flash imports
-	import flash.events.Event;
-	
-	//My imports
 	import com.events.WordSlotEvent;
 	import com.events.WordSlotHandlerEvent;
 	import com.mvc.model.words.IWordSlotModel;
 	import com.mvc.model.words.WordSlotHandlerModel;
+	import flash.display.MovieClip;
+	import flash.events.Event;
 	import kris.Util;
+	import testhelpers.MockWordSlotModel;
 	
-	/**
-	 * Tests all public behavior of the WordSlotHandlerTest class.
-	 * @author Kristian Welsh
-	 */
-	public class WordSlotHandlerModelTest extends TestCase
-	{
+	public class WordSlotHandlerModelTest extends TestCase {
 		private const NUM_SLOTS:int = 3;
 		
-		// Object under test and its dependancies.
-		private var _wordList:Vector.<String>;
-		private var _wordSlots:Vector.<IWordSlotModel>;
-		private var _latchedWordSlots:Vector.<IWordSlotModel>;
+		private var _wordList:Vector.<String> = Vector.<String>(["AAA", "ABB", "ABC", "XXX", "XYY", "XYZ"]);
+		private var _wordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 		private var _instance:WordSlotHandlerModel;
 		
-		// Member variables for setting whitin listeners to assist in testing.
-		private var _createEventReturnedWords:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-		private var _numAdvancements:int = 0;
-		private var _numNonAdvancements:int = 0;
-		private var _numJumps:uint;
+		private var _recordedWordCreations:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 		
-		/**
-		 * Start the test specified by the passed in string.
-		 * @param	testMethod
-		 */
-		public function WordSlotHandlerModelTest(testMethod:String):void
-		{
+		public function WordSlotHandlerModelTest(testMethod:String):void {
 			super(testMethod);
 		}
 		
-		/**
-		 * Set up the test environment.
-		 * Always called when test is created.
-		 */
-		protected override function setUp():void
-		{
-			_wordList = Vector.<String>(["AAA", "ABB", "ABC", "Word4", "Word5", "Word6"]);
-			_wordSlots = createWordSlotModelVector();
+		protected override function setUp():void {
+			createWordSlotModelVector();
 			_instance = new WordSlotHandlerModel(_wordList, _wordSlots);
+			_instance.addEventListener(WordSlotHandlerEvent.CREATE, eventRecorder);
+			_instance.initWordSlots();
 		}
 		
-		private function createWordSlotModelVector():Vector.<IWordSlotModel>
-		{
-			var wordObjects:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
+		private function eventRecorder(e:WordSlotHandlerEvent):void {
+			_recordedWordCreations.push(e.newWord);
+		}
+		
+		private function createWordSlotModelVector():void {
 			for (var i:int = 0; i < NUM_SLOTS; i++)
-			{
-				wordObjects.push(new MockWordSlotModel() as IWordSlotModel);
-			}
-			return wordObjects;
+				_wordSlots.push(new MockWordSlotModel());
 		}
 		
-		/**
-		 * Tear down the test environment.
-		 * Always called when test is destroyed.
-		 */
-		protected override function tearDown():void
-		{
+		protected override function tearDown():void {
 			_instance.destroy();
 		}
 		
-		public function should_reject_incorrect_constructor_parameters():void
-		{
+		public function should_reject_incorrect_constructor_parameters():void {
 			_wordList = new Vector.<String>();
 			_wordSlots = new Vector.<IWordSlotModel>();
-			assertTrue("Throws error if inputs are equal length", createInstance());
+			assertTrue("Throws error if inputs are equal length", createInstanceThrowsError());
 			
 			_wordList = new Vector.<String>();
-			_wordSlots = Vector.<IWordSlotModel>([new MockWordSlotModel() as IWordSlotModel]);
-			assertTrue("Throws error if there are more slots than strings", createInstance());
+			_wordSlots = Vector.<IWordSlotModel>([new MockWordSlotModel()]);
+			assertTrue("Throws error if there are more slots than strings", createInstanceThrowsError());
 			
 			_wordList = Vector.<String>([""]);
 			_wordSlots = new Vector.<IWordSlotModel>();
-			assertFalse("Does not throw an error if there are more strings than slots", createInstance());
+			assertFalse("Does not throw an error if there are more strings than slots", createInstanceThrowsError());
 		}
 		
-		private function createInstance():Boolean
-		{
+		private function createInstanceThrowsError():Boolean {
 			try {
 				new WordSlotHandlerModel(_wordList, _wordSlots);
 				return false;
 			} catch (error:Error) {
 				return true;
 			}
-			return false; // compiler satisfaction, reaches this point only if an error is both not caught and not not caught.
+			throw new Error("Should not reach this point");
 		}
 		
-		/**
-		 * Tests initWordSlots()
-		 */
-		public function testInitWordSlots():void
-		{
-			_instance.addEventListener(WordSlotHandlerEvent.CREATE, eventRecorder);
-			_instance.initWordSlots();
-			_instance.removeEventListener(WordSlotHandlerEvent.CREATE, eventRecorder);
-			var returnedWords:Vector.<IWordSlotModel> = _createEventReturnedWords;
+		public function should_correctly_assign_spellings_to_word_slots():void {
+			var returnedWords:Vector.<IWordSlotModel> = _recordedWordCreations;
 			
 			assertEquals("initWordSlots created the right number of IWordSlots", returnedWords.length, _wordSlots.length);
 			for (var i:int = 0; i < returnedWords.length; ++i)
-			{
-				assertTrue("The relayed new word slot is of type IWordSlotModel.", returnedWords[i] is IWordSlotModel);
 				assertEquals("The relayed words have the same strings as the input words", _wordList[i], returnedWords[i].wordToSpell);
-			}
-		}
-		
-		private function eventRecorder(e:WordSlotHandlerEvent):void
-		{
-			_createEventReturnedWords.push(e.newWord);
 		}
 		
 		/**
 		 * Tests whether after initWordSlots() has been called that when a wordslot dispatches a WordSlotEvent.FINISH event, it receives a new spelling.
 		 */
-		public function testWordFinishReset():void
-		{
-			//i feel like this test misses something
-			_instance.initWordSlots();
+		public function testWordFinishReset():void {
 			var i:int;
-			for (i = 0; i < NUM_SLOTS; ++i)
-			{
+			for (i = 0; i < NUM_SLOTS; ++i) {
 				_wordSlots[i].dispatchEvent(new WordSlotEvent(WordSlotEvent.FINISH));
 				assertEquals("Dispatching a FINISH event on the words gives it the next word in the passed in list", _wordSlots[i].wordToSpell, _wordList[i + NUM_SLOTS]);
 			}
-			for (i = 0; i < NUM_SLOTS; ++i)
-			{
+			for (i = 0; i < NUM_SLOTS; ++i) {
 				_wordSlots[i].dispatchEvent(new WordSlotEvent(WordSlotEvent.FINISH));
 				assertEquals("Dispatching a FINISH event on the words after you have used every word on the list wraps back arround to the start of the list", _wordSlots[i].wordToSpell, _wordList[i]);
 			}
 		}
 		
-		public function testDispatchEventOnWordComplete():void
-		{
-			_instance.initWordSlots();
-			_instance.addEventListener(WordCompleteEvent.JUMP, recordJump);
+		public function testDispatchEventOnWordComplete():void {
+			var numJumps:int = 0;
+			_instance.addEventListener(WordCompleteEvent.JUMP, function(e:Event):void {numJumps++});
 			
-			_wordSlots[0].advanceWord(Util.toCharcode("A"));
-			_wordSlots[0].advanceWord(Util.toCharcode("A"));
-			_wordSlots[0].advanceWord(Util.toCharcode("A"));
-			assertEquals("Dispatches a WordCompleteEvent.JUMP event when a word completes", 1, _numJumps);
-			
-			_wordSlots[1].advanceWord(Util.toCharcode("A"));
-			_wordSlots[1].advanceWord(Util.toCharcode("B"));
-			_wordSlots[1].advanceWord(Util.toCharcode("B"));
-			assertEquals("Dispatches a WordCompleteEvent.JUMP event when a word completes", 2, _numJumps);
-			
-			_wordSlots[2].advanceWord(Util.toCharcode("A"));
-			_wordSlots[2].advanceWord(Util.toCharcode("B"));
-			_wordSlots[2].advanceWord(Util.toCharcode("C"));
-			assertEquals("Dispatches a WordCompleteEvent.JUMP event when a word completes", 3, _numJumps);
+			advance(_wordSlots[0], "AAA");
+			assertEquals("Dispatches a WordCompleteEvent.JUMP event when a word completes", 1, numJumps);
 		}
 		
-		private function recordJump(e:WordCompleteEvent):void
-		{
-			_numJumps++;
+		private function advance(wordSlot:IWordSlotModel, inputLetters:String):void {
+			for (var i:int = 0; i < inputLetters.length; i++)
+				wordSlot.advanceWord(Util.toCharcode(inputLetters.substr(i, 1)));
 		}
 	}
 }

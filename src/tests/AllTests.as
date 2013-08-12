@@ -1,79 +1,66 @@
 package tests
 {
-	import asunitsrc.asunit.framework.TestSuite;
-	import flash.display.Stage;
-	import tests.events.WordSlotHandlerEventTest;
-	import tests.events.WordSlotEventTest;
-	import tests.mvc.controller.InputOpperatorTest;
-	import tests.mvc.model.EntityModelTest;
-	import tests.mvc.model.PlayerModelTest;
-	import tests.mvc.model.EntityModelTest;
-	import tests.mvc.model.words.WordSlotHandlerModelTest;
-	import tests.mvc.model.words.WordSlotLatcherTest;
-	import tests.mvc.model.words.WordSlotModelTest;
+	import asunitsrc.asunit.framework.*;
+	import flash.display.*;
+	import tests.events.*;
+	import tests.kris.*;
+	import tests.mvc.controller.*;
+	import tests.mvc.model.*;
+	import tests.mvc.model.words.*;
 	
 	/**
 	 * Executes all unit tests for the aplication.
 	 * @author Kristian Welsh
 	 */
-	public class AllTests extends TestSuite
-	{
+	public class AllTests extends TestSuite {
 		private static var _stage:Stage = null;
 		
-		public static function set stage(value:Stage):void
-		{
+		public static function set stage(value:Stage):void {
 			_stage = value;
 		}
 		
 		/** Runs all unit tests. */
-		public function AllTests()
-		{
+		public function AllTests() {
 			super();
 			if (_stage == null) throw new Error("You must set the stage for all tests before calling the constructor");
 			
 			wordSlotHandlerEvent();
 			wordSlotEvent();
-			inputOpperator();
-			wordSlotHandlerModel();
-			wordSlotModel();
-			playerModel();
+			
 			entityModel();
+			playerModel();
+			wordSlotModel();
 			wordSlotLatcher();
+			wordSlotHandlerModel();
+			
+			inputOpperator();
+			
+			rectangleCollision();
 		}
 		
-		private function wordSlotHandlerEvent():void
-		{
-			addTest(new WordSlotHandlerEventTest("testDataRetention"));
-			addTest(new WordSlotHandlerEventTest("testClone"));
+		
+		private function wordSlotHandlerEvent():void {
+			addTest(new WordSlotHandlerEventTest("test_data_retrieval"));
+			addTest(new WordSlotHandlerEventTest("test_clone"));
 		}
 		
-		private function wordSlotEvent():void
-		{
-			addTest(new WordSlotEventTest("testDataRetention"));
-			addTest(new WordSlotEventTest("testClone"));
+		private function wordSlotEvent():void {
+			addTest(new WordSlotEventTest("test_data_retrieval"));
+			addTest(new WordSlotEventTest("test_clone"));
 		}
 		
-		private function inputOpperator():void
-		{
-			addTest(new InputOpperatorTest("testKeyPress", _stage));
+		
+		private function entityModel():void {
+			addTest(new EntityModelTest("can_get_x"));
+			addTest(new EntityModelTest("can_get_y"));
+			addTest(new EntityModelTest("should_dispatch_position_change_event_when_moved"));
 		}
 		
-		private function wordSlotHandlerModel():void
-		{
-			addTest(new WordSlotHandlerModelTest("testInitWordSlots"));
-			addTest(new WordSlotHandlerModelTest("testWordFinishReset"));
-			addTest(new WordSlotHandlerModelTest("testDispatchEventOnWordComplete"));
-			addTest(new WordSlotHandlerModelTest("should_reject_incorrect_constructor_parameters"));
+		private function playerModel():void {
+			addTest(new PlayerModelTest("should_move_up_on_jump"));
 		}
 		
-		private function wordSlotLatcher():void
-		{
-			addTest(new WordSlotLatcherTest("testAcceptInputHappyCase1"));
-			addTest(new WordSlotLatcherTest("testAcceptInputSadCase1"));
-		}
-		
-		private function wordSlotModel():void
-		{
+		private function wordSlotModel():void {
 			addTest(new WordSlotModelTest("testUserCanGetAndSetWordToSpell"));
 			addTest(new WordSlotModelTest("testSettingWordToSpellDispatchesChangeWordSlotEvent"));
 			addTest(new WordSlotModelTest("testCorrectAdvanceWordCallDispatchesAdvanceWordSlotEvent"));
@@ -81,18 +68,28 @@ package tests
 			addTest(new WordSlotModelTest("testCompletingWordCallDispatchesFinishEvent"));
 		}
 		
-		private function playerModel():void
-		{
-			addTest(new PlayerModelTest("should_move_up_on_jump"));
+		private function wordSlotLatcher():void {
+			addTest(new WordSlotLatcherTest("test_accept_input_happy_case"));
+			addTest(new WordSlotLatcherTest("test_accept_input_sad_case"));
+			addTest(new WordSlotLatcherTest("should_type_words_from_multiple_different_slots_correctly"));
 		}
 		
-		private function entityModel():void
-		{
-			addTest(new EntityModelTest("can_get_x"));
-			addTest(new EntityModelTest("can_get_y"));
-			addTest(new EntityModelTest("should_dispatch_position_change_event_when_moved"));
-			addTest(new EntityModelTest("should_check_colliision_with_other_entitys_correctly"));
-			addTest(new EntityModelTest("should_collide_with_other_entitys_correctly"));
+		private function wordSlotHandlerModel():void {
+			addTest(new WordSlotHandlerModelTest("should_correctly_assign_spellings_to_word_slots"));
+			addTest(new WordSlotHandlerModelTest("testWordFinishReset"));
+			addTest(new WordSlotHandlerModelTest("testDispatchEventOnWordComplete"));
+			addTest(new WordSlotHandlerModelTest("should_reject_incorrect_constructor_parameters"));
+		}
+		
+		
+		private function inputOpperator():void {
+			addTest(new InputOpperatorTest("should_call_acceptInput_on_its_IWordSlotHandlerModel_when_it_detects_a_key_press", _stage));
+		}
+		
+		
+		private function rectangleCollision():void {
+			addTest(new RectangleCollisionTest("should_detect_correctly"));
+			addTest(new RectangleCollisionTest("should_resolve_correctly"));
 		}
 	}
 }

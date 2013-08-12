@@ -1,19 +1,17 @@
 package com.mvc.model
 {
-	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.IWordSlotHandlerModel;
 	import com.mvc.model.words.IWordSlotLatcher;
 	import com.mvc.model.words.IWordSlotModel;
 	import com.mvc.model.words.WordSlotHandlerModel;
 	import com.mvc.model.words.WordSlotLatcher;
 	import com.mvc.model.words.WordSlotModel;
+	import flash.display.Stage;
 	import flash.events.EventDispatcher;
-	import flash.geom.Point;
-	import flash.utils.Timer;
+	import flash.events.KeyboardEvent;
 	import flash.events.TimerEvent;
-	import kris.Dimentions;
+	import flash.utils.Timer;
 	import kris.Util;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * Contains the bulk of the logic
@@ -22,16 +20,15 @@ package com.mvc.model
 	public class GameModel extends EventDispatcher
 	{
 		public static const NUMBER_OF_WORD_SLOTS_TO_CREATE:int = 3
+		private static const STAGE_WIDTH:int = 800;
+		private static const STAGE_HEIGHT:int = 600;
 		
 		private var _wordSlotHandler:IWordSlotHandlerModel;
 		private var _player:PlayerModel;
-		
 		private var _obstacle:ObstacleModel;
 		private var _timer:Timer;
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		private var _wordSlotLatcher:IWordSlotLatcher;
-		
-		// PUBLIC
 		
 		public function get wordSlotLatcher():IWordSlotLatcher { return _wordSlotLatcher; }
 		public function get obstacle():ObstacleModel { return _obstacle; }
@@ -45,9 +42,9 @@ package com.mvc.model
 		public function GameModel():void
 		{
 			createWordSlotSystem();
-			_player = new PlayerModel(new Point(800/2-20, 600/2-75), 53, 53, _wordSlotHandler);
+			_player = new PlayerModel(STAGE_WIDTH/2-20, STAGE_HEIGHT/2-75, 53, 53, _wordSlotHandler);
 			
-			_obstacle = new ObstacleModel(new Point(600, 600/2-30), new Dimentions(43, 41));
+			_obstacle = new ObstacleModel(_player.x + 60, _player.y - 10, 43, 41);
 			
 			_timer = new Timer(10);
 			_timer.addEventListener(TimerEvent.TIMER, tock);
@@ -59,12 +56,9 @@ package com.mvc.model
 			_timer.start();
 		}
 		
-		// PRIVATE
-		
 		private function tock(e:TimerEvent):void
 		{
 			_obstacle.moveBy(-1, 0);
-			_player.collideWith(_obstacle);
 		}
 		
 		/**
@@ -73,8 +67,8 @@ package com.mvc.model
 		 */
 		private function createWordSlotSystem():void
 		{
-			var wordsToSpell:Vector.<String> = Vector.<String>(["aaaaaaa", "bbbbbb", "ccccc", "dddd", "eee", "ff", "g"]);
-			wordsToSpell = Util.scrambleStringVector(wordsToSpell);
+			var wordsToSpell:Vector.<String> = Vector.<String>(["qq", "ww", "ee", "rr", "tt", "yy", "uu"]);
+			//wordsToSpell = Util.scrambleStringVector(wordsToSpell);
 			_wordSlots = createWordSlotModelVector();
 			_wordSlotHandler = new WordSlotHandlerModel(wordsToSpell, _wordSlots);
 			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
@@ -91,7 +85,7 @@ package com.mvc.model
 			var wordObjects:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 			for (var i:int = 0; i < NUMBER_OF_WORD_SLOTS_TO_CREATE; i++)
 			{
-				wordObjects.push(new WordSlotModel() as IWordSlotModel);
+				wordObjects.push(new WordSlotModel());
 			}
 			return wordObjects;
 		}

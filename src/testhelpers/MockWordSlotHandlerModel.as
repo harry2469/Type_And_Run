@@ -10,11 +10,11 @@ package testhelpers
 	{
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		public function initWordSlots():void { }
-		public function MockWordSlotHandlerModel(mockWordSlotModels:Vector.<IWordSlotModel> = null)
+		public function MockWordSlotHandlerModel(wordSlotModels:Vector.<IWordSlotModel> = null)
 		{
 			super();
-			mockWordSlotModels ||= new Vector.<IWordSlotModel>();
-			_wordSlots = mockWordSlotModels
+			wordSlotModels ||= new Vector.<IWordSlotModel>();
+			_wordSlots = wordSlotModels
 		}
 		
 		public function get wordSlots():Vector.<IWordSlotModel> { return _wordSlots; }

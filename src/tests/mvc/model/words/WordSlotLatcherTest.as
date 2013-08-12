@@ -1,10 +1,7 @@
-package tests.mvc.model.words
-{
-	// Asunit imports
+package tests.mvc.model.words {
 	import asunitsrc.asunit.framework.TestCase;
-	import com.events.WordCompleteEvent;
+	import com.events.WordSlotEvent;
 	import com.mvc.model.words.IWordSlotModel;
-	import com.mvc.model.words.WordSlotHandlerModel;
 	import com.mvc.model.words.WordSlotLatcher;
 	import flash.events.Event;
 	import kris.Util;
@@ -19,102 +16,69 @@ package tests.mvc.model.words
 	{
 		static public const NUM_WORDS:Number = 3;
 		
-		// Object under test and its dependancies.
-		private var _wordList:Vector.<String>;
-		private var _wordSlots:Vector.<IWordSlotModel>;
-		private var _latchedWordSlots:Vector.<IWordSlotModel>;
+		private var _wordList:Vector.<String> = Vector.<String>(["AAA", "ABB", "ABC", "XXX", "XYY", "XYZ"]);
+		private var _wordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 		private var _instance:WordSlotLatcher;
+		private var _handler:MockWordSlotHandlerModel;
 		
-		// Member variables for setting whitin listeners to assist in testing.
-		private var _createEventReturnedWords:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 		private var _numAdvancements:int = 0;
 		private var _numNonAdvancements:int = 0;
-		private var _numJumps:uint;
+		private var _numFinished:int = 0;
 		
-		/**
-		 * Start the test specified by the passed in string.
-		 * @param	testMethod
-		 */
-		public function WordSlotLatcherTest(testMethod:String):void
-		{
+		public function WordSlotLatcherTest(testMethod:String):void {
 			super(testMethod);
 		}
 		
-		/**
-		 * Set up the test environment.
-		 * Always called when test is created.
-		 */
-		protected override function setUp():void
-		{
-			_wordList = Vector.<String>(["AAA", "ABB", "ABC", "Word4", "Word5", "Word6"]);
-			_wordSlots = createWordSlotModelVector();
-			_latchedWordSlots = new Vector.<IWordSlotModel>();
-			_instance = new WordSlotLatcher(new MockWordSlotHandlerModel(_wordSlots), new Vector.<IWordSlotModel>());
+		protected override function setUp():void {
+			populateWordSlots();
+			_handler = new MockWordSlotHandlerModel(_wordSlots);
+			_instance = new WordSlotLatcher(_handler, new Vector.<IWordSlotModel>());
 		}
 		
-		private function createWordSlotModelVector():Vector.<IWordSlotModel>
-		{
-			var wordObjects:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
+		private function populateWordSlots():void {
 			for (var i:int = 0; i < NUM_WORDS; i++)
-			{
-				wordObjects.push(new MockWordSlotModel(_wordList[i]) as IWordSlotModel);
-			}
-			return wordObjects;
+				populateIndex(i);
 		}
 		
-		/**
-		 * Tests acceptInput()'s behaviour in the case that the user types a word without mistakes.
-		 */
-		public function testAcceptInputHappyCase1():void
-		{
-			for (var i:int = 0; i < _wordSlots.length; ++i)
-			{
-				_wordSlots[i].wordToSpell = _wordList[i];
-				_wordSlots[i].addEventListener(Event.ACTIVATE, recordAdvancement);
-				_wordSlots[i].addEventListener(Event.DEACTIVATE, recordNonAdvancement);
-			}
-			
-			_instance.acceptInput(Util.toCharcode("A"));
-			_instance.acceptInput(Util.toCharcode("B"));
-			_instance.acceptInput(Util.toCharcode("C"));
+		private function populateIndex(index:int):void {
+			_wordSlots.push(new MockWordSlotModel(_wordList[index]));
+			listenToWordSlotAtIndex(index);
+		}
+		
+		private function listenToWordSlotAtIndex(index:int):void {
+			_wordSlots[index].addEventListener(Event.ACTIVATE, function(e:Event):void { ++_numAdvancements; });
+			_wordSlots[index].addEventListener(Event.DEACTIVATE, function(e:Event):void { ++_numNonAdvancements; });
+			_wordSlots[index].addEventListener(WordSlotEvent.FINISH, function(e:WordSlotEvent):void { ++_numFinished; });
+		}
+		
+		/** User types one word without mistakes. */
+		public function test_accept_input_happy_case():void {
+			giveInputs("ABC");
 			
 			assertEquals("Words receive an advanceWord call with the correct charCode the the correct number of times", NUM_WORDS*2, _numAdvancements);
 			assertEquals("Words receive a failing external isNextCharacterCode call the correct number of times", NUM_WORDS-1, _numNonAdvancements);
-			
 		}
 		
-		/**
-		 * Tests acceptInput()'s behaviour in the case that the user starts typing a word correctly, but makes a mistake before finishing the word.
-		 */
-		public function testAcceptInputSadCase1():void
-		{
-			for (var i:int = 0; i < _wordSlots.length; ++i)
-			{
-				_wordSlots[i].wordToSpell = _wordList[i];
-				_wordSlots[i].addEventListener(Event.ACTIVATE, recordAdvancement);
-				_wordSlots[i].addEventListener(Event.DEACTIVATE, recordNonAdvancement);
-			}
-			
-			_instance.acceptInput(Util.toCharcode("A"));
-			_instance.acceptInput(Util.toCharcode("X"));
+		/** User starts typing a word correctly, but makes a mistake before finishing the word. */
+		public function test_accept_input_sad_case():void {
+			giveInputs("AX");
 			
 			assertEquals("Words receive an advanceWord call with the correct charCode the the correct number of times", NUM_WORDS, _numAdvancements);
 			assertEquals("Words receive a failing external isNextCharacterCode call the correct number of times", NUM_WORDS, _numNonAdvancements);
 		}
 		
-		private function recordAdvancement(e:Event):void
-		{
-			++_numAdvancements
+		/** User starts types a word correctly, then types a word form a different wordSlot correctly. */
+		public function should_type_words_from_multiple_different_slots_correctly():void {
+			giveInputs("ABC");
+			_handler.finishWord();
+			giveInputs("ABB");
+			
+			assertEquals(2, _numFinished);
 		}
 		
-		private function recordNonAdvancement(e:Event):void
-		{
-			++_numNonAdvancements
-		}
-		
-		private function recordJump(e:WordCompleteEvent):void
-		{
-			_numJumps++
+		private function giveInputs(inputLetters:String):void {
+			for (var i:int = 0; i < inputLetters.length; i++)
+				_instance.acceptInput(Util.toCharcode(inputLetters.substr(i, 1)));
 		}
 	}
 }

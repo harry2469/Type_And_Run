@@ -6,7 +6,6 @@ package tests.mvc.model
 	import com.mvc.model.EntityModel;
 	import flash.geom.Point;
 	import kris.Dimentions;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * Tests all public behavior of the EntityModelTest class.
@@ -64,15 +63,17 @@ package tests.mvc.model
 			instance.addEventListener(EntityModelEvent.POSITION_CHANGE, recordPositionChange);
 			
 			instance.moveBy(0, 0);
-			assertEquals("moving by zero doesnt dispatch an event", 0, _positionChangeEvents.length);
+			assertEquals("moving by a zero value dispatches an event", 1, _positionChangeEvents.length);
+			_positionChangeEvents.length = 0;
 			
 			instance.moveBy(1, 1);
 			assertEquals("moving by a positive value dispatches an event", 1, _positionChangeEvents.length);
+			_positionChangeEvents.length = 0;
 			
 			instance.moveBy(-1, -1);
-			assertEquals("moving by a negative value dispatches an event", 2, _positionChangeEvents.length);
-			
+			assertEquals("moving by a negative value dispatches an event", 1, _positionChangeEvents.length);
 			_positionChangeEvents.length = 0;
+			
 			instance.moveBy(30, 80);
 			assertEquals("dispatched events contain the current position of the instance, x", 30, _positionChangeEvents[0].x);
 			assertEquals("dispatched events contain the current position of the instance, y", 80, _positionChangeEvents[0].y);
@@ -83,57 +84,18 @@ package tests.mvc.model
 			_positionChangeEvents.push(e);
 		}
 		
-		public function should_check_colliision_with_other_entitys_correctly():void
-		{
-			var callOn:EntityModel = newModel();
-			var callWith:EntityModel = newModel();
-			assertTrue("Calling isCollidingWith on itself should throw an error", tryFunction(callOn.collideWith, callOn));
-			
-			callOn = newModel();
-			callWith = newModel();
-			assertTrue("Calling isCollidingWith on entities at the same position should return true", areColliding(callOn, callWith));
-			
-			callOn = newModel();
-			callWith = newModel(1, 1);
-			assertFalse("Calling isCollidingWith on two points at the different positions should return false", areColliding(callOn, callWith));
-			
-			callOn = newModel(1, 1, 5, 5);
-			callWith = newModel(2, 2, 5, 5);
-			assertTrue("Calling isCollidingWith on two intersecting non-point entities should return true", areColliding(callOn, callWith));
-			
-			callOn = newModel(1, 1, 5, 5);
-			callWith = newModel(6, 6, 5, 5);
-			assertFalse("Calling isCollidingWith on two entities with corners at the same position should return false", areColliding(callOn, callWith));
-			
-			callOn = newModel(0, 0, 5, 5);
-			callWith = newModel(5, 0, 5, 5);
-			assertFalse("Calling isCollidingWith on two entities with a touching side should return false", areColliding(callOn, callWith));
+		private function newModel(x:Number = 0, y:Number = 0, w:Number = 0, h:Number = 0):EntityModel {
+			return new EntityModel(x, y, w, h);
 		}
 		
-		public function should_collide_with_other_entitys_correctly():void
-		{
-			var callOn:EntityModel = newModel();
-			var callWith:EntityModel = newModel();
-			assertTrue("Calling collideWith on itself should throw an error", tryFunction(callOn.isCollidingWith, callOn));
-			assertFalse("Calling collideWith on itself should not throw an error", tryFunction(callOn.isCollidingWith, callWith));
-			// TODO finish this method
-		}
-		
-		private function newModel(x:Number = 0, y:Number = 0, w:Number = 0, h:Number = 0):EntityModel
-		{
-			return new EntityModel(new Point(x, y), new Dimentions(w, h));
-		}
-		
-		private function areColliding(entity1:EntityModel, entity2:EntityModel):Boolean
-		{
+		private function areColliding(entity1:EntityModel, entity2:EntityModel):Boolean {
 			return entity1.isCollidingWith(entity2);
 		}
 		
-		private function tryFunction(func:Function, ... args):Boolean
-		{
+		private function functionThrowsError(func:Function, ... args):Boolean {
 			try {
 				func.apply(null, args);
-				return false; // doesnt get called if error is thrown
+				return false;
 			} catch (error:Error) {
 				return true;
 			}

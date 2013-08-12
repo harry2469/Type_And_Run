@@ -1,132 +1,97 @@
 package com.mvc.model.words
 {
-	// Flash Imports
 	import com.events.WordCompleteEvent;
+	import com.events.WordSlotEvent;
+	import com.events.WordSlotHandlerEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	
-	// My Imports
-	import com.events.WordSlotEvent;
-	import com.events.WordSlotHandlerEvent;
-	
 	/**
-	 * Prepares a list of word slots and listens to them for changes.
+	 * Prepares a list of word slots and listens to them for changes. (possible double responsibility?)
 	 * @author Kristian Welsh
 	 */
 	public class WordSlotHandlerModel extends EventDispatcher implements IWordSlotHandlerModel
 	{
-		// Variables
-		
-		/** Scrambled list of spellable words. */
-		private var _wordStrings:Vector.<String>;
-		
-		/** List of all the word slot models this object is handling. */
-		private var _wordSlots:Vector.<IWordSlotModel>;
+		private var _wordSpellings:Vector.<String>;
+		private var _wordSlotModels:Vector.<IWordSlotModel>;
 		
 		/**
-		 * The current index you are at in the _wordStrings array.
-		 * This starts at -1 so that when you want a new word
-		 * you can increase it then use it immediately.
+		 * The current index you are at in the _wordSpellings Vector.
+		 * This starts at -1 so that when you want a new word you can increase it then use it immediately.
 		 */
-		private var _spellingListProgress:int = -1;
-		
-		// PUBLIC
+		private var _wordSpellingProgress:int = -1;
 		
 		/**
 		 * Set the initial values of all dependencies.
-		 * @param List of word spellings to assign.
+		 * @param Scrambled list of word spellings to assign.
 		 * @param List of word slots to handle.
 		 * @param List of word slots that are currently being correctly spelled by the user.
 		 */
-		public function WordSlotHandlerModel(wordList:Vector.<String>, wordSlots:Vector.<IWordSlotModel>):void
-		{
-			if (!(wordList.length > wordSlots.length))
-			{
-				throw new Error("The passed in wordList Vector needs to be longer than the wordSlots Vector.", 3);
-			}
+		public function WordSlotHandlerModel(wordSpellings:Vector.<String>, wordSlots:Vector.<IWordSlotModel>):void {
+			if (!(wordSpellings.length > wordSlots.length))
+				throw new Error("The passed in wordSpellings Vector needs to be longer than the wordSlots Vector.", 3);
 			
-			_wordStrings = wordList;
-			_wordSlots = wordSlots;
-		}
-		
-		public function getWordSlotAt(index:uint):IWordSlotModel
-		{
-			return _wordSlots[index];
-		}
-		
-		public function get length():uint
-		{
-			return _wordSlots.length;
-		}
-		
-		public function isNextCharacterCode(index:uint, characterCode:int):Boolean
-		{
-			return _wordSlots[index].isNextCharacterCode(characterCode);
-		}
-		
-		/** Destroys the object in a clean and memory concious fashion. */
-		public function destroy():void
-		{
-			for (var i:int = 0; i < _wordSlots.length; ++i)
-			{
-				_wordSlots[i].removeEventListener(WordSlotEvent.FINISH, onWordFinish);
-			}
+			_wordSpellings = wordSpellings;
+			_wordSlotModels = wordSlots;
 		}
 		
 		/** Set up all the word slots and give each a word to spell. */
-		public function initWordSlots():void
-		{
-			for (var i:int = 0; i < _wordSlots.length; i++) {
+		public function initWordSlots():void {
+			for (var i:int = 0; i < _wordSlotModels.length; i++) {
 				initWordSlotAtIndex(i);
 			}
 		}
 		
-		// PRIVATE
-		
-		private function get nextSpelling():String
-		{
-			return _wordStrings[_spellingListProgress];
+		private function initWordSlotAtIndex(index:int):void {
+			giveWordNewSpelling(_wordSlotModels[index]);
+			_wordSlotModels[index].addEventListener(WordSlotEvent.FINISH, onWordFinish);
+			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlotModels[index]));
 		}
 		
-		private function initWordSlotAtIndex(index:int):void
-		{
-			giveWordNewSpelling(_wordSlots[index]);
-			_wordSlots[index].addEventListener(WordSlotEvent.FINISH, onWordFinish);
-			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlots[index]));
-		}
-		
-		private function onWordFinish(e:WordSlotEvent):void
-		{
+		private function onWordFinish(e:WordSlotEvent):void {
 			giveWordNewSpelling(e.target as IWordSlotModel);
 			dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
 		}
 		
-		private function giveWordNewSpelling(wordSlot:IWordSlotModel):void
-		{
-			wordSlot.wordToSpell = consumeSpelling();
+		private function giveWordNewSpelling(wordSlot:IWordSlotModel):void {
+			advanceSpellings();
+			wordSlot.wordToSpell = currentSpelling;
 		}
 		
-		/**
-		 * Advances to the next spelling, returning that new spelling.
-		 * @return first available spelling from the list
-		 */
-		private function consumeSpelling():String
-		{
+		private function advanceSpellings():void {
 			do {
-				_spellingListProgress++;
-				if (_spellingListProgress >= _wordStrings.length) _spellingListProgress = 0;
-			} while (isWordInUse(nextSpelling));
-			return nextSpelling;
+				if (++_wordSpellingProgress >= _wordSpellings.length) _wordSpellingProgress = 0;
+			} while (isWordInUse(currentSpelling));
 		}
 		
-		private function isWordInUse(word:String):Boolean
-		{
-			for (var i:int = 0; i < _wordSlots.length; ++i)
-			{
-				if (_wordSlots[i].wordToSpell == word) return true;
+		private function get currentSpelling():String {
+			return _wordSpellings[_wordSpellingProgress];
+		}
+		
+		private function isWordInUse(wordToFind:String):Boolean {
+			for (var i:int = 0; i < _wordSlotModels.length; ++i) {
+				if (_wordSlotModels[i].wordToSpell == wordToFind) return true;
 			}
 			return false;
+		}
+		
+		public function destroy():void {
+			for (var i:int = 0; i < _wordSlotModels.length; ++i) {
+				_wordSlotModels[i].removeEventListener(WordSlotEvent.FINISH, onWordFinish);
+			}
+		}
+		
+		public function getWordSlotAt(index:uint):IWordSlotModel {
+			return _wordSlotModels[index];
+		}
+		
+		public function get length():uint {
+			return _wordSlotModels.length;
+		}
+		
+		public function isNextCharacterCode(index:uint, characterCode:int):Boolean {
+			return _wordSlotModels[index].isNextCharacterCode(characterCode);
 		}
 	}
 }

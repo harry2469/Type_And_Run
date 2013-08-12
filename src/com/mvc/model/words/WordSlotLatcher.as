@@ -1,5 +1,6 @@
 package com.mvc.model.words
 {
+	import com.events.WordCompleteEvent;
 	/**
 	 * ...
 	 * @author Kristian Welsh
@@ -10,63 +11,55 @@ package com.mvc.model.words
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		private var _handler:IWordSlotHandlerModel;
 		
-		public function WordSlotLatcher(handler:IWordSlotHandlerModel, latchedWordSlots:Vector.<IWordSlotModel>)
-		{
-			super();
-			_handler = handler
+		public function WordSlotLatcher(handler:IWordSlotHandlerModel, latchedWordSlots:Vector.<IWordSlotModel>) {
+			_handler = handler;
 			_latchedWordSlots = latchedWordSlots;
+			handler.addEventListener(WordCompleteEvent.JUMP, unlatchAll);
 		}
 		
-		public function unlatchAll():void
-		{
-			_latchedWordSlots.length = 0;
+		private function unlatchAll(e:WordCompleteEvent):void {
+			_latchedWordSlots = new Vector.<IWordSlotModel>();
 		}
 		
-		/**
-		 * Send advance and reset messages to the valid wordslots for the input character.
-		 * @param Character code of the key parse
-		 */
-		public function acceptInput(charCode:int):void
-		{
+		public function acceptInput(charCode:int):void {
 			latchValidWords(charCode);
 			advanceAllLatchedWords(charCode);
 		}
 		
-		// PRIVATE
-		
-		private function latchValidWords(inputChar:int):void
-		{
-			if (_latchedWordSlots.length != 0) return;
-			for (var i:int = 0; i < _handler.length; i++)
-			{
-				if (_handler.isNextCharacterCode(i, inputChar)) {
-					_latchedWordSlots.push(_handler.getWordSlotAt(i));
-				}
-			}
+		private function latchValidWords(inputChar:int):void {
+			if (_latchedWordSlots.length == 0)
+				for (var i:int = 0; i < _handler.length; i++)
+					latchValidWord(i, inputChar);
 		}
 		
-		private function advanceAllLatchedWords(inputChar:int):void
-		{
-			for (var i:int = _latchedWordSlots.length-1; i >= 0; --i)
-			{
-				if (!_latchedWordSlots[i].isNextCharacterCode(inputChar)) {
-					unlatchIndex(i);
-				} else {
-					_latchedWordSlots[i].advanceWord(inputChar);
-				}
-			}
+		private function latchValidWord(index:int, inputChar:int):void {
+			if (_handler.isNextCharacterCode(index, inputChar))
+				_latchedWordSlots.push(_handler.getWordSlotAt(index));
 		}
 		
-		/**
-		 * Cleanly reset and remove element at index on _latchedWordSlots.
-		 * @param	index
-		 */
-		private function unlatchIndex(index:int):void
-		{
+		private function advanceAllLatchedWords(inputChar:int):void {
+			for (var i:int = _latchedWordSlots.length - 1; i >= 0; --i)
+				advanceLatchedWord(i, inputChar)
+		}
+		
+		private function advanceLatchedWord(index:int, inputChar:int):void {
+			if (isCorrectInput(index, inputChar))
+				advanceWord(index, inputChar);
+			else
+				unlatchIndex(index);
+		}
+		
+		private function isCorrectInput(index:int, inputChar:int):Boolean {
+			return _latchedWordSlots[index].isNextCharacterCode(inputChar);
+		}
+		
+		private function advanceWord(index:int, inputChar:int):void {
+			_latchedWordSlots[index].advanceWord(inputChar);
+		}
+		
+		private function unlatchIndex(index:int):void {
 			_latchedWordSlots[index].resetWord();
 			_latchedWordSlots.splice(index, 1);
 		}
-		
 	}
-
 }

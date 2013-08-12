@@ -1,5 +1,6 @@
 package kris
 {
+	import flash.geom.Point;
 	/**
 	 * ...
 	 * @author Kristian Welsh
@@ -11,8 +12,13 @@ package kris
 		
 		public function Dimentions(width:Number, height:Number)
 		{
-			this.height = height;
 			this.width = width;
+			this.height = height;
+		}
+		
+		public function toPoint():Point
+		{
+			return new Point(width, height);
 		}
 		
 	}

@@ -9,13 +9,9 @@ package testhelpers
 	 */
 	public class MockWordSlotLatcher extends EventDispatcher implements IWordSlotLatcher
 	{
-		public function unlatchAll():void { }
-		
 		public function acceptInput(charCode:int):void
 		{
 			dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, charCode));
 		}
-		
 	}
-
 }
