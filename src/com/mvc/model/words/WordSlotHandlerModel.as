@@ -2,7 +2,6 @@ package com.mvc.model.words
 {
 	import com.events.WordCompleteEvent;
 	import com.events.WordSlotEvent;
-	import com.events.WordSlotHandlerEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
@@ -46,7 +45,6 @@ package com.mvc.model.words
 		private function initWordSlotAtIndex(index:int):void {
 			giveWordNewSpelling(_wordSlotModels[index]);
 			_wordSlotModels[index].addEventListener(WordSlotEvent.FINISH, onWordFinish);
-			dispatchEvent(new WordSlotHandlerEvent(WordSlotHandlerEvent.CREATE, _wordSlotModels[index]));
 		}
 		
 		private function onWordFinish(e:WordSlotEvent):void {
@@ -82,16 +80,20 @@ package com.mvc.model.words
 			}
 		}
 		
-		public function getWordSlotAt(index:uint):IWordSlotModel {
-			return _wordSlotModels[index];
+		//public function getWordSlotAt(index:uint):IWordSlotModel {
+			//return _wordSlotModels[index];
+		//}
+		
+		public function getWordSlots():Vector.<IWordSlotModel> {
+			return _wordSlotModels;
 		}
 		
-		public function get length():uint {
-			return _wordSlotModels.length;
-		}
+		//public function get length():uint {
+			//return _wordSlotModels.length;
+		//}
 		
-		public function isNextCharacterCode(index:uint, characterCode:int):Boolean {
-			return _wordSlotModels[index].isNextCharacterCode(characterCode);
-		}
+		//public function isNextCharacterCode(index:uint, characterCode:int):Boolean {
+			//return _wordSlotModels[index].isNextCharacterCode(characterCode);
+		//}
 	}
 }

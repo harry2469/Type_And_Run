@@ -1,8 +1,6 @@
-package tests
-{
+package tests {
 	import asunitsrc.asunit.framework.*;
 	import flash.display.*;
-	import tests.events.*;
 	import tests.kris.*;
 	import tests.mvc.controller.*;
 	import tests.mvc.model.*;
@@ -22,13 +20,10 @@ package tests
 		/** Runs all unit tests. */
 		public function AllTests() {
 			super();
-			if (_stage == null) throw new Error("You must set the stage for all tests before calling the constructor");
-			
-			wordSlotHandlerEvent();
-			wordSlotEvent();
+			if (_stage == null)
+				throw new Error("You must set the stage for all tests before calling the constructor");
 			
 			entityModel();
-			playerModel();
 			wordSlotModel();
 			wordSlotLatcher();
 			wordSlotHandlerModel();
@@ -39,25 +34,10 @@ package tests
 		}
 		
 		
-		private function wordSlotHandlerEvent():void {
-			addTest(new WordSlotHandlerEventTest("test_data_retrieval"));
-			addTest(new WordSlotHandlerEventTest("test_clone"));
-		}
-		
-		private function wordSlotEvent():void {
-			addTest(new WordSlotEventTest("test_data_retrieval"));
-			addTest(new WordSlotEventTest("test_clone"));
-		}
-		
-		
 		private function entityModel():void {
 			addTest(new EntityModelTest("can_get_x"));
 			addTest(new EntityModelTest("can_get_y"));
 			addTest(new EntityModelTest("should_dispatch_position_change_event_when_moved"));
-		}
-		
-		private function playerModel():void {
-			addTest(new PlayerModelTest("should_move_up_on_jump"));
 		}
 		
 		private function wordSlotModel():void {
@@ -75,7 +55,6 @@ package tests
 		}
 		
 		private function wordSlotHandlerModel():void {
-			addTest(new WordSlotHandlerModelTest("should_correctly_assign_spellings_to_word_slots"));
 			addTest(new WordSlotHandlerModelTest("testWordFinishReset"));
 			addTest(new WordSlotHandlerModelTest("testDispatchEventOnWordComplete"));
 			addTest(new WordSlotHandlerModelTest("should_reject_incorrect_constructor_parameters"));

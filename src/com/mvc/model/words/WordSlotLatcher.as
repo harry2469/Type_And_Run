@@ -1,19 +1,17 @@
-package com.mvc.model.words
-{
+package com.mvc.model.words {
 	import com.events.WordCompleteEvent;
+	
 	/**
 	 * ...
 	 * @author Kristian Welsh
 	 */
-	public class WordSlotLatcher implements IWordSlotLatcher
-	{
+	public class WordSlotLatcher implements IWordSlotLatcher {
 		private var _latchedWordSlots:Vector.<IWordSlotModel>;
 		private var _wordSlots:Vector.<IWordSlotModel>;
-		private var _handler:IWordSlotHandlerModel;
 		
-		public function WordSlotLatcher(handler:IWordSlotHandlerModel, latchedWordSlots:Vector.<IWordSlotModel>) {
-			_handler = handler;
-			_latchedWordSlots = latchedWordSlots;
+		public function WordSlotLatcher(handler:IWordSlotHandlerModel, latchedWordSlots:Vector.<IWordSlotModel> = null) {
+			_wordSlots = handler.getWordSlots();
+			_latchedWordSlots = latchedWordSlots || new Vector.<IWordSlotModel>();
 			handler.addEventListener(WordCompleteEvent.JUMP, unlatchAll);
 		}
 		
@@ -28,13 +26,17 @@ package com.mvc.model.words
 		
 		private function latchValidWords(inputChar:int):void {
 			if (_latchedWordSlots.length == 0)
-				for (var i:int = 0; i < _handler.length; i++)
+				for (var i:int = 0; i < _wordSlots.length; i++)
 					latchValidWord(i, inputChar);
 		}
 		
 		private function latchValidWord(index:int, inputChar:int):void {
-			if (_handler.isNextCharacterCode(index, inputChar))
-				_latchedWordSlots.push(_handler.getWordSlotAt(index));
+			if (isNextCharacterCode(index, inputChar))
+				_latchedWordSlots.push(_wordSlots[index]);
+		}
+		
+		private function isNextCharacterCode(index:uint, characterCode:int):Boolean {
+			return _wordSlots[index].isNextCharacterCode(characterCode);
 		}
 		
 		private function advanceAllLatchedWords(inputChar:int):void {
@@ -58,7 +60,6 @@ package com.mvc.model.words
 		}
 		
 		private function unlatchIndex(index:int):void {
-			_latchedWordSlots[index].resetWord();
 			_latchedWordSlots.splice(index, 1);
 		}
 	}

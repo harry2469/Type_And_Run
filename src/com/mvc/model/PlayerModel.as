@@ -1,27 +1,46 @@
-package com.mvc.model
-{
+package com.mvc.model {
 	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.IWordSlotHandlerModel;
-	import flash.geom.Point;
-	import kris.Dimentions;
 	
-	/**
-	 * ...
-	 * @author Kristian Welsh
-	 */
-	public class PlayerModel extends EntityModel
-	{
-		// PUBLIC
-		public function PlayerModel(x:Number, y:Number, width:Number, height:Number, handler:IWordSlotHandlerModel)
-		{
+	public class PlayerModel extends EntityModel {
+		static private const JUMP_BOOST_SIZE:Number = -5;
+		
+		private var _falling:Boolean = false;
+		private var _gravity:Number = 0.2;
+		private var _yVelocity:Number = 0;
+		
+		public function PlayerModel(x:Number, y:Number, width:Number, height:Number, handler:IWordSlotHandlerModel) {
 			super(x, y, width, height);
-			handler.addEventListener(WordCompleteEvent.JUMP, jump);
+			handler.addEventListener(WordCompleteEvent.JUMP, jumpIfNotFalling);
 		}
 		
-		// PRIVATE
-		private function jump(e:WordCompleteEvent):void
-		{
-			moveBy(0, -50);
+		private function jumpIfNotFalling(e:WordCompleteEvent):void {
+			if (!_falling)
+				jump();
+		}
+		
+		private function jump():void {
+			_yVelocity = JUMP_BOOST_SIZE;
+			_falling = true;
+		}
+		
+		public function fallIfFalling():void {
+			if (_falling)
+				fall();
+		}
+		
+		private function fall():void {
+			accelerate();
+			moveBy(0, _yVelocity);
+		}
+		
+		private function accelerate():void {
+			_yVelocity += _gravity;
+		}
+		
+		public function stopFalling():void {
+			_falling = false;
+			_yVelocity = 0;
 		}
 	}
 }

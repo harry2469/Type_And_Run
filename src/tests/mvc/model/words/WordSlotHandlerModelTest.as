@@ -2,7 +2,6 @@ package tests.mvc.model.words {
 	import asunitsrc.asunit.framework.TestCase;
 	import com.events.WordCompleteEvent;
 	import com.events.WordSlotEvent;
-	import com.events.WordSlotHandlerEvent;
 	import com.mvc.model.words.IWordSlotModel;
 	import com.mvc.model.words.WordSlotHandlerModel;
 	import flash.display.MovieClip;
@@ -17,8 +16,6 @@ package tests.mvc.model.words {
 		private var _wordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 		private var _instance:WordSlotHandlerModel;
 		
-		private var _recordedWordCreations:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-		
 		public function WordSlotHandlerModelTest(testMethod:String):void {
 			super(testMethod);
 		}
@@ -26,12 +23,7 @@ package tests.mvc.model.words {
 		protected override function setUp():void {
 			createWordSlotModelVector();
 			_instance = new WordSlotHandlerModel(_wordList, _wordSlots);
-			_instance.addEventListener(WordSlotHandlerEvent.CREATE, eventRecorder);
 			_instance.initWordSlots();
-		}
-		
-		private function eventRecorder(e:WordSlotHandlerEvent):void {
-			_recordedWordCreations.push(e.newWord);
 		}
 		
 		private function createWordSlotModelVector():void {
@@ -65,14 +57,6 @@ package tests.mvc.model.words {
 				return true;
 			}
 			throw new Error("Should not reach this point");
-		}
-		
-		public function should_correctly_assign_spellings_to_word_slots():void {
-			var returnedWords:Vector.<IWordSlotModel> = _recordedWordCreations;
-			
-			assertEquals("initWordSlots created the right number of IWordSlots", returnedWords.length, _wordSlots.length);
-			for (var i:int = 0; i < returnedWords.length; ++i)
-				assertEquals("The relayed words have the same strings as the input words", _wordList[i], returnedWords[i].wordToSpell);
 		}
 		
 		/**

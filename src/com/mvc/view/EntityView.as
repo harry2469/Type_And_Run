@@ -41,10 +41,10 @@ package com.mvc.view
 			_stage.addChild(_art);
 		}
 		
-		private function updatePosition(e:EntityModelEvent):void
+		private function updatePosition(event:EntityModelEvent):void
 		{
-			_art.x = e.x
-			_art.y = e.y
+			_art.x = event.x
+			_art.y = event.y
 		}
 	}
 }

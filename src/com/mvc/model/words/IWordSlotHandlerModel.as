@@ -1,15 +1,8 @@
-package com.mvc.model.words
-{
+package com.mvc.model.words {
 	import flash.events.IEventDispatcher;
-	/**
-	 * Interface for the WordSlotHandlerModel
-	 * @author Kristian Welsh
-	 */
-	public interface IWordSlotHandlerModel extends IEventDispatcher
-	{
-		function getWordSlotAt(index:uint):IWordSlotModel;
-		function get length():uint
-		function isNextCharacterCode(index:uint, characterCode:int):Boolean;
+	/** @author Kristian Welsh */
+	public interface IWordSlotHandlerModel extends IEventDispatcher {
 		function initWordSlots():void;
+		function getWordSlots():Vector.<IWordSlotModel>;
 	}
 }
