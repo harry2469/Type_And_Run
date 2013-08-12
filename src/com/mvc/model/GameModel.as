@@ -10,7 +10,9 @@ package com.mvc.model
 	import flash.events.EventDispatcher;
 	import flash.events.KeyboardEvent;
 	import flash.events.TimerEvent;
+	import flash.geom.Rectangle;
 	import flash.utils.Timer;
+	import kris.RectangleCollision;
 	import kris.Util;
 	
 	/**
@@ -39,8 +41,7 @@ package com.mvc.model
 			return _wordSlots[i];
 		}
 		
-		public function GameModel():void
-		{
+		public function GameModel():void {
 			createWordSlotSystem();
 			_player = new PlayerModel(STAGE_WIDTH/2-20, STAGE_HEIGHT/2-75, 53, 53, _wordSlotHandler);
 			
@@ -50,25 +51,24 @@ package com.mvc.model
 			_timer.addEventListener(TimerEvent.TIMER, tock);
 		}
 		
-		public function startAplication():void
-		{
+		public function startAplication():void {
 			_wordSlotHandler.initWordSlots();
 			_timer.start();
 		}
 		
-		private function tock(e:TimerEvent):void
-		{
+		private function tock(e:TimerEvent):void {
 			_obstacle.moveBy(-1, 0);
+			_player.fallIfFalling();
+			var collisionRectangle:Rectangle = RectangleCollision.collide(_player.rectangle, _obstacle.rectangle);
+			if (collisionRectangle.y != _player.y)
+				_player.stopFalling();
+			_player.rectangle = collisionRectangle;
 		}
 		
-		/**
-		 * Builds WordSlotHandlerModel and injects its dependancies.
-		 * @return WordSlotHandlerModel
-		 */
-		private function createWordSlotSystem():void
-		{
+		/** Builds WordSlotHandlerModel and injects its dependancies. */
+		private function createWordSlotSystem():void {
 			var wordsToSpell:Vector.<String> = Vector.<String>(["qq", "ww", "ee", "rr", "tt", "yy", "uu"]);
-			//wordsToSpell = Util.scrambleStringVector(wordsToSpell);
+			wordsToSpell = Util.scrambleStringVector(wordsToSpell);
 			_wordSlots = createWordSlotModelVector();
 			_wordSlotHandler = new WordSlotHandlerModel(wordsToSpell, _wordSlots);
 			var latchedWordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
@@ -76,15 +76,10 @@ package com.mvc.model
 			_wordSlotLatcher = new WordSlotLatcher(_wordSlotHandler, latchedWordSlots);
 		}
 		
-		/**
-		 * Populates a vector with WordSlotModels
-		 * @return the vector
-		 */
-		private function createWordSlotModelVector():Vector.<IWordSlotModel>
-		{
+		/** Populates a vector with WordSlotModels */
+		private function createWordSlotModelVector():Vector.<IWordSlotModel> {
 			var wordObjects:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
-			for (var i:int = 0; i < NUMBER_OF_WORD_SLOTS_TO_CREATE; i++)
-			{
+			for (var i:int = 0; i < NUMBER_OF_WORD_SLOTS_TO_CREATE; i++) {
 				wordObjects.push(new WordSlotModel());
 			}
 			return wordObjects;
