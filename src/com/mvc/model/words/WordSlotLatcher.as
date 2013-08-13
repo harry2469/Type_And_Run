@@ -9,10 +9,10 @@ package com.mvc.model.words {
 		private var _latchedWordSlots:Vector.<IWordSlotModel>;
 		private var _wordSlots:Vector.<IWordSlotModel>;
 		
-		public function WordSlotLatcher(handler:IWordSlotHandlerModel, latchedWordSlots:Vector.<IWordSlotModel> = null) {
-			_wordSlots = handler.getWordSlots();
+		public function WordSlotLatcher(wordSlots:Vector.<IWordSlotModel>, wordSlotListener:WordSlotListener, latchedWordSlots:Vector.<IWordSlotModel> = null) {
+			_wordSlots = handler.wordSlots;
 			_latchedWordSlots = latchedWordSlots || new Vector.<IWordSlotModel>();
-			handler.addEventListener(WordCompleteEvent.JUMP, unlatchAll);
+			wordSlotListener.addEventListener(WordCompleteEvent.JUMP, unlatchAll);
 		}
 		
 		private function unlatchAll(e:WordCompleteEvent):void {
@@ -27,16 +27,12 @@ package com.mvc.model.words {
 		private function latchValidWords(inputChar:int):void {
 			if (_latchedWordSlots.length == 0)
 				for (var i:int = 0; i < _wordSlots.length; i++)
-					latchValidWord(i, inputChar);
+					latchWordIfValid(_wordSlots[i], inputChar);
 		}
 		
-		private function latchValidWord(index:int, inputChar:int):void {
-			if (isNextCharacterCode(index, inputChar))
-				_latchedWordSlots.push(_wordSlots[index]);
-		}
-		
-		private function isNextCharacterCode(index:uint, characterCode:int):Boolean {
-			return _wordSlots[index].isNextCharacterCode(characterCode);
+		private function latchWordIfValid(word:IWordSlotModel, inputChar:int):void {
+			if (word.isNextCharacterCode(inputChar))
+				_latchedWordSlots.push(word);
 		}
 		
 		private function advanceAllLatchedWords(inputChar:int):void {

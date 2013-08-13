@@ -32,7 +32,7 @@ package tests.mvc.model.words {
 		protected override function setUp():void {
 			populateWordSlots();
 			_handler = new MockWordSlotHandlerModel(_wordSlots);
-			_instance = new WordSlotLatcher(_handler, new Vector.<IWordSlotModel>());
+			_instance = new WordSlotLatcher(_wordSlots, new MockWordSlotListener(), new Vector.<IWordSlotModel>());
 		}
 		
 		private function populateWordSlots():void {

@@ -31,10 +31,6 @@ package tests.mvc.model.words {
 				_wordSlots.push(new MockWordSlotModel());
 		}
 		
-		protected override function tearDown():void {
-			_instance.destroy();
-		}
-		
 		public function should_reject_incorrect_constructor_parameters():void {
 			_wordList = new Vector.<String>();
 			_wordSlots = new Vector.<IWordSlotModel>();

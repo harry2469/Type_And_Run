@@ -3,6 +3,6 @@ package com.mvc.model.words {
 	/** @author Kristian Welsh */
 	public interface IWordSlotHandlerModel extends IEventDispatcher {
 		function initWordSlots():void;
-		function getWordSlots():Vector.<IWordSlotModel>;
+		function get wordSlots():Vector.<IWordSlotModel>;
 	}
 }

@@ -1,7 +1,6 @@
 package com.mvc.model.words {
 	import com.events.WordSlotEvent;
 	import flash.events.EventDispatcher;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * Manage the display and word progression of a word form the list.
@@ -21,7 +20,6 @@ package com.mvc.model.words {
 		}
 		
 		public function resetWord():void {
-			FlashConnect.trace("TRACE");
 			_characterPosition = 0;
 			dispatchEvent(new WordSlotEvent(WordSlotEvent.CHANGE, _wordToSpell));
 		}

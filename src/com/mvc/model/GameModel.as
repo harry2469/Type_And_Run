@@ -20,6 +20,7 @@ package com.mvc.model {
 		private var _timer:Timer;
 		private var _wordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 		private var _wordSlotLatcher:IWordSlotLatcher;
+		private var _wordSlotListener:WordSlotListener;
 		
 		public function get wordSlotLatcher():IWordSlotLatcher {
 			return _wordSlotLatcher;
@@ -37,7 +38,7 @@ package com.mvc.model {
 		
 		public function GameModel():void {
 			createWordSystem();
-			_player = new PlayerModel(400, 400, 53, 53, _wordSlotHandler);
+			_player = new PlayerModel(400, 400, 53, 53, _wordSlotListener);
 			
 			_obstacle = new ObstacleModel(_player.x + 80, _player.y + 13, 43, 41);
 			
@@ -51,6 +52,7 @@ package com.mvc.model {
 			populateWordSlots();
 			
 			_wordSlotHandler = new WordSlotHandlerModel(wordsToSpell, _wordSlots);
+			_wordSlotListener = new WordSlotListener(_wordSlotHandler, _wordSlots);
 			_wordSlotLatcher = new WordSlotLatcher(_wordSlotHandler);
 		}
 		

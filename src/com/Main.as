@@ -11,7 +11,7 @@ package com {
 	 * @author Kristian Welsh
 	 */
 	public class Main extends Sprite {
-		private const IS_TEST_RUN:Boolean = false;
+		private const IS_TEST_RUN:Boolean = true;
 		
 		private var _model:GameModel;
 		private var _view:GameView;
