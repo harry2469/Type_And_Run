@@ -13,7 +13,6 @@ package tests
 		{
 			super();
 			stage.addChild(this)
-			AllTests.stage = stage;
 			start(AllTests, null, false);
 		}
 	}

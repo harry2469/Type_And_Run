@@ -1,15 +1,10 @@
 package com.mvc.view.text {
 	import flash.geom.Point;
-	import flash.text.TextFormat;
-	import flash.text.TextFormatAlign;
+	import flash.text.*;
 	
-	/**
-	 * Display of the portion of letters that the player has left.
-	 * @author Kristian Welsh
-	 */
+	/** @author Kristian Welsh */
 	public class LettersToSpell extends ActionTextField {
-		/** The colour to display this text in. */
-		static private const COLOUR:uint = 0xB98762; // light brown
+		private static const COLOUR:uint = 0xB98762; // light brown
 		private var _pos:uint = 0;
 		
 		public function LettersToSpell(position:Point, format:TextFormat = null) {
@@ -18,13 +13,11 @@ package com.mvc.view.text {
 			this.textColor = COLOUR;
 		}
 		
-		/**
-		 * Works like an array's shift function.
-		 * @see http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/Array.html#shift()
-		 */
+		/** returns the first letter and replaces it with a space. */
 		public function shift():String {
 			var firstLetter:String = text.substr(_pos, 1);
-			super.text = setCharAt(text, " ", _pos++);
+			super.text = setCharAt(text, " ", _pos);
+			_pos++;
 			return firstLetter;
 		}
 		

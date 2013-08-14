@@ -1,10 +1,9 @@
 package com.mvc.model {
 	import com.events.WordCompleteEvent;
-	import com.mvc.model.words.IWordSlotHandlerModel;
 	import com.mvc.model.words.WordSlotListener;
 	
 	public class PlayerModel extends EntityModel {
-		static private const JUMP_BOOST_SIZE:Number = -5;
+		private static const JUMP_BOOST_SIZE:Number = 5;
 		
 		private var _falling:Boolean = false;
 		private var _gravity:Number = 0.2;
@@ -21,7 +20,7 @@ package com.mvc.model {
 		}
 		
 		private function jump():void {
-			_yVelocity = JUMP_BOOST_SIZE;
+			_yVelocity = -JUMP_BOOST_SIZE;
 			_falling = true;
 		}
 		

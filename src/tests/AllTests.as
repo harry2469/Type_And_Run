@@ -11,28 +11,19 @@ package tests {
 	 * @author Kristian Welsh
 	 */
 	public class AllTests extends TestSuite {
-		private static var _stage:Stage = null;
 		
-		public static function set stage(value:Stage):void {
-			_stage = value;
-		}
-		
-		/** Runs all unit tests. */
 		public function AllTests() {
 			super();
-			if (_stage == null)
-				throw new Error("You must set the stage for all tests before calling the constructor");
 			
 			entityModel();
 			wordSlotModel();
 			wordSlotLatcher();
-			wordSlotHandlerModel();
+			wordSlotListener();
 			
 			inputOpperator();
 			
 			rectangleCollision();
 		}
-		
 		
 		private function entityModel():void {
 			addTest(new EntityModelTest("can_get_x"));
@@ -51,24 +42,35 @@ package tests {
 		private function wordSlotLatcher():void {
 			addTest(new WordSlotLatcherTest("test_accept_input_happy_case"));
 			addTest(new WordSlotLatcherTest("test_accept_input_sad_case"));
-			addTest(new WordSlotLatcherTest("should_type_words_from_multiple_different_slots_correctly"));
 		}
 		
-		private function wordSlotHandlerModel():void {
-			addTest(new WordSlotHandlerModelTest("testWordFinishReset"));
-			addTest(new WordSlotHandlerModelTest("testDispatchEventOnWordComplete"));
-			addTest(new WordSlotHandlerModelTest("should_reject_incorrect_constructor_parameters"));
+		private function wordSlotListener():void {
+			addTest(new WordSlotListenerTest("should_reset_word_when_word_finishes"));
+			addTest(new WordSlotListenerTest("should_dispatch_event_when_word_completes"));
 		}
 		
 		
 		private function inputOpperator():void {
-			addTest(new InputOpperatorTest("should_call_acceptInput_on_its_IWordSlotHandlerModel_when_it_detects_a_key_press", _stage));
+			addTest(new InputOpperatorTest("should_call_acceptInput_with_correct_keycode_on_its_IWordSlotHandlerModel_when_it_detects_a_key_press"));
 		}
 		
 		
 		private function rectangleCollision():void {
-			addTest(new RectangleCollisionTest("should_detect_correctly"));
-			addTest(new RectangleCollisionTest("should_resolve_correctly"));
+			// detect
+			addTest(new RectangleCollisionTest("detect_should_throw_error_when_both_arguments_are_the_same_object"));
+			addTest(new RectangleCollisionTest("calling_detect_on_intersecting_rectangles_should_return_true"));
+			addTest(new RectangleCollisionTest("calling_detect_on_rectangles_with_a_touching_side_should_return_false"));
+			// resolve
+			addTest(new RectangleCollisionTest("calling_resolve_should_throw_error_when_both_arguments_are_the_same_object"));
+			addTest(new RectangleCollisionTest("calling_reslove_on_not_colliding_rectangles_returns_reactionary"));
+			addTest(new RectangleCollisionTest("should_reslove_to_left_correctly_1"));
+			addTest(new RectangleCollisionTest("should_reslove_to_left_correctly_2"));
+			addTest(new RectangleCollisionTest("should_reslove_to_right_correctly_1"));
+			addTest(new RectangleCollisionTest("should_reslove_to_right_correctly_2"));
+			addTest(new RectangleCollisionTest("should_reslove_to_top_correctly_1"));
+			addTest(new RectangleCollisionTest("should_reslove_to_top_correctly_2"));
+			addTest(new RectangleCollisionTest("should_reslove_to_bottom_correctly_1"));
+			addTest(new RectangleCollisionTest("should_reslove_to_bottom_correctly_2"));
 		}
 	}
 }

@@ -1,75 +1,68 @@
-package kris
-{
+package kris {
 	
 	/**
 	 * A collection of utility functions
 	 * @author Kristian Welsh
 	 */
-	public class Util
-	{
-		public static function toCharcode(input:String):int
-		{
-			if (input.length > 1) throw new Error ("Input much be a single character string.", 1001);
+	public class Util {
+		public static function toCharcode(input:String):int {
+			if (input.length > 1)
+				throw new Error("Input much be a single character string.");
 			return input.charCodeAt(0);
 		}
 		
-		public static function scrambleArray(list:Array):Array
-		{
-			var tempHolder:*;
-			var randomNum:int = 0;
-			var length:int = list.length - 1
-			
-			for (var i:int = 0; i < length; ++i) {
-				randomNum = randomIntBetweenBounds(i + 1, length);
-				tempHolder = list[randomNum];
-				list[randomNum] = list[i];
-				list[i] = tempHolder;
-			}
-			return list;
+		// it is impossible to dynamically cast a vector to a different type of vector, so i can't condense these down to scrambleVector()
+		public static function scrambleStringVector(list:Vector.<String>):Vector.<String> {
+			var array:Array = toArray(list)
+			var scrambledArray:Array = scrambleArray(array)
+			var vector:Vector.<String> = Vector.<String>(scrambledArray);
+			return vector;
 		}
 		
-		public static function scrambleStringVector(list:Vector.<String>):Vector.<String>
-		{
-			if (!list is Vector.<String>) throw new Error("Input must be a Vector of Strings", 1002) ;
-			
-			var tempHolder:String;
-			var randomNum:int = 0;
-			var length:int = list.length - 1
-			
-			for (var i:int = 0; i < length; ++i) {
-				randomNum = randomIntBetweenBounds(i + 1, length);
-				tempHolder = list[randomNum];
-				list[randomNum] = list[i];
-				list[i] = tempHolder;
-			}
-			return list;
+		public static function scrambleNumberVector(list:Vector.<Number>):Vector.<Number> {
+			var array:Array = toArray(list)
+			var scrambledArray:Array = scrambleArray(array)
+			var vector:Vector.<Number> = Vector.<Number>(scrambledArray);
+			return vector;
 		}
 		
-		public static function scrambleNumberVector(list:Vector.<Number>):Vector.<Number>
-		{
-			if (!(list is Vector.<Number>)) throw new Error("Input must be a Vector of Numbers") ;
-			
-			var tempHolder:Number;
+		public static function toArray(list:*):Array {
+			var returnMe:Array = [];
+			for each(var item:* in list)
+				returnMe.push(item);
+			return returnMe;
+		}
+		
+		public static function scrambleArray(list:Array):Array {
+			var arrayToScramble:Array = cloneArray(list);
+			var returnMe:Array = [];
 			var randomNum:int = 0;
-			var length:int = list.length - 1
 			
-			for (var i:int = 0; i < length; ++i) {
-				randomNum = randomIntBetweenBounds(i + 1, length);
-				tempHolder = list[randomNum];
-				list[randomNum] = list[i];
-				list[i] = tempHolder;
+			for (var i:int = 0; i < list.length; ++i) {
+				randomNum = randomIntBetweenBounds(0, arrayToScramble.length-1);
+				returnMe.push(arrayToScramble.splice(randomNum, 1)[0]);
 			}
-			return list;
+			return returnMe;
+		}
+		
+		public static function cloneArray(arrayToClone:Array):Array {
+			return arrayToClone.slice();
+		}
+		
+		public static function randomIntBetweenBounds(lowerBound:int, upperBound:int):int {
+			var differanceBetweenBounds:Number = (upperBound - lowerBound) + 1;
+			// +1 to include upperbound making it "upper >= n >= lower" instead of "upper > n >= lower"
+			return Math.floor(Math.random() * differanceBetweenBounds + lowerBound);
 		}
 		
 		/**
-		 * Return a random integer between bounds.
-		 * @param	lowerBound
-		 * @param	upperBound
-		 * @return	random int between the lower and upper bounds.
+		 * return the input array without the input index
+		 * non-destructive version of array.splice(index, 1);
 		 */
-		public static function randomIntBetweenBounds(lowerBound:int, upperBound:int):int {
-			return Math.floor(Math.random() * (upperBound - lowerBound + 1) + lowerBound);
+		public static function arrayWithoutIndex(array:Array, index:uint):Array {
+			var section1:Array = array.slice(0, index);
+			var section2:Array = array.slice(index + 1);
+			return section1.concat(section2);
 		}
 	}
 

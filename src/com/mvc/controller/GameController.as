@@ -1,4 +1,5 @@
 package com.mvc.controller {
+	import com.Main;
 	import com.mvc.model.GameModel;
 	import flash.display.Stage;
 	

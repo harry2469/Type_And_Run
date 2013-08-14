@@ -1,6 +1,6 @@
 package com.mvc.controller {
 	import com.mvc.model.words.IWordSlotLatcher;
-	import flash.display.Stage;
+	import flash.events.IEventDispatcher;
 	import flash.events.KeyboardEvent;
 	
 	/**
@@ -10,10 +10,10 @@ package com.mvc.controller {
 	public class InputOpperator {
 		private var _wordLatcher:IWordSlotLatcher = null;
 		
-		public function InputOpperator(stage:Stage, wordLatcher:IWordSlotLatcher) {
+		public function InputOpperator(keyboardInput:IEventDispatcher, wordLatcher:IWordSlotLatcher) {
 			_wordLatcher = wordLatcher;
 			
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			keyboardInput.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		}
 		
 		private function onKeyDown(e:KeyboardEvent):void {

@@ -2,30 +2,41 @@ package tests.mvc.controller {
 	import asunitsrc.asunit.framework.TestCase;
 	import com.mvc.controller.InputOpperator;
 	import flash.display.Stage;
-	import flash.events.KeyboardEvent;
+	import flash.events.*;
 	import testhelpers.MockWordSlotLatcher;
 	
 	public class InputOpperatorTest extends TestCase {
-		private var _stage:Stage = null;
-		private var _acceptInputList:Vector.<int> = new Vector.<int>();
+		private var _acceptInputLog:Vector.<KeyboardEvent> = new Vector.<KeyboardEvent>();
+		private var _mockLatcher:MockWordSlotLatcher;
+		private var _instance:InputOpperator;
+		private var _keyboardInput:IEventDispatcher;
 		
-		public function InputOpperatorTest(testMethod:String, stage:Stage):void {
-			_stage = stage;
+		public function InputOpperatorTest(testMethod:String):void {
 			super(testMethod);
 		}
 		
-		public function should_call_acceptInput_on_its_IWordSlotHandlerModel_when_it_detects_a_key_press():void {
-			var model:MockWordSlotLatcher = new MockWordSlotLatcher();
-			var instance:InputOpperator = new InputOpperator(_stage, model);
-			model.addEventListener(KeyboardEvent.KEY_DOWN, validateInputCharacter);
-			
-			_stage.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 113));
-			
-			assertEquals(113, _acceptInputList[_acceptInputList.length-1]);
+		protected override function setUp():void {
+			_keyboardInput = new EventDispatcher();
+			_mockLatcher = new MockWordSlotLatcher();
+			_instance = new InputOpperator(_keyboardInput, _mockLatcher);
 		}
 		
-		private function validateInputCharacter(e:KeyboardEvent):void {
-			_acceptInputList.push(e.charCode);
+		public function should_call_acceptInput_with_correct_keycode_on_its_IWordSlotHandlerModel_when_it_detects_a_key_press():void {
+			emulateKeyPress();
+			assertCalledAcceptInput();
+		}
+		
+		private function emulateKeyPress():void {
+			_mockLatcher.addEventListener(KeyboardEvent.KEY_DOWN, logAcceptInput);
+			_keyboardInput.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 113));
+		}
+		
+		private function logAcceptInput(e:KeyboardEvent):void {
+			_acceptInputLog.push(e);
+		}
+		
+		private function assertCalledAcceptInput():void {
+			assertEquals(113, _acceptInputLog[0].charCode);
 		}
 	}
 }

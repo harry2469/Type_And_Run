@@ -1,16 +1,10 @@
 package testhelpers {
-	import asunitsrc.asunit.framework.Test;
+	import com.mvc.model.words.IWordSlotListener;
+	import flash.events.EventDispatcher;
 	
-	/**
-	 * ...
-	 * @author Kristian Welsh
-	 */
-	public class MockWordSlotListener implements Test {
-		
-		public function MockWordSlotListener() {
-			
-		}
-		
+	/** @author Kristian Welsh */
+	public class MockWordSlotListener extends EventDispatcher implements IWordSlotListener {
+		public function listen():void {}
+		public function destroy():void {}
 	}
-
 }

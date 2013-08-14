@@ -3,7 +3,7 @@ package com.mvc.model.words {
 	import flash.events.EventDispatcher;
 	
 	/**
-	 * Manage the display and word progression of a word form the list.
+	 * Manage the progression of the user's spelling of a word.
 	 * @author Kristian Welsh
 	 */
 	public class WordSlotModel extends EventDispatcher implements IWordSlotModel {
@@ -16,16 +16,17 @@ package com.mvc.model.words {
 		
 		public function set wordToSpell(input:String):void {
 			_wordToSpell = input;
-			resetWord();
-		}
-		
-		public function resetWord():void {
 			_characterPosition = 0;
 			dispatchEvent(new WordSlotEvent(WordSlotEvent.CHANGE, _wordToSpell));
 		}
 		
+		public function resetWord():void {
+			wordToSpell = wordToSpell;
+		}
+		
 		public function advanceWord(inputChar:int):void {
-			if (!isNextCharacterCode(inputChar)) return;
+			if (!isNextCharacterCode(inputChar))
+				return;
 			if (isFinished()) {
 				dispatchEvent(new WordSlotEvent(WordSlotEvent.FINISH));
 				return;

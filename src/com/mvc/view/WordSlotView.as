@@ -1,81 +1,47 @@
-package com.mvc.view
-{
+package com.mvc.view {
 	import com.events.WordSlotEvent;
 	import com.mvc.model.words.IWordSlotModel;
-	import com.mvc.view.text.LettersToSpell;
-	import com.mvc.view.text.LettersSpelt;
-	import flash.display.Bitmap;
-	import flash.display.Stage;
+	import com.mvc.view.text.*;
+	import flash.display.*;
 	
-	/**
-	 * Manage the display and visual aspects of word slot progression of the passed in IWordSlotModel object.
-	 * @author Kristian Welsh
-	 */
-	public class WordSlotView
-	{
-		/** Displays letters of the current word that you have yet to spell. */
+	/** @author Kristian Welsh */
+	public class WordSlotView {
+		[Embed(source="../../../../lib/images/simple/word.png")]
+		private var _image:Class;
+		private var _art:Bitmap = new _image();
 		private var _lettersToSpell:LettersToSpell;
-		
-		/** Displays letters of the current word that you have already spelt. */
 		private var _lettersSpelt:LettersSpelt;
 		
-		[Embed(source="../../../../lib/images/simple/word.png")]
-		private var image:Class;
-		
-		private var _art:Bitmap;
-		
-		// PUBLIC
-		
-		/**
-		 * Creates referances to the 2 text fields
-		 */
-		public function WordSlotView(stage:Stage, model:IWordSlotModel, lettersToSpell:LettersToSpell, lettersSpelt:LettersSpelt):void
-		{
-			addListeners(model);
+		public function WordSlotView(container:DisplayObjectContainer, model:IWordSlotModel, lettersToSpell:LettersToSpell, lettersSpelt:LettersSpelt):void {
+			addChildrenToContainer(container, [_art, lettersToSpell, lettersSpelt]);
+			positionArtRelativeTo(lettersToSpell);
+			addListenersTo(model);
 			_lettersToSpell = lettersToSpell;
 			_lettersSpelt = lettersSpelt;
-			_art = initArt();
-			stage.addChild(_art);
-			stage.addChild(_lettersToSpell);
-			stage.addChild(_lettersSpelt);
 		}
 		
-		// PRIVATE
-		
-		private function initArt():Bitmap
-		{
-			var art:Bitmap = new image();
-			art.x = _lettersToSpell.x - 28;
-			art.y = _lettersToSpell.y + 2;
-			return art;
+		private function positionArtRelativeTo(lettersToSpell:LettersToSpell):void {
+			_art.x = lettersToSpell.x - 28;
+			_art.y = lettersToSpell.y + 2;
 		}
 		
-		/**
-		 * Adds all event listeners to the word's model.
-		 */
-		private function addListeners(model:IWordSlotModel):void
-		{
-			model.addEventListener(WordSlotEvent.ADVANCE, handleAdvance);
-			model.addEventListener(WordSlotEvent.CHANGE, handleChange);
+		private function addListenersTo(model:IWordSlotModel):void {
+			model.addEventListener(WordSlotEvent.ADVANCE, advanceDisplay);
+			model.addEventListener(WordSlotEvent.CHANGE, changeDisplay);
 		}
 		
-		/**
-		 * Exchange letters between text boxes in correct curcumstances then adjust the current position.
-		 * @param	e:WordSlotEvent
-		 */
-		private function handleAdvance(e:WordSlotEvent):void
-		{
+		private function advanceDisplay(e:WordSlotEvent):void {
 			_lettersSpelt.text += _lettersToSpell.shift();
 		}
 		
-		/**
-		 * Changes the viewable word to the new word in model.
-		 * @param	e:WordSlotEvent
-		 */
-		private function handleChange(e:WordSlotEvent):void
-		{
+		private function changeDisplay(e:WordSlotEvent):void {
 			_lettersToSpell.text = e.wordToSpell;
 			_lettersSpelt.text = "";
+		}
+		
+		private function addChildrenToContainer(container:DisplayObjectContainer, components:Array):void {
+			for each (var component:DisplayObject in components)
+				container.addChild(component);
 		}
 	}
 }

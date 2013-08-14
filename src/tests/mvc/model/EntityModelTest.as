@@ -87,19 +87,5 @@ package tests.mvc.model
 		private function newModel(x:Number = 0, y:Number = 0, w:Number = 0, h:Number = 0):EntityModel {
 			return new EntityModel(x, y, w, h);
 		}
-		
-		private function areColliding(entity1:EntityModel, entity2:EntityModel):Boolean {
-			return entity1.isCollidingWith(entity2);
-		}
-		
-		private function functionThrowsError(func:Function, ... args):Boolean {
-			try {
-				func.apply(null, args);
-				return false;
-			} catch (error:Error) {
-				return true;
-			}
-			return false; // should not reach this point
-		}
 	}
 }

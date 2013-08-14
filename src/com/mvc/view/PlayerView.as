@@ -4,12 +4,11 @@ package com.mvc.view {
 	
 	/** @author Kristian Welsh */
 	public class PlayerView extends EntityView {
-		
 		[Embed(source="../../../../lib/images/simple/player.png")]
-		private var image:Class;
+		private var _image:Class;
 		
 		public function PlayerView(stage:Stage, model:EntityModel) {
-			super(stage, model, image);
+			super(stage, model, _image);
 		}
 	}
 }

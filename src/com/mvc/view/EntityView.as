@@ -1,50 +1,37 @@
-package com.mvc.view
-{
+package com.mvc.view {
 	import com.events.EntityModelEvent;
 	import com.mvc.model.EntityModel;
-	import flash.display.Bitmap;
-	import flash.display.Shape;
-	import flash.display.Stage;
+	import flash.display.*;
 	
-	/**
-	 * @author Kristian Welsh
-	 */
-	public class EntityView
-	{
-		protected var _model:EntityModel;
-		protected var _stage:Stage;
+	/** @author Kristian Welsh */
+	public class EntityView {
+		private var _stage:Stage;
 		private var _art:Bitmap;
 		
-		// PUBLIC
-		
-		public function EntityView(stage:Stage, model:EntityModel, image:Class)
-		{
-			_model = model;
+		public function EntityView(stage:Stage, model:EntityModel, image:Class) {
 			_stage = stage;
-			initArt(image, _model.x, _model.y);
-			
-			_model.addEventListener(EntityModelEvent.POSITION_CHANGE, updatePosition);
+			initArt(image, model.x, model.y);
+			listenForPositionChanges(model);
 		}
 		
-		public function destroy():void
-		{
-			_stage.removeChild(_art);
-		}
-		
-		// PRIVATE
-		
-		private function initArt(image:Class, x:Number, y:Number):void
-		{
+		private function initArt(image:Class, x:Number, y:Number):void {
 			_art = new image();
 			_art.x = x;
 			_art.y = y;
 			_stage.addChild(_art);
 		}
 		
-		private function updatePosition(event:EntityModelEvent):void
-		{
+		private function listenForPositionChanges(model:EntityModel):void {
+			model.addEventListener(EntityModelEvent.POSITION_CHANGE, updatePosition);
+		}
+		
+		private function updatePosition(event:EntityModelEvent):void {
 			_art.x = event.x
 			_art.y = event.y
+		}
+		
+		public function destroy():void {
+			_stage.removeChild(_art);
 		}
 	}
 }
