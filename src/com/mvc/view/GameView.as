@@ -10,13 +10,17 @@ package com.mvc.view {
 	public class GameView {
 		private var _model:GameModel;
 		private var _player:PlayerView;
-		private var _obstacle:ObstacleView;
+		private var _obstacle1:ObstacleView;
+		private var _obstacle2:ObstacleView;
+		private var _ground:GroundView;
 		private var _wordSlotViews:Vector.<WordSlotView> = new Vector.<WordSlotView>();
 		
 		public function GameView(model:GameModel, stage:Stage) {
 			_model = model;
 			_player = new PlayerView(stage, model.player);
-			_obstacle = new ObstacleView(stage, model.obstacle);
+			_obstacle1 = new ObstacleView(stage, model.obstacle1);
+			_obstacle2 = new ObstacleView(stage, model.obstacle2);
+			_ground = new GroundView(stage, model.ground);
 			populateWordSlotViewVector(stage);
 		}
 		
@@ -26,7 +30,7 @@ package com.mvc.view {
 		}
 		
 		private function createWordSlotView(stage:Stage, i:int):WordSlotView {
-			var position:Point = new Point(100, (i * 30) + 100); // not final
+			var position:Point = new Point(100, (i * 30) + 100); // not final placement
 			var lettersToSpell:LettersToSpell = new LettersToSpell(position);
 			var lettersSpelt:LettersSpelt = new LettersSpelt(position);
 			var model:IWordSlotModel = _model.getWordSlotAt(i);

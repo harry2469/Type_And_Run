@@ -1,12 +1,14 @@
 package com.mvc.model {
 	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.WordSlotListener;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	public class PlayerModel extends EntityModel {
-		private static const JUMP_BOOST_SIZE:Number = 5;
+		private static const JUMP_BOOST_SIZE:Number = 3;
+		static public const WALK_SPEED:Number = 0.5;
 		
 		private var _falling:Boolean = false;
-		private var _gravity:Number = 0.2;
+		private var _gravity:Number = 0.05;
 		private var _yVelocity:Number = 0;
 		
 		public function PlayerModel(x:Number, y:Number, width:Number, height:Number, wordSlotListener:WordSlotListener) {
@@ -41,6 +43,15 @@ package com.mvc.model {
 		public function stopFalling():void {
 			_falling = false;
 			_yVelocity = 0;
+		}
+		
+		public function get falling():Boolean {
+			return _falling;
+		}
+		
+		public function advanceIfLeftOf(xTarget:Number):void {
+			if (x < xTarget)
+				moveBy(WALK_SPEED, 0);
 		}
 	}
 }

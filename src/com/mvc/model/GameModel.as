@@ -10,22 +10,36 @@ package com.mvc.model {
 	public class GameModel extends EventDispatcher {
 		public static const NUMBER_OF_WORD_SLOTS:int = 3
 		
-		private var _player:PlayerModel;
-		private var _obstacle:ObstacleModel;
 		private var _timer:Timer = new Timer(10);
+		
+		private var _player:PlayerModel;
+		private var _obstacle1:ObstacleModel;
+		private var _ground:ObstacleModel;
+		
+		private var _wordsToSpell:Vector.<String>;
 		private var _wordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 		private var _wordSlotLatcher:IWordSlotLatcher;
 		private var _wordSlotListener:WordSlotListener;
-		private var _wordsToSpell:Vector.<String>;
+		private var _obstacle2:ObstacleModel;
 		
 		public function get wordSlotLatcher():IWordSlotLatcher {
 			return _wordSlotLatcher;
 		}
-		public function get obstacle():ObstacleModel {
-			return _obstacle;
+		
+		public function get obstacle1():ObstacleModel {
+			return _obstacle1;
 		}
+		
+		public function get obstacle2():ObstacleModel {
+			return _obstacle2;
+		}
+		
 		public function get player():PlayerModel {
 			return _player;
+		}
+		
+		public function get ground():ObstacleModel {
+			return _ground;
 		}
 		
 		public function getWordSlotAt(i:int):IWordSlotModel {
@@ -35,7 +49,9 @@ package com.mvc.model {
 		public function GameModel():void {
 			createWordSystem();
 			_player = new PlayerModel(400, 400, 53, 53, _wordSlotListener);
-			_obstacle = new ObstacleModel(_player.x + 80, _player.y + 13, 43, 41);
+			_obstacle1 = new ObstacleModel(_player.x + 80, _player.y + 13, 43, 41);
+			_obstacle2 = new ObstacleModel(_player.x + 300, _player.y + 13, 43, 41);
+			_ground = new ObstacleModel(0, _player.y + 53, 800, 500);
 		}
 		
 		private function createWordSystem():void {
@@ -77,12 +93,26 @@ package com.mvc.model {
 		
 		private function tock(e:TimerEvent):void {
 			advanceObstacles();
+			advancePlayerIfBehind();
 			_player.fallIfFalling();
-			processPossibleCollissionBetween(_player, _obstacle);
+			processObstacleCollisions();
+			processPossibleCollissionBetween(_player, _ground);
+		}
+		
+		private function processObstacleCollisions():void {
+			if(!_player.falling){
+				processPossibleCollissionBetween(_player, _obstacle1);
+				processPossibleCollissionBetween(_player, _obstacle2);
+			}
 		}
 		
 		private function advanceObstacles():void {
-			_obstacle.moveBy(-1, 0);
+			_obstacle1.moveBy(-1, 0);
+			_obstacle2.moveBy(-1, 0);
+		}
+		
+		private function advancePlayerIfBehind():void {
+			_player.advanceIfLeftOf(400);
 		}
 		
 		private function processPossibleCollissionBetween(reactionary:EntityModel, stationary:EntityModel):void {
