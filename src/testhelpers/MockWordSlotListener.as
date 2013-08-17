@@ -4,6 +4,7 @@ package testhelpers {
 	
 	/** @author Kristian Welsh */
 	public class MockWordSlotListener extends EventDispatcher implements IWordSlotListener {
+		// this is actually a stub
 		public function listen():void {}
 		public function destroy():void {}
 	}

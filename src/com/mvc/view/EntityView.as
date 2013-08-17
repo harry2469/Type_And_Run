@@ -5,11 +5,11 @@ package com.mvc.view {
 	
 	/** @author Kristian Welsh */
 	public class EntityView {
-		private var _stage:Stage;
+		private var _container:DisplayObjectContainer;
 		private var _art:Bitmap;
 		
-		public function EntityView(stage:Stage, model:EntityModel, image:Class) {
-			_stage = stage;
+		public function EntityView(container:DisplayObjectContainer, model:EntityModel, image:Class) {
+			_container = container;
 			initArt(image, model.x, model.y);
 			listenForPositionChanges(model);
 		}
@@ -18,7 +18,7 @@ package com.mvc.view {
 			_art = new image();
 			_art.x = x;
 			_art.y = y;
-			_stage.addChild(_art);
+			_container.addChild(_art);
 		}
 		
 		private function listenForPositionChanges(model:EntityModel):void {
@@ -31,7 +31,7 @@ package com.mvc.view {
 		}
 		
 		public function destroy():void {
-			_stage.removeChild(_art);
+			_container.removeChild(_art);
 		}
 	}
 }

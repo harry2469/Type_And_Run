@@ -9,6 +9,7 @@ package com {
 	[SWF(width="800",height="600",frameRate="60",backgroundColor="#FFFFFF")]
 	
 	/** @author Kristian Welsh */
+	// TODO: collectables
 	public class Main extends Sprite {
 		private const IS_TEST_RUN:Boolean = false;
 		
@@ -29,7 +30,7 @@ package com {
 		
 		/**
 		 * The stage may not be accessable under certain circumstances
-		 * @example our .swf is embeded in another .swf file, and hasn't been added to the stage yet
+		 * @example if our .swf is embeded in another .swf file, and hasn't been added to the stage yet
 		 */
 		private function startGameWhenStageIsAccessable():void {
 			if (stageIsAccessable())
