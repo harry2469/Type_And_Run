@@ -1,17 +1,11 @@
 package com.mvc.model {
 	import com.mvc.model.words.*;
 	import flash.events.*;
-	import flash.geom.Rectangle;
-	import flash.utils.Timer;
-	import kris.RectangleCollision;
 	import kris.Util;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	/** @author Kristian Welsh */
 	public class GameModel extends EventDispatcher {
 		public static const NUMBER_OF_WORD_SLOTS:int = 3
-		
-		private var _timer:Timer = new Timer(10);
 		
 		private var _player:PlayerModel;
 		private var _ground:ObstacleModel;
@@ -48,7 +42,7 @@ package com.mvc.model {
 		}
 		
 		public function GameModel():void {
-			_wordsToSpell = scrambleWords(["qqq", "www", "eee", "rrr", "ttt", "yyy"]);
+			_wordsToSpell = scrambleWords(["qqq", "www", "eee", "rrr", "ttt", "yyy"]); // XML me
 			createWordSlots();
 			_wordSlotListener = new WordSlotListener(_wordsToSpell, _wordSlots);
 			_wordSlotLatcher = new WordSlotLatcher(_wordSlots, _wordSlotListener, new Vector.<IWordSlotModel>());
@@ -83,74 +77,18 @@ package com.mvc.model {
 		 * the view and controller need to have been set up before
 		 * these functions are called or else the views can't pass
 		 * the component's properties through the event system.
+		 * Single Responsibility Principle violation, seperate the
+		 * game loop to a new class
 		 */
 		public function startGame():void {
 			assignSpellings();
 			_wordSlotListener.listen();
-			_timer.addEventListener(TimerEvent.TIMER, tock);
-			_timer.start();
+			var gameLoop:GameLoop = new GameLoop(_player, _ground, _obstacles, _collectables);
 		}
 		
 		private function assignSpellings():void {
 			for (var i:int = 0; i < _wordSlots.length; ++i)
 				_wordSlots[i].wordToSpell = _wordsToSpell[i]
-		}
-		
-		private function tock(e:TimerEvent):void {
-			advanceObstacles();
-			advanceCollectables();
-			advancePlayerIfBehind();
-			_player.fallIfFalling();
-			processObstacleCollisions();
-			processCollectableCollisions();
-			processPossibleCollissionBetween(_player, _ground);
-		}
-		
-		private function advanceObstacles():void {
-			for each (var obstacle:ObstacleModel in _obstacles)
-				obstacle.moveBy(-ObstacleModel.SPEED, 0);
-		}
-		
-		private function advanceCollectables():void {
-			for each (var collectable:CollectableModel in _collectables)
-				collectable.moveBy(-ObstacleModel.SPEED, 0);
-		}
-		
-		private function advancePlayerIfBehind():void {
-			_player.advanceIfLeftOf(400);
-		}
-		
-		private function processObstacleCollisions():void {
-			if (!_player.falling)
-				for each (var obstacle:ObstacleModel in _obstacles)
-					processPossibleCollissionBetween(_player, obstacle);
-		}
-		
-		private function processCollectableCollisions():void {
-			for each (var collectable:CollectableModel in _collectables)
-				if (RectangleCollision.detect(_player.rectangle, collectable.rectangle))
-					collectCollectable(collectable);
-		}
-		
-		private function collectCollectable(collectable:CollectableModel):void {
-			// TODO: collect a collectable
-			collectable.moveBy(900, 900);
-		}
-		
-		private function processPossibleCollissionBetween(reactionary:EntityModel, stationary:EntityModel):void {
-			var collision:Rectangle = RectangleCollision.collide(reactionary.rectangle, stationary.rectangle);
-			if (!collision.equals(reactionary.rectangle))
-				processCollision(collision);
-		}
-		
-		private function processCollision(collision:Rectangle):void {
-			stopFallingIfAtop(collision);
-			_player.rectangle = collision;
-		}
-		
-		private function stopFallingIfAtop(collisionRectangle:Rectangle):void {
-			if (collisionRectangle.y < _player.y)
-				_player.stopFalling();
 		}
 	}
 }
