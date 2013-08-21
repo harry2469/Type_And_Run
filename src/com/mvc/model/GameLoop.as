@@ -22,13 +22,25 @@ package com.mvc.model {
 		}
 		
 		private function tock(event:TimerEvent):void {
+			moveLevel();
+			movePlayer();
+			processCollissions();
+		}
+		
+		private function moveLevel():void {
 			moveEntitysInListByAmount(_obstacles, -ObstacleModel.SPEED, 0);
 			moveEntitysInListByAmount(_collectables, -ObstacleModel.SPEED, 0);
-			advancePlayerIfBehind(); //_player
+		}
+		
+		private function movePlayer():void {
+			advancePlayerIfBehind();
 			_player.fallIfFalling();
+		}
+		
+		private function processCollissions():void {
 			processObstacleCollisions();
 			processCollectableCollisions();
-			processPlayerCollission(_ground);
+			applyFunctionIfColliding(_player, _ground, processCollision, [_player, _ground]);
 		}
 		
 		private function moveEntitysInListByAmount(list:*, xAmount:Number, yAmount:Number):void {
@@ -48,12 +60,7 @@ package com.mvc.model {
 		
 		private function processCollectableCollisions():void {
 			for each (var collectable:CollectableModel in _collectables)
-				processCollectableCollision(collectable);
-		}
-		
-		private function processCollectableCollision(collectable:CollectableModel):void {
-			if (RectangleCollision.detect(_player.rectangle, collectable.rectangle))
-				collectCollectable(collectable);
+				applyFunctionIfColliding(_player, collectable, collectCollectable, [collectable]);
 		}
 		
 		private function collectCollectable(collectable:CollectableModel):void {
@@ -62,8 +69,12 @@ package com.mvc.model {
 		}
 		
 		private function processPlayerCollission(stationary:EntityModel):void {
-			if (RectangleCollision.detect(_player.rectangle, stationary.rectangle))
-				processCollision(_player, stationary);
+			applyFunctionIfColliding(_player, stationary, processCollision, [_player, stationary]);
+		}
+		
+		private function applyFunctionIfColliding(entity1:EntityModel, entity2:EntityModel, functionToApply:Function, functionArguments:Array):void {
+			if (RectangleCollision.detect(entity1.rectangle, entity2.rectangle))
+				functionToApply.apply(null, functionArguments);
 		}
 		
 		private function processCollision(reactionary:EntityModel, stationary:EntityModel):void {
