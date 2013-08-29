@@ -2,20 +2,23 @@ package com.mvc.model {
 	import com.mvc.model.words.*;
 	import flash.events.*;
 	import kris.Util;
+	import org.flashdevelop.utils.FlashConnect;
 	
 	/** @author Kristian Welsh */
 	public class GameModel extends EventDispatcher {
 		public static const NUMBER_OF_WORD_SLOTS:int = 3
 		
-		private var _player:PlayerModel;
-		private var _ground:ObstacleModel;
-		
 		private var _wordsToSpell:Vector.<String>;
+		private var _wordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 		private var _wordSlotLatcher:IWordSlotLatcher;
 		private var _wordSlotListener:WordSlotListener;
+		
+		private var _player:PlayerModel;
+		private var _ground:ObstacleModel;
 		private var _obstacles:Vector.<ObstacleModel> = new Vector.<ObstacleModel>();
-		private var _wordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
 		private var _collectables:Vector.<CollectableModel> = new Vector.<CollectableModel>();
+		
+		private var _gameLoop:GameLoop;
 		
 		public function get wordSlotLatcher():IWordSlotLatcher {
 			return _wordSlotLatcher;
@@ -33,41 +36,37 @@ package com.mvc.model {
 			return _wordSlots[index];
 		}
 		
-		public function getObstacleAt(index:uint):ObstacleModel {
-			return _obstacles[index];
+		public function get obstacles():Vector.<ObstacleModel> {
+			return _obstacles;
+		}
+		
+		public function get collectables():Vector.<CollectableModel> {
+			return _collectables;
 		}
 		
 		public function getCollectableAt(index:uint):CollectableModel {
 			return _collectables[index];
 		}
 		
-		public function GameModel():void {
-			_wordsToSpell = scrambleWords(["qqq", "www", "eee", "rrr", "ttt", "yyy"]); // XML me
-			createWordSlots();
+		public function GameModel(spellingData:Vector.<String>, obstacleData:Array, collectableData:Array):void {
+			_wordsToSpell = Util.scrambleStringVector(spellingData);
+			populateEntityList(_obstacles, obstacleData, ObstacleModel);
+			populateEntityList(_collectables, collectableData, CollectableModel);
+			
+			for (var i:int = 0; i < NUMBER_OF_WORD_SLOTS; i++)
+				_wordSlots.push(new WordSlotModel());
 			_wordSlotListener = new WordSlotListener(_wordsToSpell, _wordSlots);
 			_wordSlotLatcher = new WordSlotLatcher(_wordSlots, _wordSlotListener, new Vector.<IWordSlotModel>());
 			_player = new PlayerModel(400, 400, 53, 53, _wordSlotListener);
 			_ground = new ObstacleModel(0, _player.y + 53, 800, 500);
-			populateObstacles();
-			populateCollectables();
+			
+			_gameLoop = new GameLoop(_player, _ground, _obstacles, _collectables);
 		}
 		
-		private function scrambleWords(array:Array):Vector.<String> {
-			return Util.scrambleStringVector(Vector.<String>(array));
-		}
-		
-		private function createWordSlots():void {
-			for (var i:int = 0; i < NUMBER_OF_WORD_SLOTS; i++)
-				_wordSlots.push(new WordSlotModel());
-		}
-		
-		private function populateObstacles():void {
-			_obstacles.push(new ObstacleModel(480, 412, 43, 41)); // XML me
-			_obstacles.push(new ObstacleModel(700, 412, 43, 41));
-		}
-		
-		private function populateCollectables():void {
-			_collectables.push(new CollectableModel(500, 320, 20, 9)); // XML me
+		private function populateEntityList(list:*, data:Array, objectType:Class):void {
+			for (var i:int = 0; i < data.length; i++) {
+				list.push(new objectType(data[i][0], data[i][1], data[i][2], data[i][3]));
+			}
 		}
 		
 		/**
@@ -83,7 +82,7 @@ package com.mvc.model {
 		public function startGame():void {
 			assignSpellings();
 			_wordSlotListener.listen();
-			var gameLoop:GameLoop = new GameLoop(_player, _ground, _obstacles, _collectables);
+			_gameLoop.start();
 		}
 		
 		private function assignSpellings():void {

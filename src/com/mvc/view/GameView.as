@@ -1,5 +1,7 @@
 package com.mvc.view {
+	import com.mvc.model.CollectableModel;
 	import com.mvc.model.GameModel;
+	import com.mvc.model.ObstacleModel;
 	import com.mvc.model.words.IWordSlotModel;
 	import com.mvc.view.text.*;
 	import com.mvc.view.WordSlotView;
@@ -26,12 +28,15 @@ package com.mvc.view {
 		}
 		
 		private function populateCollectables(container:DisplayObjectContainer):void {
-			_collectables.push(new CollectableView(container, _model.getCollectableAt(0)));
+			var collectableModels:Vector.<CollectableModel> = _model.collectables;
+			for (var i:uint = 0; i < collectableModels.length; i++)
+				_collectables.push(new CollectableView(container, collectableModels[i]));
 		}
 		
 		private function populateObstacles(container:DisplayObjectContainer):void {
-			_obstacles.push(new ObstacleView(container, _model.getObstacleAt(0)));
-			_obstacles.push(new ObstacleView(container, _model.getObstacleAt(1)));
+			var obstacleModels:Vector.<ObstacleModel> = _model.obstacles;
+			for (var i:uint = 0; i < obstacleModels.length; i++)
+				_obstacles.push(new ObstacleView(container, obstacleModels[i]));
 		}
 		
 		private function populateWordSlotViewVector(container:DisplayObjectContainer):void {

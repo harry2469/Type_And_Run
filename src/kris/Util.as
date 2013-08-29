@@ -5,6 +5,11 @@ package kris {
 	 * @author Kristian Welsh
 	 */
 	public class Util {
+		
+		public static function stringLetterAt(index:int, input:String):String {
+			return input.slice(index, index + 1);
+		}
+		
 		public static function toCharcode(input:String):int {
 			if (input.length > 1)
 				throw new Error("Input much be a single character string.");
@@ -28,7 +33,7 @@ package kris {
 		
 		public static function toArray(list:*):Array {
 			var returnMe:Array = [];
-			for each(var item:* in list)
+			for each (var item:*in list)
 				returnMe.push(item);
 			return returnMe;
 		}
@@ -39,7 +44,7 @@ package kris {
 			var randomNum:int = 0;
 			
 			for (var i:int = 0; i < list.length; ++i) {
-				randomNum = randomIntBetweenBounds(0, arrayToScramble.length-1);
+				randomNum = randomIntBetweenBounds(0, arrayToScramble.length - 1);
 				returnMe.push(arrayToScramble.splice(randomNum, 1)[0]);
 			}
 			return returnMe;

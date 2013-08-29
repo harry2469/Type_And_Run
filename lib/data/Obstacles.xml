@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<OBSTACLES>
+	<OBSTACLE>
+		<X>480</X>
+		<Y>412</Y>
+		<WIDTH>43</WIDTH>
+		<HEIGHT>41</HEIGHT>
+	</OBSTACLE>
+	<OBSTACLE>
+		<X>680</X>
+		<Y>412</Y>
+		<WIDTH>43</WIDTH>
+		<HEIGHT>41</HEIGHT>
+	</OBSTACLE>
+	<OBSTACLE>
+		<X>880</X>
+		<Y>412</Y>
+		<WIDTH>43</WIDTH>
+		<HEIGHT>41</HEIGHT>
+	</OBSTACLE>
+</OBSTACLES>

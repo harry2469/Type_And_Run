@@ -3,16 +3,22 @@ package kris {
 	
 	/** @author Kristian Welsh */
 	public class RectangleCollision {
+		
+		public static function applyFunctionIfColliding(rectangle1:Rectangle, rectangle2:Rectangle, functionToApply:Function, functionArguments:Array = null):void {
+			if (RectangleCollision.detect(rectangle1, rectangle2))
+				functionToApply.apply(null, functionArguments);
+		}
+		
 		public static function collide(reactionary:Rectangle, stationary:Rectangle):Rectangle {
 			if (detect(reactionary, stationary))
 				return resolve(reactionary, stationary);
 			return reactionary;
 		}
 		
-		public static function detect(reactionary:Rectangle, stationary:Rectangle):Boolean {
-			if (areSame(reactionary, stationary))
+		public static function detect(rectangle1:Rectangle, rectangle2:Rectangle):Boolean {
+			if (areSame(rectangle1, rectangle2))
 				throw new Error("you cannot detect collision between a rectangle and itself");
-			return reactionary.intersects(stationary);
+			return rectangle1.intersects(rectangle2);
 		}
 		
 		/**
@@ -20,9 +26,13 @@ package kris {
 		 * Could improve by using the center points of the rectangles for direction decisions.
 		 */
 		public static function resolve(reactionary:Rectangle, stationary:Rectangle):Rectangle {
-			if (reactionary == stationary)
+			if (areSame(reactionary, stationary))
 				throw new Error("you cannot resolve collision between a rectangle and itself");
 			return findNewValue(reactionary, stationary);
+		}
+		
+		private static function areSame(rectangle1:Rectangle, rectangle2:Rectangle):Boolean {
+			return rectangle1 == rectangle2;
 		}
 		
 		private static function findNewValue(reactionary:Rectangle, stationary:Rectangle):Rectangle {
@@ -55,10 +65,6 @@ package kris {
 		
 		private static function areAtSamePoint(rectangle1:Rectangle, rectangle2:Rectangle):Boolean {
 			return rectangle1.x == rectangle2.x && rectangle1.y == rectangle2.y;
-		}
-		
-		private static function areSame(rectangle1:Rectangle, rectangle2:Rectangle):Boolean {
-			return rectangle1 == rectangle2;
 		}
 	}
 }

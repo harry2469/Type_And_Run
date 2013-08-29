@@ -19,6 +19,7 @@ package tests {
 			wordSlotModel();
 			wordSlotLatcher();
 			wordSlotListener();
+			XMLParser();
 			
 			inputOpperator();
 			
@@ -47,6 +48,14 @@ package tests {
 		private function wordSlotListener():void {
 			addTest(new WordSlotListenerTest("should_reset_word_when_word_finishes"));
 			addTest(new WordSlotListenerTest("should_dispatch_event_when_word_completes"));
+		}
+		
+		private function XMLParser():void {
+			addTest(new XMLParserTest("tag_contents_as_array_should_return_empty_array_if_no_tag_available"));
+			addTest(new XMLParserTest("tag_contents_as_array_should_return_empty_array_if_only_empty_tag_available"));
+			addTest(new XMLParserTest("tag_contents_as_array_should_return_string_in_array_if_valid_tag_and_data_found"));
+			addTest(new XMLParserTest("tag_contents_as_array_should_return_all_strings_in_array_if_valid_tag_and_data_found"));
+			addTest(new XMLParserTest("tag_contents_as_array_should_return_empty_array_if_valid_tag_contains_xml"));
 		}
 		
 		
