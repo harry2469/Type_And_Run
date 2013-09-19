@@ -2,7 +2,6 @@ package com.mvc.model {
 	import com.mvc.model.words.*;
 	import flash.events.*;
 	import kris.Util;
-	import org.flashdevelop.utils.FlashConnect;
 	
 	/** @author Kristian Welsh */
 	public class GameModel extends EventDispatcher {
@@ -53,31 +52,30 @@ package com.mvc.model {
 			populateEntityList(_obstacles, obstacleData, ObstacleModel);
 			populateEntityList(_collectables, collectableData, CollectableModel);
 			
-			for (var i:int = 0; i < NUMBER_OF_WORD_SLOTS; i++)
-				_wordSlots.push(new WordSlotModel());
+			populateWordSlots();
+			
 			_wordSlotListener = new WordSlotListener(_wordsToSpell, _wordSlots);
 			_wordSlotLatcher = new WordSlotLatcher(_wordSlots, _wordSlotListener, new Vector.<IWordSlotModel>());
 			_player = new PlayerModel(400, 400, 53, 53, _wordSlotListener);
 			_ground = new ObstacleModel(0, _player.y + 53, 800, 500);
-			
 			_gameLoop = new GameLoop(_player, _ground, _obstacles, _collectables);
 		}
 		
 		private function populateEntityList(list:*, data:Array, objectType:Class):void {
-			for (var i:int = 0; i < data.length; i++) {
+			for (var i:int = 0; i < data.length; i++)
 				list.push(new objectType(data[i][0], data[i][1], data[i][2], data[i][3]));
-			}
+		}
+		
+		private function populateWordSlots():void {
+			for (var i:int = 0; i < NUMBER_OF_WORD_SLOTS; i++)
+				_wordSlots.push(new WordSlotModel());
 		}
 		
 		/**
 		 * Seperate function to start the game.
-		 * This exists because the model needs to be created first
-		 * so that the view and controller can referance it, but
-		 * the view and controller need to have been set up before
-		 * these functions are called or else the views can't pass
-		 * the component's properties through the event system.
-		 * Single Responsibility Principle violation, seperate the
-		 * game loop to a new class
+		 * This exists because the model needs to be created first so that the view and controller
+		 * can referance it, but the view and controller need to have been set up before these
+		 * functions are called or else the views can't pass the component's properties through the event system.
 		 */
 		public function startGame():void {
 			assignSpellings();

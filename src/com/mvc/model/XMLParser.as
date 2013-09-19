@@ -4,15 +4,24 @@ package com.mvc.model {
 	import flash.net.*;
 	import kris.Util;
 	import org.flashdevelop.utils.FlashConnect;
+	
 	/** @author Kristian Welsh */
 	public class XMLParser extends EventDispatcher {
-		private var _xmlContent:XML = null;
-		private var _xmlLoader:URLLoader;
+		static private const OBSTACLES_XML_PATH:String = "../lib/data/Obstacles.xml";
+		static private const COLLECTABLES_XML_PATH:String = "../lib/data/Collectables.xml";
+		static private const SPELLINGS_XML_PATH:String = "../lib/data/Spellings.xml";
+		
+		private var _xml:XML = null;
 		
 		public function loadXMLFile(path:String):void {
-			_xmlLoader = new URLLoader();
-			_xmlLoader.addEventListener(Event.COMPLETE, foo);
-			tryToLoadXML(_xmlLoader, path);
+			var loader:URLLoader = new URLLoader();
+			loader.addEventListener(Event.COMPLETE, assignXML);
+			tryToLoadXML(loader, path);
+		}
+		
+		private function assignXML(e:Event):void {
+			this.xmlContent = new XML(e.target.data);
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
 		private function tryToLoadXML(xmlLoader:URLLoader, path:String):void {
@@ -24,21 +33,12 @@ package com.mvc.model {
 			}
 		}
 		
-		private function foo(e:Event):void {
-			this.xmlContent = new XML(e.target.data);
-			dispatchEvent(new Event(Event.COMPLETE));
-		}
-		
 		public function set xmlContent(value:XML):void {
-			_xmlContent = value;
-		}
-		
-		public function get xml():XML {
-			return _xmlContent;
+			_xml = value;
 		}
 		
 		public function tagContentsAsArray(tagName:String):Array {
-			var tagContents:XMLList = _xmlContent.descendants(tagName);
+			var tagContents:XMLList = _xml.descendants(tagName);
 			
 			var returnMe:Array = [];
 			for (var i:int = 0; i < tagContents.length(); ++i)
@@ -53,6 +53,49 @@ package com.mvc.model {
 		
 		private function isValidOutput(tagContents:XMLList, index:int):Boolean {
 			return "" + tagContents[index] != "" && Util.stringLetterAt(0, tagContents[index]) != "<";
+		}
+		
+		public function getWordData():Vector.<String> {
+			var words:Array = [];
+			for (var i:uint = 0; i < _xml.WORD.length(); i++)
+				words.push(String(_xml.WORD[i]));
+			return Vector.<String>(words);
+		}
+		
+		public function getCollectableData():Array {
+			var collectables:Array = [];
+			for (var i:uint = 0; i < _xml.COLLECTABLE.length(); i++) {
+				collectables[i] = [];
+				collectables[i].push(_xml.COLLECTABLE[i].X);
+				collectables[i].push(_xml.COLLECTABLE[i].Y);
+				collectables[i].push(_xml.COLLECTABLE[i].WIDTH);
+				collectables[i].push(_xml.COLLECTABLE[i].HEIGHT);
+			}
+			return collectables;
+		}
+		
+		public function getObstacleData():Array {
+			var obstacles:Array = [];
+			for (var i:uint = 0; i < _xml.OBSTACLE.length(); i++) {
+				obstacles[i] = [];
+				obstacles[i].push(_xml.OBSTACLE[i].X);
+				obstacles[i].push(_xml.OBSTACLE[i].Y);
+				obstacles[i].push(_xml.OBSTACLE[i].WIDTH);
+				obstacles[i].push(_xml.OBSTACLE[i].HEIGHT);
+			}
+			return obstacles;
+		}
+		
+		public function loadSpellings():void {
+			loadXMLFile(SPELLINGS_XML_PATH);
+		}
+		
+		public function loadCollectables():void {
+			loadXMLFile(COLLECTABLES_XML_PATH);
+		}
+		
+		public function loadObstacles():void {
+			loadXMLFile(OBSTACLES_XML_PATH);
 		}
 	}
 }
