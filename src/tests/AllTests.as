@@ -6,10 +6,7 @@ package tests {
 	import tests.mvc.model.*;
 	import tests.mvc.model.words.*;
 	
-	/**
-	 * Executes all unit tests for the aplication.
-	 * @author Kristian Welsh
-	 */
+	/** @author Kristian Welsh */
 	public class AllTests extends TestSuite {
 		
 		public function AllTests() {
@@ -19,7 +16,6 @@ package tests {
 			wordSlotModel();
 			wordSlotLatcher();
 			wordSlotListener();
-			XMLParser();
 			
 			inputOpperator();
 			
@@ -49,15 +45,6 @@ package tests {
 			addTest(new WordSlotListenerTest("should_reset_word_when_word_finishes"));
 			addTest(new WordSlotListenerTest("should_dispatch_event_when_word_completes"));
 		}
-		
-		private function XMLParser():void {
-			addTest(new XMLParserTest("tag_contents_as_array_should_return_empty_array_if_no_tag_available"));
-			addTest(new XMLParserTest("tag_contents_as_array_should_return_empty_array_if_only_empty_tag_available"));
-			addTest(new XMLParserTest("tag_contents_as_array_should_return_string_in_array_if_valid_tag_and_data_found"));
-			addTest(new XMLParserTest("tag_contents_as_array_should_return_all_strings_in_array_if_valid_tag_and_data_found"));
-			addTest(new XMLParserTest("tag_contents_as_array_should_return_empty_array_if_valid_tag_contains_xml"));
-		}
-		
 		
 		private function inputOpperator():void {
 			addTest(new InputOpperatorTest("should_call_acceptInput_with_correct_keycode_on_its_IWordSlotHandlerModel_when_it_detects_a_key_press"));

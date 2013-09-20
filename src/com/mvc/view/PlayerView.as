@@ -1,5 +1,5 @@
 package com.mvc.view {
-	import com.mvc.model.EntityModel;
+	import com.mvc.model.entities.EntityModel;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;
 	

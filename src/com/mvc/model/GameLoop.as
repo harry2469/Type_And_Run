@@ -1,4 +1,8 @@
 package com.mvc.model {
+	import com.mvc.model.entities.CollectableModel;
+	import com.mvc.model.entities.EntityModel;
+	import com.mvc.model.entities.ObstacleModel;
+	import com.mvc.model.entities.PlayerModel;
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
 	import flash.utils.Timer;

@@ -1,7 +1,6 @@
 package tests.mvc.controller {
 	import asunitsrc.asunit.framework.TestCase;
 	import com.mvc.controller.InputOpperator;
-	import flash.display.Stage;
 	import flash.events.*;
 	import testhelpers.MockWordSlotLatcher;
 	

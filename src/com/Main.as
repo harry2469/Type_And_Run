@@ -1,27 +1,22 @@
 package com {
 	import com.mvc.controller.GameController;
+	import com.mvc.model.data.*;
 	import com.mvc.model.GameModel;
-	import com.mvc.model.XMLParser;
 	import com.mvc.view.GameView;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import org.flashdevelop.utils.FlashConnect;
 	import tests.MyTestRunner;
 	
 	[SWF(width="800",height="600",frameRate="60",backgroundColor="#FFFFFF")]
 	
 	/** @author Kristian Welsh */
 	public class Main extends Sprite {
-		static public const OBSTACLES_XML_PATH:String = "../lib/data/Obstacles.xml";
-		static public const COLLECTABLES_XML_PATH:String = "../lib/data/Collectables.xml";
-		private static const SPELLINGS_XML_PATH:String = "../lib/data/Spellings.xml";
-		
 		private const IS_TEST_RUN:Boolean = false;
 		
 		private var _model:GameModel;
 		private var _view:GameView;
 		private var _controller:GameController;
-		private var _parser:XMLParser;
+		private var _parser:IDataImporter;
 		
 		private var _wordSpellings:Vector.<String>;
 		private var _collectables:Array = [];
@@ -55,23 +50,23 @@ package com {
 		
 		private function loadWords(e:Event = null):void {
 			removeEventListener(Event.ADDED_TO_STAGE, loadWords);
-			_parser = new XMLParser();
-			_parser.loadSpellings();
+			_parser = new HardcodedDataImporter();
 			_parser.addEventListener(Event.COMPLETE, assignWords);
+			_parser.loadSpellings();
 		}
 		
 		private function assignWords(e:Event):void {
 			_parser.removeEventListener(Event.COMPLETE, assignWords);
 			_wordSpellings = _parser.getWordData();
-			_parser.loadCollectables();
 			_parser.addEventListener(Event.COMPLETE, assignCollectables);
+			_parser.loadCollectables();
 		}
 		
 		private function assignCollectables(e:Event):void {
 			_parser.removeEventListener(Event.COMPLETE, assignCollectables);
 			_collectables = _parser.getCollectableData();
-			_parser.loadObstacles();
 			_parser.addEventListener(Event.COMPLETE, assignObstacles);
+			_parser.loadObstacles();
 		}
 		
 		private function assignObstacles(e:Event):void {

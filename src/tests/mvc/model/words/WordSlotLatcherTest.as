@@ -1,6 +1,5 @@
 package tests.mvc.model.words {
 	import asunitsrc.asunit.framework.TestCase;
-	import com.events.WordSlotEvent;
 	import com.mvc.model.words.*;
 	import flash.events.Event;
 	import kris.Util;

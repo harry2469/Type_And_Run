@@ -1,4 +1,4 @@
-package com.mvc.model {
+package com.mvc.model.entities {
 	/** @author Kristian Welsh */
 	public class ObstacleModel extends EntityModel {
 		static public const SPEED:Number = 1;

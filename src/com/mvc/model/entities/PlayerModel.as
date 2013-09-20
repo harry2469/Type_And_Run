@@ -1,4 +1,4 @@
-package com.mvc.model {
+package com.mvc.model.entities {
 	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.WordSlotListener;
 	import org.flashdevelop.utils.FlashConnect;

@@ -1,12 +1,10 @@
 package com.mvc.view {
-	import com.mvc.model.CollectableModel;
+	import com.mvc.model.entities.*;
 	import com.mvc.model.GameModel;
-	import com.mvc.model.ObstacleModel;
 	import com.mvc.model.words.IWordSlotModel;
 	import com.mvc.view.text.*;
 	import com.mvc.view.WordSlotView;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Stage;
+	import flash.display.*;
 	import flash.geom.Point;
 	
 	/** @author Kristian Welsh */

@@ -1,6 +1,6 @@
 package com.mvc.view {
 	import com.events.EntityModelEvent;
-	import com.mvc.model.EntityModel;
+	import com.mvc.model.entities.EntityModel;
 	import flash.display.*;
 	
 	/** @author Kristian Welsh */

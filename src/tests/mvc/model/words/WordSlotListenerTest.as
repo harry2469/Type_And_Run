@@ -46,7 +46,9 @@ package tests.mvc.model.words {
 		
 		public function should_dispatch_event_when_word_completes():void {
 			var numJumps:int = 0;
-			_instance.addEventListener(WordCompleteEvent.JUMP, function(e:Event):void {numJumps++});
+			_instance.addEventListener(WordCompleteEvent.JUMP, function(e:Event):void {
+					numJumps++
+				});
 			
 			_wordSlots[0].dispatchEvent(new WordSlotEvent(WordSlotEvent.FINISH));
 			assertEquals("Dispatches a WordCompleteEvent.JUMP event when a word completes", 1, numJumps);

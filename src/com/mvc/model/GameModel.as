@@ -1,6 +1,13 @@
 package com.mvc.model {
-	import com.mvc.model.words.*;
-	import flash.events.*;
+	import com.mvc.model.entities.CollectableModel;
+	import com.mvc.model.entities.ObstacleModel;
+	import com.mvc.model.entities.PlayerModel;
+	import com.mvc.model.words.IWordSlotLatcher;
+	import com.mvc.model.words.IWordSlotModel;
+	import com.mvc.model.words.WordSlotLatcher;
+	import com.mvc.model.words.WordSlotListener;
+	import com.mvc.model.words.WordSlotModel;
+	import flash.events.EventDispatcher;
 	import kris.Util;
 	
 	/** @author Kristian Welsh */

@@ -2,6 +2,7 @@ package tests.kris {
 	import asunitsrc.asunit.framework.TestCase;
 	import flash.geom.Rectangle;
 	import kris.RectangleCollision;
+	
 	public class RectangleCollisionTest extends TestCase {
 		public function RectangleCollisionTest(testMethod:String):void {
 			super(testMethod);
