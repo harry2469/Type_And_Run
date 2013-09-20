@@ -2,8 +2,8 @@ package com.mvc.view {
 	import com.mvc.model.entities.*;
 	import com.mvc.model.GameModel;
 	import com.mvc.model.words.IWordSlotModel;
+	import com.mvc.view.entities.*;
 	import com.mvc.view.text.*;
-	import com.mvc.view.WordSlotView;
 	import flash.display.*;
 	import flash.geom.Point;
 	
@@ -23,6 +23,7 @@ package com.mvc.view {
 			populateCollectables(container);
 			populateObstacles(container);
 			populateWordSlotViewVector(container);
+			new PointsCounterView(container, model.counter);
 		}
 		
 		private function populateCollectables(container:DisplayObjectContainer):void {

@@ -16,12 +16,14 @@ package com.mvc.model {
 		private var _ground:EntityModel;
 		private var _obstacles:Vector.<ObstacleModel>;
 		private var _collectables:Vector.<CollectableModel>;
+		private var _counter:PointsCounterModel;
 		
-		public function GameLoop(player:PlayerModel, ground:EntityModel, obstacles:Vector.<ObstacleModel>, collectables:Vector.<CollectableModel>) {
+		public function GameLoop(player:PlayerModel, ground:ObstacleModel, obstacles:Vector.<ObstacleModel>, collectables:Vector.<CollectableModel>, counter:PointsCounterModel) {
 			_player = player;
 			_ground = ground;
 			_obstacles = obstacles;
 			_collectables = collectables;
+			_counter = counter;
 		}
 		
 		public function start():void {
@@ -92,7 +94,7 @@ package com.mvc.model {
 		}
 		
 		private function collectCollectable(collectable:CollectableModel):void {
-			// TODO: collect a collectable
+			_counter.addPoint();
 			collectable.moveBy(900, 900);
 		}
 	}

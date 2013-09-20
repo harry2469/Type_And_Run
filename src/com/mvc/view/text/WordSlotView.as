@@ -1,4 +1,4 @@
-package com.mvc.view {
+package com.mvc.view.text {
 	import com.events.WordSlotEvent;
 	import com.mvc.model.words.IWordSlotModel;
 	import com.mvc.view.text.*;
@@ -7,7 +7,7 @@ package com.mvc.view {
 	/** @author Kristian Welsh */
 	public class WordSlotView {
 		
-		[Embed(source="../../../../lib/images/simple/Word.png")]
+		[Embed(source = "../../../../../lib/images/simple/Word.png")]
 		private var _image:Class;
 		private var _art:Bitmap = new _image();
 		private var _lettersToSpell:LettersToSpell;

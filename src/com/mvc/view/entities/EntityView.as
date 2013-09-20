@@ -1,4 +1,4 @@
-package com.mvc.view {
+package com.mvc.view.entities {
 	import com.events.EntityModelEvent;
 	import com.mvc.model.entities.EntityModel;
 	import flash.display.*;

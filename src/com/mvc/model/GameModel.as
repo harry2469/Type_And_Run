@@ -1,12 +1,6 @@
 package com.mvc.model {
-	import com.mvc.model.entities.CollectableModel;
-	import com.mvc.model.entities.ObstacleModel;
-	import com.mvc.model.entities.PlayerModel;
-	import com.mvc.model.words.IWordSlotLatcher;
-	import com.mvc.model.words.IWordSlotModel;
-	import com.mvc.model.words.WordSlotLatcher;
-	import com.mvc.model.words.WordSlotListener;
-	import com.mvc.model.words.WordSlotModel;
+	import com.mvc.model.entities.*;
+	import com.mvc.model.words.*;
 	import flash.events.EventDispatcher;
 	import kris.Util;
 	
@@ -24,6 +18,7 @@ package com.mvc.model {
 		private var _obstacles:Vector.<ObstacleModel> = new Vector.<ObstacleModel>();
 		private var _collectables:Vector.<CollectableModel> = new Vector.<CollectableModel>();
 		
+		private var _counter:PointsCounterModel;
 		private var _gameLoop:GameLoop;
 		
 		public function get wordSlotLatcher():IWordSlotLatcher {
@@ -54,6 +49,10 @@ package com.mvc.model {
 			return _collectables[index];
 		}
 		
+		public function get counter():PointsCounterModel {
+			return _counter;
+		}
+		
 		public function GameModel(spellingData:Vector.<String>, obstacleData:Array, collectableData:Array):void {
 			_wordsToSpell = Util.scrambleStringVector(spellingData);
 			populateEntityList(_obstacles, obstacleData, ObstacleModel);
@@ -65,7 +64,10 @@ package com.mvc.model {
 			_wordSlotLatcher = new WordSlotLatcher(_wordSlots, _wordSlotListener, new Vector.<IWordSlotModel>());
 			_player = new PlayerModel(400, 400, 53, 53, _wordSlotListener);
 			_ground = new ObstacleModel(0, _player.y + 53, 800, 500);
-			_gameLoop = new GameLoop(_player, _ground, _obstacles, _collectables);
+			
+			_counter = new PointsCounterModel();
+			
+			_gameLoop = new GameLoop(_player, _ground, _obstacles, _collectables, _counter);
 		}
 		
 		private function populateEntityList(list:*, data:Array, objectType:Class):void {

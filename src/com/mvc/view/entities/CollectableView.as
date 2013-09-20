@@ -1,10 +1,10 @@
-package com.mvc.view {
+package com.mvc.view.entities {
 	import com.mvc.model.entities.EntityModel;
 	import flash.display.DisplayObjectContainer;
 	
 	/** @author Kristian Welsh */
 	public class CollectableView extends EntityView {
-		[Embed(source = "../../../../lib/images/simple/Collectable.png")]
+		[Embed(source = "../../../../../lib/images/simple/Collectable.png")]
 		private var _image:Class;
 		
 		public function CollectableView(container:DisplayObjectContainer, model:EntityModel) {
