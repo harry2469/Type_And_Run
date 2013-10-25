@@ -6,6 +6,7 @@ package com.mvc.model.words {
 		function isNextCharacterCode(inputChar:int):Boolean;
 		function advanceWord(inputChar:int):void;
 		function resetWord():void;
+		function get action():String;
 		function get wordToSpell():String;
 		function set wordToSpell(input:String):void;
 	}

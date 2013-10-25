@@ -1,4 +1,5 @@
 package com.mvc.model.words {
+	import com.events.WordCompleteEvent;
 	import com.events.WordSlotEvent;
 	import flash.events.EventDispatcher;
 	
@@ -37,6 +38,10 @@ package com.mvc.model.words {
 		
 		public function isNextCharacterCode(inputChar:int):Boolean {
 			return inputChar == _wordToSpell.charCodeAt(_characterPosition);
+		}
+		
+		public function get action():String {
+			return WordCompleteEvent.JUMP;
 		}
 		
 		private function isFinished(foo:int = 0):Boolean {

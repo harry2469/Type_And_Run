@@ -14,7 +14,7 @@ package com.mvc.view {
 		}
 		
 		private function updateCounter(event:PointsCounterEvent):void {
-			_text.text = ""+event.amount;
+			_text.text = "" + event.amount;
 		}
 	}
 }

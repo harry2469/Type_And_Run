@@ -23,8 +23,6 @@ package tests {
 		}
 		
 		private function entityModel():void {
-			addTest(new EntityModelTest("can_get_x"));
-			addTest(new EntityModelTest("can_get_y"));
 			addTest(new EntityModelTest("should_dispatch_position_change_event_when_moved"));
 		}
 		

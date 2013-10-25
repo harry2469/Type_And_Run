@@ -3,10 +3,7 @@ package com.mvc.model.entities {
 	import flash.events.EventDispatcher;
 	import flash.geom.Rectangle;
 	
-	/**
-	 * Abstract model of any moving component.
-	 * @author Kristian Welsh
-	 */
+	/// Abstract model of any moveable component.
 	public class EntityModel extends EventDispatcher {
 		private var _rectangle:Rectangle;
 		

@@ -82,9 +82,9 @@ package com.mvc.model {
 		
 		/**
 		 * Seperate function to start the game.
-		 * This exists because the model needs to be created first so that the view and controller
+		 * This is a seperate process because the model needs to be created first so that the view and controller
 		 * can referance it, but the view and controller need to have been set up before these
-		 * functions are called or else the views can't pass the component's properties through the event system.
+		 * functions are called or else the views can't hear the model's events firing.
 		 */
 		public function startGame():void {
 			assignSpellings();

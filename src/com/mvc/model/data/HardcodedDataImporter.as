@@ -2,9 +2,10 @@ package com.mvc.model.data {
 	import flash.events.*;
 	
 	/** @author Kristian Welsh */
+	// having issues with importing XML files on oter computers, using this implementation for now untill a fix is found
 	public class HardcodedDataImporter extends EventDispatcher implements IDataImporter {
 		public function getWordData():Vector.<String> {
-			return Vector.<String>(["qqqq", "wwww", "eeee", "rrrr", "tttt", "yyyy"]);
+			return Vector.<String>(["words", "spelling", "typing", "games", "running", "cute"]);
 		}
 		
 		public function getCollectableData():Array {

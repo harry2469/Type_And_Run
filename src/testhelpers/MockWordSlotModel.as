@@ -49,5 +49,9 @@ package testhelpers {
 		public function resetWord():void {
 			wordToSpell = wordToSpell;
 		}
+		
+		public function get action():String {
+			return "test";
+		}
 	}
 }

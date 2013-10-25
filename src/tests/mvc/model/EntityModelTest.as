@@ -17,28 +17,6 @@ package tests.mvc.model {
 			super(testMethod);
 		}
 		
-		public function can_get_x():void {
-			var instance:EntityModel = newModel();
-			assertEquals("you get a correct x property from the object for zero values", 0, instance.x);
-			
-			instance = newModel(10);
-			assertEquals("you get a correct x property from the object for positive values", 10, instance.x);
-			
-			instance = newModel(-10);
-			assertEquals("you get a correct x property from the object for negative values", -10, instance.x);
-		}
-		
-		public function can_get_y():void {
-			var instance:EntityModel = newModel();
-			assertEquals("you get a correct y property from the object for zero values", 0, instance.y);
-			
-			instance = newModel(0, 10);
-			assertEquals("you get a correct y property from the object for positive values", 10, instance.y);
-			
-			instance = newModel(0, -10);
-			assertEquals("you get a correct y property from the object for negative values", -10, instance.y);
-		}
-		
 		public function should_dispatch_position_change_event_when_moved():void {
 			var instance:EntityModel = newModel();
 			instance.addEventListener(EntityModelEvent.POSITION_CHANGE, recordPositionChange);

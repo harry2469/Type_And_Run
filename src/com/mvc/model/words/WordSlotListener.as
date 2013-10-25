@@ -25,8 +25,9 @@ package com.mvc.model.words {
 		}
 		
 		private function onWordFinish(e:WordSlotEvent):void {
-			giveWordNewSpelling(e.target as IWordSlotModel);
-			dispatchEvent(new WordCompleteEvent(WordCompleteEvent.JUMP));
+			var word:IWordSlotModel = e.target as IWordSlotModel;
+			giveWordNewSpelling(word);
+			dispatchEvent(new WordCompleteEvent(word.action));
 		}
 		
 		private function giveWordNewSpelling(wordSlot:IWordSlotModel):void {
