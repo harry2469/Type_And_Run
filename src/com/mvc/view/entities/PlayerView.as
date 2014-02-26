@@ -8,6 +8,8 @@ package com.mvc.view.entities {
 		[Embed(source="../../../../../lib/images/simple/Player.png")]
 		private var _image:Class;
 		
+		public static const WIDTH:int = 53;
+		
 		public function PlayerView(container:DisplayObjectContainer, model:EntityModel) {
 			super(container, model, _image);
 		}
