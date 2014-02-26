@@ -1,4 +1,5 @@
 package com.mvc.view {
+	import com.events.LevelEvent;
 	import com.mvc.model.entities.*;
 	import com.mvc.model.GameModel;
 	import com.mvc.model.words.IWordSlotModel;
@@ -12,18 +13,31 @@ package com.mvc.view {
 		private var _model:GameModel;
 		private var _player:PlayerView;
 		private var _ground:GroundView;
+		private var _levelEnd:LevelEndView;
 		private var _wordSlotViews:Vector.<WordSlotView> = new Vector.<WordSlotView>();
 		private var _obstacles:Vector.<ObstacleView> = new Vector.<ObstacleView>();
 		private var _collectables:Vector.<CollectableView> = new Vector.<CollectableView>();
 		
 		public function GameView(model:GameModel, container:DisplayObjectContainer) {
 			_model = model;
+			_model.addEventListener(LevelEvent.LEVEL_FAILED, failLevel);
+			_model.addEventListener(LevelEvent.LEVEL_SUCCEEDED, succeedLevel);
 			_player = new PlayerView(container, model.player);
 			_ground = new GroundView(container, model.ground);
+			_levelEnd = new LevelEndView(container)
 			populateCollectables(container);
 			populateObstacles(container);
 			populateWordSlotViewVector(container);
 			new PointsCounterView(container, model.counter);
+			var startButton:StartButton = new StartButton(container, model);
+		}
+		
+		private function succeedLevel(e:LevelEvent):void {
+			_levelEnd.succeedLevel();
+		}
+		
+		private function failLevel(e:LevelEvent):void {
+			_levelEnd.failLevel();
 		}
 		
 		private function populateCollectables(container:DisplayObjectContainer):void {

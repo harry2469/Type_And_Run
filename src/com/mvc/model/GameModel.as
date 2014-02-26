@@ -1,6 +1,8 @@
 package com.mvc.model {
+	import com.events.LevelEvent;
 	import com.mvc.model.entities.*;
 	import com.mvc.model.words.*;
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import kris.Util;
 	
@@ -89,7 +91,15 @@ package com.mvc.model {
 		public function startGame():void {
 			assignSpellings();
 			_wordSlotListener.listen();
-			_gameLoop.start();
+			_gameLoop.start(this);
+		}
+		
+		public function showFailureScreen():void {
+			dispatchEvent(new LevelEvent(LevelEvent.LEVEL_FAILED));
+		}
+		
+		public function showSuccessScreen():void {
+			dispatchEvent(new LevelEvent(LevelEvent.LEVEL_SUCCEEDED));
 		}
 		
 		private function assignSpellings():void {

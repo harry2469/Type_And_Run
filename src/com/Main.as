@@ -77,7 +77,6 @@ package com {
 			_model = new GameModel(_wordSpellings, _obstacles, _collectables);
 			_view = new GameView(_model, stage);
 			_controller = new GameController(_model, stage);
-			_model.startGame();
 		}
 	}
 }
