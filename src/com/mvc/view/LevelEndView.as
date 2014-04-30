@@ -8,6 +8,7 @@ package com.mvc.view {
 		private var message:TextField;
 		static public const FAILURE_MESSAGE:String = "You have failed the level";
 		static public const SUCCESS_MESSAGE:String = "You have compleated the level";
+		static public const FONTSIZE:Number = 20;
 		
 		public function LevelEndView(container:DisplayObjectContainer) {
 			visible = false;
