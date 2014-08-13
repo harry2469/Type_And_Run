@@ -2,6 +2,8 @@ package com.mvc.model.entities {
 	import com.events.WordCompleteEvent;
 	import com.mvc.model.words.WordSlotListener;
 	import com.SoundManager;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	import org.flashdevelop.utils.FlashConnect;
 
 	public class PlayerModel extends EntityModel {
@@ -12,11 +14,34 @@ package com.mvc.model.entities {
 		private var _gravity:Number = 0.05;
 		private var _yVelocity:Number = 0;
 		private var _soundManager:SoundManager;
+		private var _previousHeight:Number;
+
+		private var _duckTimer:Timer = new Timer(5000);
+		private var _ducking:Boolean = false;
 
 		public function PlayerModel(x:Number, y:Number, width:Number, height:Number, wordSlotListener:WordSlotListener, soundManager:SoundManager) {
 			super(x, y, width, height);
 			_soundManager = soundManager;
 			wordSlotListener.addEventListener(WordCompleteEvent.JUMP, jumpIfNotFalling);
+			wordSlotListener.addEventListener(WordCompleteEvent.DUCK, duckIfNotDucking);
+			_duckTimer.addEventListener(TimerEvent.TIMER, stopDucking);
+		}
+
+		private function duckIfNotDucking(e:WordCompleteEvent):void {
+			if (!_ducking)
+				duck();
+		}
+
+		private function duck():void {
+			_previousHeight = _rectangle.height;
+			_rectangle.height = 0;
+
+			_duckTimer.start();
+		}
+
+		private function stopDucking(e:TimerEvent):void {
+			_rectangle.height = _previousHeight;
+			_duckTimer.stop();
 		}
 
 		private function jumpIfNotFalling(e:WordCompleteEvent):void {

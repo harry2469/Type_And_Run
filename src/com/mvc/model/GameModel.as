@@ -64,10 +64,10 @@ package com.mvc.model {
 			populateEntityList(_collectables, collectableData, CollectableModel);
 
 			populateWordSlots();
-
+			_wordSlots[1] = new DuckWordSlot();
 			_wordSlotListener = new WordSlotListener(_wordsToSpell, _wordSlots);
 			_wordSlotLatcher = new WordSlotLatcher(_wordSlots, _wordSlotListener, _soundManager, new Vector.<IWordSlotModel>());
-			_player = new PlayerModel(400, 400, 53, 53, _wordSlotListener, _soundManager);
+			_player = new PlayerModel(400, 400, 54, 76, _wordSlotListener, _soundManager);
 			_ground = new ObstacleModel(0, _player.y + 53, 800, 500);
 
 			_counter = new PointsCounterModel();
