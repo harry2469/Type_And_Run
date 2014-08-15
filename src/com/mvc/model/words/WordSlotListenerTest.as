@@ -1,18 +1,17 @@
-package tests.mvc.model.words {
-	import asunitsrc.asunit.framework.TestCase;
+package com.mvc.model.words {
+	import asunit.framework.TestCase;
 	import com.events.WordSlotEvent;
 	import com.mvc.model.words.IWordSlotModel;
 	import com.mvc.model.words.WordSlotListener;
 	import flash.events.Event;
 	import kris.Util;
-	import testhelpers.MockWordSlotModel;
+	import com.mvc.model.words.MockWordSlotModel;
 
-	/** @author Kristian Welsh */
 	public class WordSlotListenerTest extends TestCase {
 		private const NUM_SLOTS:int = 3;
 
 		private var _wordList:Vector.<String> = Vector.<String>(["AAA", "ABB", "ABC", "XXX", "XYY", "XYZ"]);
-		private var _wordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
+		private var _wordSlots:Vector.<IWordSlotModel>;
 		private var _instance:WordSlotListener;
 
 		protected override function setUp():void {
@@ -22,15 +21,12 @@ package tests.mvc.model.words {
 		}
 
 		private function createWordSlotModelVector():void {
+			_wordSlots = new Vector.<IWordSlotModel>();
 			for (var i:int = 0; i < NUM_SLOTS; i++)
 				_wordSlots.push(new MockWordSlotModel(_wordList[i]));
 		}
 
-		public function WordSlotListenerTest(testMethod:String):void {
-			super(testMethod);
-		}
-
-		public function should_reset_word_when_word_finishes():void {
+		public function test_reset_word_when_word_completes():void {
 			// extract class?
 			var i:int;
 			for (i = 0; i < NUM_SLOTS; ++i) {
@@ -43,7 +39,7 @@ package tests.mvc.model.words {
 			}
 		}
 
-		public function should_dispatch_event_when_word_completes():void {
+		public function test_dispatch_event_when_word_completes():void {
 			var numJumps:int = 0;
 			_instance.addEventListener("test", function(e:Event):void {
 					numJumps++

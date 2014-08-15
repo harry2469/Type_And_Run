@@ -1,6 +1,0 @@
-This version has beed modified by Kristian Welsh with the following work-arrounds:
-	show errors using FlashDevelop's output pannel instead of FlashProfesional's output pannel
-	Have a custom package path and import paths
-	Commented out some unused lines of code that was throwing errors to the documentation generator.
-
-Do not copy this folder for use elsewere

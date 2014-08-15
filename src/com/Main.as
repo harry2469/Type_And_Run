@@ -1,17 +1,16 @@
 package com {
+	import asunit.textui.TestRunner;
 	import com.mvc.controller.GameController;
 	import com.mvc.model.data.*;
 	import com.mvc.model.GameModel;
 	import com.mvc.view.GameView;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import tests.MyTestRunner;
+	import com.TestCases;
 
 	[SWF(width="800",height="600",frameRate="60",backgroundColor="#FFFFFF")]
 
 	public class Main extends Sprite {
-		private const IS_TEST_RUN:Boolean = false;
-
 		private var _model:GameModel;
 		private var _view:GameView;
 		private var _controller:GameController;
@@ -22,14 +21,16 @@ package com {
 		private var _obstacles:Array = [];
 
 		public function Main():void {
-			if (IS_TEST_RUN)
+			if (CONFIG::debug)
 				runTests();
-			else
+			else if (CONFIG::release)
 				startGameWhenStageIsAccessable();
 		}
 
 		private function runTests():void {
-			new MyTestRunner(stage);
+			var runner:TestRunner = new TestRunner();
+			addChild(runner);
+			runner.start(TestCases);
 		}
 
 		/**

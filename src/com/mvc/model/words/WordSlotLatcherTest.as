@@ -1,29 +1,32 @@
-package tests.mvc.model.words {
-	import asunitsrc.asunit.framework.TestCase;
+package com.mvc.model.words {
+	import asunit.framework.TestCase;
 	import com.mvc.model.words.*;
 	import com.SoundManager;
 	import flash.events.Event;
 	import kris.Util;
-	import testhelpers.*;
 
 	/** @author Kristian Welsh */
 	public class WordSlotLatcherTest extends TestCase {
 		private static const NUM_WORDS:Number = 3;
 
-		private var _wordList:Vector.<String> = Vector.<String>(["AAA", "ABB", "ABC", "XXX", "XYY", "XYZ"]);
-		private var _wordSlots:Vector.<IWordSlotModel> = new Vector.<IWordSlotModel>();
+		private const WORD_LIST:Vector.<String> = Vector.<String>(["AA", "AA", "BB"]);
+
+		private var _wordSlots:Vector.<IWordSlotModel>;
 		private var _instance:WordSlotLatcher;
 
 		private var _numAdvancements:int = 0;
 		private var _numNonAdvancements:int = 0;
 
-		public function WordSlotLatcherTest(testMethod:String):void {
+		public function WordSlotLatcherTest(testMethod:String = null):void {
 			super(testMethod);
 		}
 
 		protected override function setUp():void {
+			_wordSlots = new Vector.<IWordSlotModel>();
 			populateWordSlots();
 			_instance = new WordSlotLatcher(_wordSlots, new MockWordSlotListener(), new SoundManager(), new Vector.<IWordSlotModel>());
+			_numAdvancements = 0;
+			_numNonAdvancements = 0;
 		}
 
 		private function populateWordSlots():void {
@@ -32,7 +35,7 @@ package tests.mvc.model.words {
 		}
 
 		private function populateIndex(index:int):void {
-			_wordSlots.push(new MockWordSlotModel(_wordList[index]));
+			_wordSlots.push(new MockWordSlotModel(WORD_LIST[index]));
 			listenToWordSlotAtIndex(index);
 		}
 
@@ -45,21 +48,19 @@ package tests.mvc.model.words {
 				});
 		}
 
-		/** User types one word without mistakes. */
-		public function test_accept_input_happy_case():void {
-			giveInputs("ABC");
+		public function test_user_types_without_mistakes():void {
+			giveInputs("AA");
 
-			assertEquals("Words receive an advanceWord call with the correct charCode the the correct number of times", NUM_WORDS * 2, _numAdvancements);
-			assertEquals("Words receive a failing external isNextCharacterCode call the correct number of times", NUM_WORDS - 1, _numNonAdvancements);
+			assertEquals("Words receive an advanceWord call with the correct charCode the the correct number of times", 4, _numAdvancements);
+			assertEquals("Words receive a failing external isNextCharacterCode call the correct number of times", 1, _numNonAdvancements);
 		}
 
-		/** User starts typing a word correctly, but makes a mistake before finishing the word. */
-		public function test_accept_input_sad_case():void {
+		public function test_user_makes_mistake_mid_word():void {
 			giveInputs("AX");
 			giveInputs("A");
 
-			assertEquals("Words receive an advanceWord call with the correct charCode the the correct number of times", NUM_WORDS * 2, _numAdvancements);
-			assertEquals("Words receive a failing external isNextCharacterCode call the correct number of times", NUM_WORDS, _numNonAdvancements);
+			assertEquals("Words receive an advanceWord call with the correct charCode the the correct number of times", 4, _numAdvancements);
+			assertEquals("Words receive a failing external isNextCharacterCode call the correct number of times", 4, _numNonAdvancements);
 		}
 
 		private function giveInputs(inputLetters:String):void {
