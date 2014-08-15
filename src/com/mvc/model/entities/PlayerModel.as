@@ -22,14 +22,23 @@ package com.mvc.model.entities {
 		public function PlayerModel(x:Number, y:Number, width:Number, height:Number, wordSlotListener:WordSlotListener, soundManager:SoundManager) {
 			super(x, y, width, height);
 			_soundManager = soundManager;
-			wordSlotListener.addEventListener(WordCompleteEvent.JUMP, jumpIfNotFalling);
-			wordSlotListener.addEventListener(WordCompleteEvent.DUCK, duckIfNotDucking);
+			wordSlotListener.addEventListener(WordCompleteEvent.JUMP, jumpIfPossible);
+			wordSlotListener.addEventListener(WordCompleteEvent.DUCK, duckIfPossible);
 			_duckTimer.addEventListener(TimerEvent.TIMER, stopDucking);
 		}
 
-		private function duckIfNotDucking(e:WordCompleteEvent):void {
-			if (!_ducking)
+		private function duckIfPossible(e:WordCompleteEvent):void {
+			if (canPerformMove())
 				duck();
+		}
+
+		private function jumpIfPossible(e:WordCompleteEvent):void {
+			if (canPerformMove())
+				jump();
+		}
+
+		private function canPerformMove():Boolean {
+			return !(_falling || _ducking);
 		}
 
 		private function duck():void {
@@ -44,11 +53,6 @@ package com.mvc.model.entities {
 			_duckTimer.stop();
 		}
 
-		private function jumpIfNotFalling(e:WordCompleteEvent):void {
-			if (!_falling)
-				jump();
-		}
-
 		private function jump():void {
 			_soundManager.playJump();
 			_yVelocity = -JUMP_BOOST_SIZE;
@@ -61,11 +65,11 @@ package com.mvc.model.entities {
 		}
 
 		private function fall():void {
-			accelerate();
+			accelerateDownward();
 			moveBy(0, _yVelocity);
 		}
 
-		private function accelerate():void {
+		private function accelerateDownward():void {
 			_yVelocity += _gravity;
 		}
 

@@ -13,6 +13,7 @@ package com.mvc.model.words {
 			_wordSlots = wordSlots;
 			_latchedWordSlots = latchedWordSlots || new Vector.<IWordSlotModel>();
 			wordSlotListener.addEventListener(WordCompleteEvent.JUMP, unlatchAll);
+			wordSlotListener.addEventListener(WordCompleteEvent.DUCK, unlatchAll);
 		}
 
 		private function unlatchAll(e:WordCompleteEvent):void {
