@@ -1,6 +1,7 @@
 package com.mvc.view.entities {
 	import com.events.EntityModelEvent;
 	import com.mvc.model.entities.EntityModel;
+	import com.mvc.model.entities.IEntityModel;
 	import flash.display.*;
 
 	/** @author Kristian Welsh */
@@ -8,7 +9,7 @@ package com.mvc.view.entities {
 		private var _container:DisplayObjectContainer;
 		private var _art:DisplayObject;
 
-		public function EntityView(container:DisplayObjectContainer, model:EntityModel, image:Class) {
+		public function EntityView(container:DisplayObjectContainer, model:IEntityModel, image:Class) {
 			_container = container;
 			initArt(image, model.x, model.y);
 			listenForPositionChanges(model);
@@ -21,7 +22,7 @@ package com.mvc.view.entities {
 			_container.addChild(_art);
 		}
 
-		private function listenForPositionChanges(model:EntityModel):void {
+		private function listenForPositionChanges(model:IEntityModel):void {
 			model.addEventListener(EntityModelEvent.POSITION_CHANGE, updatePosition);
 		}
 

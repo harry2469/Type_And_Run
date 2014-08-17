@@ -1,8 +1,9 @@
 package com {
+	import com.ISoundManager;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 
-	public class SoundManager {
+	public class SoundManager implements ISoundManager {
 		[Embed(source="../../lib/sounds/music/Main Level Theme.mp3")]
 		public var LEVEL_MUSIC:Class;
 

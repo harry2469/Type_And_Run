@@ -1,4 +1,5 @@
 package com.mvc.model {
+	import com.ISoundManager;
 	import com.mvc.model.entities.*;
 	import com.mvc.view.entities.PlayerView;
 	import com.SoundManager;
@@ -12,16 +13,16 @@ package com.mvc.model {
 	public class GameLoop {
 		static private const LOOP_FREQUENCY:Number = 10;
 
-		private var _player:PlayerModel;
-		private var _ground:EntityModel;
-		private var _obstacles:Vector.<ObstacleModel>;
-		private var _collectables:Vector.<CollectableModel>;
-		private var _counter:PointsCounterModel;
+		private var _player:IPlayer;
+		private var _ground:IEntityModel;
+		private var _obstacles:Vector.<IObstacle>;
+		private var _collectables:Vector.<ICollectable>;
+		private var _counter:IPointsCounter;
 		private var _timer:Timer;
 		private var _gameModel:GameModel;
-		private var _soundManager:SoundManager;
+		private var _soundManager:ISoundManager;
 
-		public function GameLoop(player:PlayerModel, ground:ObstacleModel, obstacles:Vector.<ObstacleModel>, collectables:Vector.<CollectableModel>, counter:PointsCounterModel, soundManager:SoundManager) {
+		public function GameLoop(player:IPlayer, ground:IObstacle, obstacles:Vector.<IObstacle>, collectables:Vector.<ICollectable>, counter:IPointsCounter, soundManager:ISoundManager) {
 			_soundManager = soundManager;
 			_player = player;
 			_ground = ground;
@@ -76,7 +77,7 @@ package com.mvc.model {
 		}
 
 		private function processObstacleCollisions():void {
-			for each (var obstacle:ObstacleModel in _obstacles)
+			for each (var obstacle:IObstacle in _obstacles)
 				applyFunctionIfColliding(_player, obstacle, processCollision, [_player, obstacle]);
 		}
 
@@ -85,7 +86,7 @@ package com.mvc.model {
 				applyFunctionIfColliding(_player, collectable, collectCollectable, [collectable]);
 		}
 
-		private function applyFunctionIfColliding(entity1:EntityModel, entity2:EntityModel, functionToApply:Function, functionArguments:Array):void {
+		private function applyFunctionIfColliding(entity1:IEntityModel, entity2:IEntityModel, functionToApply:Function, functionArguments:Array):void {
 			RectangleCollision.applyFunctionIfColliding(entity1.rectangle, entity2.rectangle, functionToApply, functionArguments);
 		}
 

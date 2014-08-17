@@ -4,7 +4,7 @@ package com.mvc.model.entities {
 	import flash.geom.Rectangle;
 
 	/// Abstract model of any moveable component.
-	public class EntityModel extends EventDispatcher {
+	public class EntityModel extends EventDispatcher implements IEntityModel {
 		protected var _rectangle:Rectangle;
 
 		public function EntityModel(x:Number, y:Number, width:Number, height:Number) {

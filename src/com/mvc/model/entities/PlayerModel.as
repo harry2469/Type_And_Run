@@ -6,9 +6,9 @@ package com.mvc.model.entities {
 	import flash.utils.Timer;
 	import org.flashdevelop.utils.FlashConnect;
 
-	public class PlayerModel extends EntityModel {
-		private static const JUMP_BOOST_SIZE:Number = 3;
-		static public const WALK_SPEED:Number = 0.5;
+	public class PlayerModel extends EntityModel implements IPlayer {
+		static private const JUMP_BOOST_SIZE:Number = 3;
+		static private const WALK_SPEED:Number = 0.5;
 
 		private var _falling:Boolean = false;
 		private var _gravity:Number = 0.05;

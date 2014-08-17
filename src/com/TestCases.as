@@ -2,6 +2,7 @@ package com {
 	import asunit.framework.TestSuite;
 	import com.mvc.controller.InputOpperatorTest;
 	import com.mvc.model.EntityModelTest;
+	import com.mvc.model.GameLoopTest;
 	import com.mvc.model.words.WordSlotLatcherTest;
 	import com.mvc.model.words.WordSlotListenerTest;
 	import com.mvc.model.words.WordSlotModelTest;
@@ -20,6 +21,8 @@ package com {
 
 			addTest(new InputOpperatorTest());
 			addTest(new RectangleCollisionTest());
+
+			addTest(new GameLoopTest());
 		}
 	}
 }

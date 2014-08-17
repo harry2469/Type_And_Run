@@ -18,8 +18,8 @@ package com.mvc.model {
 
 		private var _player:PlayerModel;
 		private var _ground:ObstacleModel;
-		private var _obstacles:Vector.<ObstacleModel> = new Vector.<ObstacleModel>();
-		private var _collectables:Vector.<CollectableModel> = new Vector.<CollectableModel>();
+		private var _obstacles:Vector.<IObstacle> = new Vector.<IObstacle>();
+		private var _collectables:Vector.<ICollectable> = new Vector.<ICollectable>();
 
 		private var _counter:PointsCounterModel;
 		private var _gameLoop:GameLoop;
@@ -41,15 +41,15 @@ package com.mvc.model {
 			return _wordSlots[index];
 		}
 
-		public function get obstacles():Vector.<ObstacleModel> {
+		public function get obstacles():Vector.<IObstacle> {
 			return _obstacles;
 		}
 
-		public function get collectables():Vector.<CollectableModel> {
+		public function get collectables():Vector.<ICollectable> {
 			return _collectables;
 		}
 
-		public function getCollectableAt(index:uint):CollectableModel {
+		public function getCollectableAt(index:uint):ICollectable {
 			return _collectables[index];
 		}
 
