@@ -8,37 +8,44 @@ package com.mvc.model {
 	import flash.text.TextField;
 	import flash.utils.Timer;
 	import kris.RectangleCollision;
+	import org.flashdevelop.utils.FlashConnect;
 
-	/** @author Kristian Welsh */
 	public class GameLoop {
 		static private const LOOP_FREQUENCY:Number = 10;
+		static private const NO_OBSTACLES_ERROR:GameLoopError = new GameLoopError("You have not passed any obstacles to GameLoop, this is probably a mistake");
 
 		private var _player:IPlayer;
 		private var _ground:IEntityModel;
 		private var _obstacles:Vector.<IObstacle>;
 		private var _collectables:Vector.<ICollectable>;
 		private var _counter:IPointsCounter;
-		private var _timer:Timer;
-		private var _gameModel:GameModel;
+		private var _gameModel:IGameModel;
 		private var _soundManager:ISoundManager;
+		private var _gameClock:Timer;
 
-		public function GameLoop(player:IPlayer, ground:IObstacle, obstacles:Vector.<IObstacle>, collectables:Vector.<ICollectable>, counter:IPointsCounter, soundManager:ISoundManager) {
+		public function GameLoop(gameModel:IGameModel, player:IPlayer, ground:IObstacle, obstacles:Vector.<IObstacle>, collectables:Vector.<ICollectable>, counter:IPointsCounter, soundManager:ISoundManager, gameClock:Timer = null):void {
+			_gameModel = gameModel;
 			_soundManager = soundManager;
 			_player = player;
 			_ground = ground;
 			_obstacles = obstacles;
 			_collectables = collectables;
 			_counter = counter;
+			_gameClock = gameClock || new Timer(LOOP_FREQUENCY);
+			_gameClock.addEventListener(TimerEvent.TIMER, update);
 		}
 
-		public function start(gameModel:GameModel):void {
-			_gameModel = gameModel;
-			_timer = new Timer(LOOP_FREQUENCY);
-			_timer.addEventListener(TimerEvent.TIMER, tock);
-			_timer.start();
+		public function start():void {
+			checkInputs();
+			_gameClock.start();
 		}
 
-		private function tock(event:TimerEvent):void {
+		private function checkInputs():void {
+			if (_obstacles.length == 0)
+				throw NO_OBSTACLES_ERROR;
+		}
+
+		private function update(event:TimerEvent):void {
 			moveLevel();
 			movePlayer();
 			processCollisions();
@@ -52,7 +59,7 @@ package com.mvc.model {
 		}
 
 		private function moveEntitysInListByAmount(list:*, xAmount:Number, yAmount:Number):void {
-			for each (var item:EntityModel in list)
+			for each (var item:IEntityModel in list)
 				item.moveBy(xAmount, yAmount);
 		}
 
@@ -90,7 +97,7 @@ package com.mvc.model {
 			RectangleCollision.applyFunctionIfColliding(entity1.rectangle, entity2.rectangle, functionToApply, functionArguments);
 		}
 
-		private function processCollision(reactionary:EntityModel, stationary:EntityModel):void {
+		private function processCollision(reactionary:IEntityModel, stationary:IEntityModel):void {
 			var collision:Rectangle = RectangleCollision.resolve(reactionary.rectangle, stationary.rectangle);
 			stopFallingIfAtop(collision);
 			_player.rectangle = collision;
@@ -107,8 +114,12 @@ package com.mvc.model {
 			collectable.moveBy(900, 900);// TODO: Make it invisible instead of moving it.
 		}
 
+		/**
+		 * Assumes there is at least one obstacle in _obstacles, so we can know the last obstacle has been passed.
+		 */
 		private function checkSuccess():void {
-			if (_obstacles[_obstacles.length - 1].x < 0)
+			var lastObstacle:IObstacle = _obstacles[_obstacles.length - 1];
+			if (lastObstacle.x < 0)
 				enterSuccessState();
 		}
 
@@ -118,7 +129,8 @@ package com.mvc.model {
 		}
 
 		private function checkFailure():void {
-			if (_player.x < -(PlayerView.WIDTH / 2))
+			var playerHalfOffScreen:Boolean = _player.x < -(PlayerView.WIDTH / 2);
+			if (playerHalfOffScreen)
 				enterFailureState();
 		}
 
@@ -128,8 +140,8 @@ package com.mvc.model {
 		}
 
 		private function stopLoop():void {
-			_timer.stop();
-			_timer.removeEventListener(TimerEvent.TIMER, tock);
+			_gameClock.stop();
+			_gameClock.removeEventListener(TimerEvent.TIMER, update);
 		}
 	}
 }

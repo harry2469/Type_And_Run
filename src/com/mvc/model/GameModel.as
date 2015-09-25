@@ -8,7 +8,7 @@ package com.mvc.model {
 	import kris.Util;
 
 	/** @author Kristian Welsh */
-	public class GameModel extends EventDispatcher {
+	public class GameModel extends EventDispatcher implements IGameModel {
 		public static const NUMBER_OF_WORD_SLOTS:int = 3
 
 		private var _wordsToSpell:Vector.<String>;
@@ -72,7 +72,7 @@ package com.mvc.model {
 
 			_counter = new PointsCounterModel();
 
-			_gameLoop = new GameLoop(_player, _ground, _obstacles, _collectables, _counter, _soundManager);
+			_gameLoop = new GameLoop(this, _player, _ground, _obstacles, _collectables, _counter, _soundManager);
 			_soundManager.playMenuTheme();
 		}
 
@@ -95,7 +95,7 @@ package com.mvc.model {
 		public function startGame():void {
 			assignSpellings();
 			_wordSlotListener.listen();
-			_gameLoop.start(this);
+			_gameLoop.start();
 
 			_soundManager.playLevelMusic();
 		}
